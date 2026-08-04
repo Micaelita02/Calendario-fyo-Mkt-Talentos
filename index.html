@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendario ( Talentos + Marketing )</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --celeste:#008EAA; --celeste-cl:#00C1D4; --celeste-os:#00728A; --azul:#006EC1; --gris:#97999B;
+  --violeta:#6E3FA3; --fucsia:#E63888; --naranja:#FF6A14; --verde:#6CC24A; --rojo:#E10600;
+  --tinta:#22262E; --tinta2:#5A6068; --papel:#F1F5F8; --linea:#E1E6ED; --linea2:#EDF1F5;
+  --tal-bg:#FCE4EF; --mkt-bg:#E7F6DD; --int-bg:#FFEADC; --fer-bg:#FDEAE8; --fer-tx:#C0170F;
+  --r:12px; --sombra:0 1px 2px rgba(34,38,46,.05), 0 6px 20px rgba(34,38,46,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Poppins',system-ui,sans-serif;background:var(--papel);color:var(--tinta);font-size:14px;line-height:1.45}
+button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:1300px;margin:0 auto;padding:0 24px}
+.sp{flex:1}
+
+/* ---------- BANDA DE MARCA ---------- */
+.marca{background:var(--celeste);color:#fff}
+.marca .wrap{display:flex;align-items:center;gap:16px;padding:13px 24px}
+.marca img{height:30px;display:block}
+.marca .div{width:1px;height:26px;background:rgba(255,255,255,.35)}
+.marca .tit{font-size:15px;font-weight:500;letter-spacing:.1px}
+.marca .sub{font-size:11px;letter-spacing:.5px;text-transform:uppercase;opacity:.8}
+.btn-b{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:#fff;border-radius:10px;padding:8px 14px;font-weight:500}
+.btn-b:hover{background:rgba(255,255,255,.22)}
+.btn-b.solido{background:#fff;color:var(--celeste-os);border-color:#fff;font-weight:600}
+.btn-b.solido:hover{background:#EAF7FA}
+
+header{background:#fff;border-bottom:1px solid var(--linea);position:sticky;top:0;z-index:40}
+.btn{border:1px solid var(--linea);background:#fff;border-radius:10px;padding:9px 14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:background .15s,border-color .15s}
+.btn:hover{border-color:#C9D2DC;background:#FBFCFD}
+.btn.pri{background:var(--celeste);color:#fff;border-color:var(--celeste)}
+.btn.pri:hover{background:var(--celeste-os);border-color:var(--celeste-os)}
+.btn.dark{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.btn.mini{padding:6px 10px;font-size:12.5px;border-radius:8px}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--tinta2)}
+.btn.ghost:hover{background:var(--linea2)}
+:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+
+.h2{display:flex;align-items:center;gap:16px;padding:13px 0 12px;flex-wrap:wrap}
+.periodo{font-size:25px;font-weight:600;letter-spacing:-.5px;margin:0;min-width:215px;text-transform:capitalize;line-height:1.1}
+.periodo span{color:var(--gris);font-weight:300}
+.flechas{display:flex;gap:6px}
+.flechas button{width:34px;height:34px;border-radius:9px;border:1px solid var(--linea);background:#fff;font-size:15px;color:var(--tinta2)}
+.tabs{display:flex;background:var(--papel);border-radius:11px;padding:3px;gap:2px;border:1px solid var(--linea)}
+.tabs button{border:0;background:transparent;padding:7px 15px;border-radius:9px;font-weight:500;color:var(--gris)}
+.tabs button.on{background:#fff;color:var(--tinta);box-shadow:0 1px 4px rgba(34,38,46,.12)}
+.h3{display:flex;align-items:center;gap:8px;padding:0 0 14px;flex-wrap:wrap}
+.chip-f{border:1px solid var(--linea);background:#fff;border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:7px;color:var(--gris)}
+.chip-f .dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none}
+.chip-f.on.tal{color:#fff;background:var(--fucsia);border-color:var(--fucsia)}
+.chip-f.on.mkt{color:#fff;background:var(--verde);border-color:var(--verde)}
+.chip-f.on.int{color:#fff;background:var(--naranja);border-color:var(--naranja)}
+.chip-f.on.fer{color:#fff;background:var(--rojo);border-color:var(--rojo)}
+.busca{position:relative}
+.busca input{border:1px solid var(--linea);border-radius:10px;padding:9px 12px 9px 34px;width:210px;background:#fff}
+.busca::before{content:"⌕";position:absolute;left:12px;top:8px;color:var(--gris);font-size:17px}
+select.filtro{border:1px solid var(--linea);border-radius:10px;padding:9px 10px;background:#fff;max-width:155px;font-size:13px;color:var(--tinta2)}
+.alerta{border:1px solid #F6C9B7;background:#FFF3ED;color:#B24A0E;border-radius:10px;padding:9px 13px;font-weight:600;font-size:13px}
+.alerta.ok{border-color:var(--linea);background:#fff;color:var(--gris);font-weight:500}
+.alerta.rojo{background:var(--rojo);border-color:var(--rojo);color:#fff;box-shadow:0 2px 10px rgba(225,6,0,.25)}
+
+/* ---------- MES ---------- */
+main{padding:20px 0 70px}
+.grid-mes{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--r);overflow:hidden;box-shadow:var(--sombra)}
+.dow{background:#fff;padding:10px;font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:600;text-align:center}
+.dia{background:#fff;min-height:128px;padding:7px 7px 9px;cursor:pointer;transition:background .12s;position:relative;overflow:hidden;min-width:0}
+.dia:hover{background:#F8FBFD}
+.dia.otro{background:#FAFBFC;color:#B9C1CB}
+.dia.finde{background:#FCFDFE}
+.dia.feriado{background:var(--fer-bg)}
+.dnum{display:flex;align-items:center;gap:6px;margin-bottom:5px;min-height:24px}
+.num{font-size:12.5px;font-weight:600;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;flex:none}
+.dia.otro .num{color:#C3C9D4;font-weight:400}
+.dia.hoy .num{background:var(--azul);color:#fff}
+.dia.feriado .num{color:var(--fer-tx)}
+.fer-tag{font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--fer-tx);font-weight:600}
+.plus{opacity:0;border:0;background:var(--celeste);color:#fff;border-radius:7px;width:22px;height:22px;line-height:1;font-size:14px;margin-left:auto;flex:none}
+.dia:hover .plus{opacity:1}
+.ev{width:100%;text-align:left;border:0;border-left:3px solid;border-radius:6px;padding:4px 6px;margin-bottom:4px;font-size:11.5px;line-height:1.3;display:block;overflow:hidden}
+.ev b{font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev .hr{font-size:10px;color:var(--tinta2);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev.tal{background:var(--tal-bg);border-color:var(--fucsia)}
+.ev.mkt{background:var(--mkt-bg);border-color:var(--verde)}
+.ev.int{background:var(--int-bg);border-color:var(--naranja)}
+.ev.conf{box-shadow:inset 0 0 0 1.5px #E8623C}
+.ev.opc{border-left-style:dashed}
+.tg{font-style:normal;font-size:9px;font-weight:700;letter-spacing:.5px;padding:1px 4px;border-radius:4px;margin-right:5px}
+.tg.tal{background:var(--fucsia);color:#fff}
+.tg.mkt{background:var(--verde);color:#fff}
+.tg.int{background:var(--naranja);color:#fff}
+.tg.opc{background:#fff;color:var(--tinta2);border:1px solid var(--gris)}
+.revisar{background:#FFF8E6;border:1px solid #F2DFA4;color:#8A6A0B;border-radius:11px;padding:12px 14px;font-size:12.8px;margin-bottom:14px}
+.mas{font-size:10.5px;color:var(--gris);border:0;background:none;padding:2px 4px;font-weight:500}
+
+.grid-sem{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.col-dia{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:9px;min-height:230px;overflow:hidden;min-width:0}
+.col-dia.feriado{background:var(--fer-bg)}
+.col-dia h4{margin:0 0 9px;font-size:12.5px;font-weight:600;display:flex;justify-content:space-between;align-items:center;text-transform:capitalize}
+.dia-wrap{display:grid;grid-template-columns:1fr 330px;gap:16px;align-items:start}
+@media(max-width:980px){.dia-wrap{grid-template-columns:1fr}.grid-sem{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.grid-sem{grid-template-columns:1fr}.wrap{padding:0 14px}}
+.card{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:16px 18px;box-shadow:var(--sombra)}
+.card h3{margin:0 0 12px;font-size:11.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--gris);font-weight:600}
+.agenda-it{display:grid;grid-template-columns:84px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--linea2);cursor:pointer}
+.agenda-it:first-of-type{border-top:0}
+.tit{font-weight:500}
+.meta{font-size:12.5px;color:var(--tinta2);margin-top:3px}
+.pill{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;padding:3px 8px;border-radius:999px;vertical-align:middle}
+.pill.tal{background:var(--tal-bg);color:#C1216A}
+.pill.mkt{background:var(--mkt-bg);color:#3F7A22}
+.pill.int{background:var(--int-bg);color:#B24A0E}
+.pill.gris{background:var(--linea2);color:var(--tinta2)}
+.sala-row{display:grid;grid-template-columns:104px 1fr;gap:9px;align-items:center;font-size:12px;margin-bottom:7px}
+.sala-bar{height:26px;background:var(--papel);border-radius:7px;position:relative;overflow:hidden}
+.sala-bloque{position:absolute;top:0;bottom:0;border-radius:6px;font-size:10px;color:#fff;padding:6px;white-space:nowrap;overflow:hidden}
+.sala-bloque.tal{background:var(--fucsia)}.sala-bloque.mkt{background:var(--verde)}.sala-bloque.int{background:var(--naranja)}
+.lista-mes{margin-bottom:22px}
+.lista-mes h3{font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--gris);margin:0 0 9px;font-weight:600}
+.lista-it{background:#fff;border:1px solid var(--linea);border-left:4px solid;border-radius:10px;padding:12px 15px;margin-bottom:8px;display:flex;gap:16px;align-items:flex-start;cursor:pointer}
+.lista-it.tal{border-left-color:var(--fucsia)}.lista-it.mkt{border-left-color:var(--verde)}.lista-it.int{border-left-color:var(--naranja)}
+.lista-it .fecha{min-width:104px;font-weight:600;font-size:13px;text-transform:capitalize}
+.vacio{text-align:center;color:var(--gris);padding:44px;background:#fff;border:1px dashed var(--linea);border-radius:var(--r)}
+
+/* ---------- MODALES ---------- */
+.overlay{position:fixed;inset:0;background:rgba(24,30,40,.5);display:none;z-index:60;padding:22px;overflow:auto;backdrop-filter:blur(2px)}
+.overlay.on{display:block}
+.modal{background:#fff;max-width:740px;margin:0 auto;border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.3);overflow:hidden}
+.modal.ancho{max-width:920px}
+.mhead{padding:15px 22px;border-bottom:1px solid var(--linea);display:flex;align-items:center;gap:12px;background:var(--celeste);color:#fff}
+.mhead h2{margin:0;font-size:16.5px;font-weight:600}
+.mhead.tal{background:var(--fucsia)} .mhead.mkt{background:var(--verde)} .mhead.int{background:var(--naranja)}
+.mbody{padding:18px 22px;max-height:calc(100vh - 200px);overflow:auto;background:#FBFCFD}
+.mfoot{padding:14px 22px;border-top:1px solid var(--linea);display:flex;gap:10px;align-items:center;background:#fff}
+.cerrar{border:0;background:rgba(255,255,255,.2);width:32px;height:32px;border-radius:9px;font-size:16px;color:#fff}
+/* bloques del formulario */
+.bloque{background:#fff;border:1px solid var(--linea);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.bloque>h4{margin:0;padding:9px 15px;background:#EEF4F7;border-bottom:1px solid var(--linea);font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--celeste-os);font-weight:600;display:flex;align-items:center;gap:8px}
+.bloque>h4 em{font-style:normal;color:var(--gris);font-weight:400;text-transform:none;letter-spacing:0;font-size:11.5px}
+.bloque .in{padding:14px 15px}
+.campo{margin-bottom:0}
+.campo+.campo{margin-top:13px}
+.campo>label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--gris);font-weight:600;margin-bottom:6px}
+input[type=text],input[type=date],input[type=time],select,textarea{border:1px solid var(--linea);border-radius:10px;padding:10px 12px;background:#fff;width:100%}
+textarea{min-height:70px;resize:vertical}
+.grande{font-size:16px!important;font-weight:500}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.f2{grid-template-columns:1fr}}
+.seg{display:flex;gap:7px;flex-wrap:wrap}
+.seg button{border:1px solid var(--linea);background:#fff;border-radius:10px;padding:9px 13px;font-weight:500;font-size:13px;color:var(--tinta2)}
+.seg button.on{border-color:var(--celeste);background:var(--celeste);color:#fff}
+.seg button.on[data-ar=talentos]{background:var(--fucsia);border-color:var(--fucsia);color:#fff}
+.seg button.on[data-ar=marketing]{background:var(--verde);border-color:var(--verde);color:#fff}
+.seg button.on[data-ar=interno]{background:var(--naranja);border-color:var(--naranja);color:#fff}
+.seg button.on[data-area=interno]{background:var(--naranja);border-color:var(--naranja);color:#fff}
+.tagarea{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--tinta2);margin-top:10px}
+.chks{display:flex;gap:8px;flex-wrap:wrap}
+.chk{border:1px solid var(--linea);border-radius:10px;padding:8px 12px;display:inline-flex;align-items:center;gap:8px;font-size:13px;background:#fff;cursor:pointer}
+.chk input{width:15px;height:15px;accent-color:var(--celeste)}
+.chk.on{border-color:var(--celeste);background:var(--mkt-bg)}
+.fila-fecha{display:grid;grid-template-columns:1fr 116px 116px auto 32px;gap:9px;align-items:center;margin-bottom:8px}
+@media(max-width:640px){.fila-fecha{grid-template-columns:1fr 1fr}}
+.quitar{border:0;background:var(--linea2);border-radius:9px;width:32px;height:32px;color:var(--tinta2)}
+.aviso{border-radius:11px;padding:12px 14px;font-size:12.8px;margin-bottom:14px;line-height:1.5}
+.aviso.rojo{background:#FFF1EC;border:1px solid #F6C5B2;color:#A63A0B}
+.aviso.ok{background:#F2FAEE;border:1px solid #D2E9C4;color:#3E7A22}
+.aviso.info{background:#EDF7FA;border:1px solid #C3E3EC;color:#0B6377}
+.aviso b{font-weight:600}
+.aviso ul{margin:7px 0 0;padding-left:18px}
+.tag{display:inline-flex;align-items:center;gap:7px;background:var(--papel);border:1px solid var(--linea);border-radius:999px;padding:5px 7px 5px 12px;font-size:12.5px;margin:0 6px 6px 0}
+.tag button{border:0;background:none;color:var(--gris);font-size:14px;line-height:1;padding:0 2px}
+.hint{font-size:11.5px;color:var(--gris);margin-top:6px;line-height:1.45}
+
+/* personas */
+.pers-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:700px){.pers-tools{grid-template-columns:1fr 1fr}}
+.pers-tools input,.pers-tools select{padding:8px 10px;border-radius:9px;font-size:13px}
+.acciones{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.equipo-hit{background:#EDF7FA;border:1px solid #C3E3EC;border-radius:10px;padding:9px 12px;margin:10px 0 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px}
+.equipo-hit b{font-weight:600}
+.pers-list{max-height:250px;overflow:auto;border:1px solid var(--linea);border-radius:10px;margin-top:10px;padding:4px;background:#fff}
+.pers-it{display:flex;align-items:center;gap:10px;padding:7px 9px;border-radius:9px;cursor:pointer}
+.pers-it:hover{background:var(--papel)}
+.pers-it input{width:15px;height:15px;accent-color:var(--celeste);flex:none}
+.pers-it .n{flex:1;font-size:13px}
+.pers-it .g{font-size:11px;color:var(--gris);text-align:right;max-width:52%}
+.sel-head{margin-top:10px;padding:10px 12px;background:#F4F8FA;border:1px solid var(--linea);border-radius:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sel-body{margin-top:8px;max-height:200px;overflow:auto;display:none;border:1px solid var(--linea);border-radius:10px;padding:10px 12px;background:#fff}
+.sel-body.on{display:block}
+.grupo-sel{font-size:12px;color:var(--tinta2);margin-bottom:8px}
+details.desp{border:1px solid var(--linea);border-radius:10px;background:#fff;margin-top:10px}
+details.desp>summary{padding:10px 13px;font-weight:500;cursor:pointer;font-size:13px;list-style:none;display:flex;align-items:center;gap:8px}
+details.desp>summary::before{content:"▸";color:var(--celeste);font-size:13px}
+details.desp[open]>summary::before{content:"▾"}
+details.desp .in{padding:0 13px 13px}
+table.tab{width:100%;border-collapse:collapse;font-size:12.8px}
+table.tab th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--gris);padding:7px 8px;border-bottom:1px solid var(--linea)}
+table.tab td{padding:9px 8px;border-bottom:1px solid var(--linea2);vertical-align:top}
+.det-hero{padding:18px 22px;border-bottom:1px solid var(--linea)}
+.det-hero h2{margin:6px 0 0;font-size:20px;font-weight:600;letter-spacing:-.3px}
+.det-grid{display:grid;grid-template-columns:132px 1fr;gap:12px 16px;font-size:13.5px}
+.det-grid dt{color:var(--gris);font-size:11px;text-transform:uppercase;letter-spacing:.6px;font-weight:600;padding-top:3px}
+.det-grid dd{margin:0}
+.fecha-it{display:flex;gap:10px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--linea2)}
+.fecha-it:last-child{border-bottom:0}
+.fecha-it b{font-weight:500;min-width:158px}
+.diff{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.diff .kpi{border:1px solid var(--linea);border-radius:11px;padding:12px;background:#fff;text-align:center}
+.diff .kpi b{display:block;font-size:22px;font-weight:600}
+.diff .alta b{color:var(--verde)} .diff .baja b{color:var(--rojo)} .diff .cambio b{color:var(--naranja)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--tinta);color:#fff;padding:12px 20px;border-radius:11px;font-size:13px;z-index:90;opacity:0;pointer-events:none;transition:.25s}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="marca"><div class="wrap">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKsAAABUCAYAAAD9LMfVAAAU40lEQVR4nO1de9RdRXX/7Xu/JGBswkMIibyKSQoampSoRQRCeSjYIkXk2VbkDxbUiquy+ljWdpV2laVdC1ZpxGotBVFAYgkiKFVBU0GwhKcBkYflYUnKIxBCCORL7r2//jF7fzPfyZnzuO8v9/zWOut837lzZvbM7Nkzs2fvfYAKbYNkjaQMmo5RQdXQBaAMWYNrr5aItCLp6nlpKlToCUiKMmDs9/kk94j8ViNZ6x11o4dKskZAsmbSUSXrYQCOBfB+APM02TsAbALwIgAC+AmAnwG4TUT+p+9EVxg9mDQlOUbyXJIPshzeJHkryWUqnSsJW6H7IDmm94NJ3hMwYIvkNpINkk29WnrZ/+HvJPm5MM8KnaFqxAAk6yLSIHk0gBsBzAbQgNtc1RBvL1tOmQRtAGgB+HkPya0wqrCpmuRSkhtUMm4rOf2bBLb7/DDvCp2hakRMbKBA8i0ArgewC4Am2pt5qPfnALygeTMjfYWCqJjVwXb+nwQwH24aj6qs4JjPpnq7GnAM3tTfvyMimwDURaRi1gqdI5CqO5F8NtgwdYrjNd8spq9QAtUGy80uTQDHAdhX/44xGOE2U00AX9frdQDT4HSwiwAcCWAcwI9Jiog0e0p9hdEBvapquUrErE1Vk+QWk5qR/HYleaD+XR26VOge6JT2Qq9TbUQY1Z5/Td+bTrIeXGOsdv09xUgvA3SapkrXufo4TxperUzZTJviVZpKZcjSfVSSAICINABszUum9/EsRhQRVozaG4w6s5omYA6A3cJnCRB+I7YxeFahjxh1ZjW8HcCuBdM2eklIhTgqZnVooLikrHb4A8JIb7ACVAzYBjjZgyKaDM5zouNl08gxKyeb69VItlCuHcY0D3u3U3TdBUa1FUVmTZY9tAjybioDFnpfGbuODuo7csyqO/9JIPlyiSzWp+UxTFBm6MUAsBM586DYHcChAGYAOARO/bczgFcBrAWwBk7L8lMReQ263jd9dFmmHTlmJXkRXKPaDp8AdoefytKmtNBe9TKSG/RZJ1NbS/NbISI/orOl7ehoVpmAAN4H4OygjFjZ94nIvzFw4YnkO0EbyQUATgTwYbjj5d0LkPYiyV8AuB3AjSLyqOWLLi0RdkiQfC7jOHUQuEvp6nizS++Oc13Bsi/U9KlCi4GrOclFJK8kuTmRR0OvbSlX6DVhGCd5I8n3huV0WvcdEiTXaEOOJxq1KGId0841rp3528zxpC1QL2OqWSSf1/y3ppS5Va+XSM4O303kZ4xfI/l3CSY1Bm2xGFrBO2Eel5GcqeWM3CyfC5I/18bqhhlgpzCjmauUtk6YdYyO4U/UPPNsHL4eK5OeUReQ/GGC3qIMGoMxruXzMMklRepfid/Bog63xjyF5NtFpMn2p0Rb+30sJ51J0avTfqSuT5WBfgLgaADblM4xdK7mM62AwG24FsGZU/6elhtl2FFlViauTt/Pu2Iw29hfA3CBPivdJ9QNEsndAByTkY9trJ4FcAcAhJs6zadJchGA2wDsCcdQ05DNpC14Lwm7iuz0xzTtLAA3k1yaxbCjyKyiVy34u908il5ZDGvS9WN067cmy9vBWj9+AO7YuIn0ehkDfVNEtjJYJ9Kved8KYCWAtyHfD82YtKb1CC/TTORpOOpBmpUk9wTQSpthRnFRG/pNWYOUYdp2pHGWULDpcC6As1SVNIZyNghGz6mJ/5Ooa75fS0lnUvULABZquiz+CD0qngPwJIDNcIY+8+Ck8ruCNOZlkUXXfgCWi8gZacw6cseMJPeGm9YAx0QtAAcB+A68FEy2S+jO8iG4jrF3s2Bp/gNOaW663SSs4x8E8G6guMKc3iZ3VwC/hLMeS6uDScDVInIoJ4dHsnXqUQBWoTijPgbgYgC3iMjGMAHJaVqX8+HW0TYwsnjOyj1eRL7PLuiedziQPJCT/f3TdrDUXew72sj/rOD9GEw7sUzfKaQZoHfLOTunDHt+Qfie/i0kp5G8n363nkfnSpKzgjxCr4lagsazODmCTQymJVjNKrDdRMfU9BrT+xIWZ9Z3Jd7Nu+p0LjCPM9tz1hjkZqWzKLOamum7iXzS6H+d5DxrB72byuujGe8naVyVfD/SznU6CQuSp7GYftba55gy7bDDgz4Ky2IWZ9Z3hu8WKMMk359pHlkOicbMB7NAQLeA/rkkX8ug3/SjKzV9PSWPHzJbqppU3Exy/2Q+OXRO1/ulQTvGYLRupwcebTHbH9ju/ioAr0Atj2Jp4frkXNWZ5u0prP+Oh1N/NSLv2Aby6uD/UOW1D5xBSphnGm0C4J9E5BmSYyXWk9voBu3FcAYuWW1gOtjjSM7WtbRkEVahS1Cmq4vIywC+BI2MHUluUuRsehVOnq0oAJySkaal+T4H4HbNz5jM+v/3AbxF02bt2LcC+HfNo7DFlA08EXkFfsDEGN3yngNgaUhnxaz9gTHdv8AFxTDdahLGSLMAnG6MnpYhNYAGyb0AHKWP09IaU31bRN5Aejgjk6oxlZdJ1btE5GmgvHkf/AzzTTimj7WB0Uy4AM7Qsitm7Qe0Y+sisg7AN+CZMjU5XEf9sU6dsUMCY8zfBTAT8SWAqc9MtzoRzVvDe85A/hLAmGo1vRF1WVAHyRMANmSUBfhly+KQ5opZ+wdqRy+HO2uPtX2o+z1ZOzgtrTHQaXpPY1RbA68BcL8yaFIi1uHi0MbyMJoA4GdKT+kjatUF1wFsAXBnQF9qcr0v1neLM2uRnWk/MCx0tAPdjNRE5BG4A4gask+pCOBTwd/+B3+GvzdcbC0gm6Gv1fJDiWjpl8Axa9aGzp4/nEZPCYgy++sF00+K5VCo4y1wA1VvWJbCTqFMOhbS0W8auozPw0u9NNh67n10RspMtLsZRZ8AYCek2wLYenccLoo3MHlTZOnnwhuU5GFGgTRF8FrBdJNmgTw9ngTXPiLSMjO2nF1q16BShLq+qpHcXxl2yh0VW9uJyGoA98AHzkiD7eIvSNkQmTmgaQHSJJ3t7H8kIk/RHV2mbYqK2iA04abwbmCN3vMk+b46e4BkLU9C2c7xEgCPkbyB5LHKtOy1hLMGJjmb5J8CuBfAoySPDtZAUw3WZpfkpDPp+mGSc03fmNCNHhGkjeEqvecxRh6KeswWgdlmxJYT9nyTXllpJ528/ElwgmH4Bp3tZM+Ow4LyDyf5ROKU4yWS++nvbTcg+3CCFSnXjnzXMPvUyE67LrI2oT8e/URAU4zeF6jn90zMREH7npwoKw2W39JO6h6U+c85ZdqR65rw/dRC6b9a8h4A/wgfscQMa88AsIrkHuEJQ7dAJz0aJM+BswJaAB8WvQlna3kl3bmzdLv8PsCm5MuQLdlMup6vTNeEVwFlHQTY0uImEXmNut5PpLH/x/VepA3zgtcVxaz8JABcjIYJurZjVvuR5M5wpw0z4acAM6zdBuA3AdxGJ+G6xjD009zxAK6EX/yPBTQ04NwtPmu77G6U3UfYAL8OwNOImxuGpzmn6Nq9qW1+KOImh6arvVb/j61pAbe0ehX5SnrALzvabW9qvd9aMP24LveihwI1ZYC/hNP1NVLSTYMbZYsBnGFK73aoT4E12KV6T/sYhTHsZ0gehIhl+bAiOILdAuCrKBaD4FN01lsCdxAQOx61vngSwN3MPxrdhHyJabQtyEkXz8CHrN8J+Wtto/euMF3S7rAG1/H7APgL+IqnZTYd7jTiX/W9bhnJWuNfqPeY5BCl4ZKCRh/DBpOuX4ZT5ZgbSBJm9LEEwOFa19Mz8rWO/qpGjkn9WkywQd0K4H6jKZKn9cEx+k47fW2z70I415usAWR9+WgaERP/a8UuhAsDk2XY0ARwnoi8Cq/s7Ri6BKiLyPfhliGxgWCdeAJzHM2GEXYyJSIvAvgKso9grW0/TnIuXMSVNLuBULd6gz7LZAqdFR/KIdeWKQdr2e1srG3QnAYnZGJ+YmF5q/T/yXUI1qpvI7mRcUNh28Hdoum77sdF1eOS3I/OfjJmYW60XNMOLRyQNiClnvvTfZw4Vk979gqdJoaRvjHD5h8XoZHecPu9TI+ektbWZhNbuK3pDbFnk/zfDPrDOqzRd1I3WDZSToHbrcXiJNnLl7NHu3Ad7TUReRbACsSljtF8Isk5qkGYMsuBoJ7PwPlpxeppddoVThMDxDc5ArcOzkpjsMOV++D8t7LWt2P628kkj9S2nhZJm8Q0Xa9+GsDeyD69syXdypQjYk3hpcydjOv+bDTcyx77yNio0lFvUj5N6hid5+h7ZUb8QCVrgoal9F/XjiHLLcZofJleB547cLm9J0Oe/1WL5C/oIgiCzncrtRw6HjEvgWX0oZpibi02s2wluW9qOwcNNo/kpkTlQ9hUcF5Y0V6Bfpq8L6Mh7dl2LhtF8tf7Yg6IWUOaSd6aaOcyMHeQa8I8C5Rty7/dSK5n/oCx3+4jeUBYB0acBkkeQXJd4v1YHUjyi9E60DfWaRkZGte/Qact6GqHRRrSRv1nE5VJ0kWS/0dyF6otQ8H8h41Zj2D7n+O0dz4Y5lmy/Asy2jmtrA0kP0Plh5R8F5D8HLPbNsyzQbcun8OYhR09U/y9ZphGrBF4P0swRCegZ6Yl9IMlWeFWQN9CTT+lmNXy0ytrFonB+uYpum/Qluof+g3QmPZvkfLDAbWJzuP1FpJfJPmfJO+gm86TbRiD8dxZStN2g82mcVtUvxvx6CS24bpb/IfOehoBOrASehLOh2gfbK9Os01JHcD74XS/dmgwlWBHzJfCnWyVgfXN9SKyhe54tXD9tT/tdOxsAHfDOSDGNtmA1wu34E6kjoqks81U1uDZBnfQdIWIXBejv6bEGlPYGiTmHkEAP9D/+xKtWAnfDBetBEjfrRot0/tBU49ghwQ3AHgcxSK+AF632gBwvT4rHaI90G8/AqdxsJPLrAMAc3EJ7UaSn7I3b9UYjFGvE5FzmXHoEC6CpyNf1SFw/jODwLqM36wxzMFsyoX9Do5gtwH4AoqHgbeZ5h4RWcOckOs5NDRVONwKp7zfgmKzlDFtHW62tr+zmNTijU2D+7r4HzEnbHto+b8QXrImmdYMJtbDjXorrJ/4rwJpDshPMtQIYwysRTHpah27Qu8draV1KTImIt+CMxZ6Cn65aNKyE7TgpXYNwMUiYrGwMr8vEFZsJuLBByyDV0TkJWBCEvQTRcrb1kHejYJXz+odSNc34LxR84xQbJp9HemuK+3S0dAlwU/hfPe/Ar8vsD2CMW5ee9i61kw8a3DM/wCAD4rIX9N/vSUzr5BZi3RCalyjIUK7tI3BTUfhPbzs2Qz0PkyonSpdDh/BJc+f/3sispZx15XSCFxwXhWR8wAcDreetrgHxrgh86YFFBZ4Bq3BnZadA+BQEfmB0VxE+JVteA5AovYSVpd1cNFS8nST2wC8kHi3qzD/MhFZR3ItXAjLmEGRPbsm8X9XaYHTVPw3gFNJ/jqcieIyOO3LXshut5fgNDl3wh2h3mE/sGRIy7LMKtqQOwTDWj1E5HkAn2jn3W7DNhkkDwHwTsQNrG0JsA7u+1JA98w0J6D1bAZT9dNwUv9ykjsBOBBOpRiaadrfb8LFg53kzapqz2YZRgUmM2uRhXljgIxapNy2aGO5KCPNHreBqN7zTPideJpQMe+JFSKyuaxutQ2iLJKLbYyoxuMPId/E0BiUItJsl84x+A7eCGcHOR2TRwmCv+eQ3FdEfjUACVvEZ72t9aTWY+CHCDpomnTfFjgVcakK+CAZ5r3al76Q4FObSq+tSdMkq22uUj9DWhahTu5xODVFmn7PdqWzAexr73ZaeEkcWyDN4/lJhhpmoHwmXHz92AmSbazuFJGHdSPU93Dm6hPWEpGGSczE301N05WBNNEQBfyoTE0xrxsFl4BVdI8Cae7V+zBrLFKhUqpFZyP6aWw/uyUhAL5sG6A+kDhwmCHHROAtvaeNBGu8DwTiv6egD+s4C4B96zNtQBkt4ym/TRWY2uk8uI1V3keCnwTwbaA7U+xUQC1xfxRxRa+lOQyqW+uDztXKXAQXKyB2YGHnyaYWmVJf+KCP0zAXwEXINiAxobFcRMbRPa/ioYc1iDHnA/AL5iRsLXsAgPl98ii1/I/Te5q+MdSVrh+WQwuqEXKRdO7GGoAr4D6JHmtbq//TcEE+spwMd0yQk5wFX86wPzSbwz/X9P3wFKiTfFDLzXJgLGUh30/Q2YlOWNAH9bIvmdToPtUT1icNZmN6vuU72JoNCPTW4t9jvgH2YyRnsIfRBOl9sI7MYNSwAz+q7w20A+kNuj9E8qQC6fcjeVNBRm3RfUV6Z2uf3tdoCEHvLfCHCSZIwhr09PC9HtBjg+dbGR1p0n89yV00/UA7kG4ATyP5S6XtIZKXkDyGzvnxt0geQvJ3SC6nc3vPam+rp9V/mZYzdDNI30Afh3U2XZS+mC+QNeod+l7XG41eOh3IbG9I68AvafpBS1Ub8CfQe2kWQZ4LSdKRbjSn/xBBY/9NTiPa849o+q4yLL1UvSlRXhJNOoZY1As62qDbvjp4Q8BkzeBug78VPM/zTbK6P0ByJkd5+g9BL113o9toxaSr+Y//iuReLOmglkODMerHg7LSYNLm2vC9QYF+k7onnQewMWUnMEZ9k+T8YajnUCFglvMTTJHEuN4/qem7MjUFnf5gRvk2iDaQ3JtD8GEM+lnpJOZ/rLcIrN7jdOE/K0ZNA72K5W5tsLDhWwGjfpdujds1rYDlRfI9dBIl7DiDrQVtoAy8E+kH+RVK7zjbk6y2PCDJtSSPDvOvkAD9Bmc+3XLAAhCEa6xb6UPDdHUNFZR/LN1mj/RfVDZGXaFphmKzETDrqgjz2Zo1jH9gz5JtS5K304fQGYo6Di2Cxj8z0fjjJD/PQKHd4/J/g+6LzSGeoDvA6NtXY/JAv3xZSPKvSN7F4tqAEKtJ/kGQbyVRi4CTg3Y9RfIy6s5bn/eUUcKOIvkRkjeTfIbOin7oO5JuZjqJ5D/QBbN7hOTzKkk30in4H6HTevwtycOCdwe+Dp9yoJ+SZwTP+qY+SXYY3bcOBq78j0Gl/ViM0XRGOIj6fadImqEehINC0ZhQ5mpRh3NN6HfMAIRlGz39pqEslGEnPEBjNHOyq8hoGab0AsMiyYaFjnZh03s1xZfH/wOiSumhXGo3VgAAAABJRU5ErkJggg==" alt="fyo">
+  <div class="div"></div>
+  <div><div class="tit">Calendario Talentos + Marketing</div><div class="sub" id="subt">2026</div></div>
+  <div class="sp"></div>
+  <button class="btn-b solido" id="btnNuevo">＋ Nuevo</button>
+  <button class="btn-b" id="btnNomina">Nómina</button>
+  <button class="btn-b" id="btnDatos">Datos</button>
+</div></div>
+
+<header>
+  <div class="wrap h2">
+    <h2 class="periodo" id="periodo"></h2>
+    <div class="flechas"><button id="prev">‹</button><button id="next">›</button></div>
+    <button class="btn mini" id="hoy">Hoy</button>
+    <button class="alerta" id="btnConf">Conflictos</button>
+    <div class="sp"></div>
+    <div class="tabs" id="tabs">
+      <button data-vista="mes" class="on">Mes</button>
+      <button data-vista="semana">Semana</button>
+      <button data-vista="dia">Día</button>
+      <button data-vista="lista">Lista</button>
+    </div>
+  </div>
+  <div class="wrap h3">
+    <button class="chip-f tal on" data-area="talentos"><i class="dot"></i>Talentos</button>
+    <button class="chip-f mkt on" data-area="marketing"><i class="dot"></i>Marketing</button>
+    <button class="chip-f int on" data-area="interno"><i class="dot"></i>Institucionales</button>
+    <button class="chip-f fer on" data-area="feriado"><i class="dot"></i>Feriados</button>
+    <div class="sp"></div>
+    <div class="busca"><input id="q" type="text" placeholder="Buscar (ej: oratoria)"></div>
+    <select class="filtro" id="fSala"><option value="">Todas las salas</option></select>
+    <select class="filtro" id="fResp"><option value="">Quién cargó</option></select>
+    <select class="filtro" id="fPersona"><option value="">Todas las personas</option></select>
+  </div>
+</header>
+
+<main><div class="wrap" id="vista"></div></main>
+
+<div class="overlay" id="ovEvento"><div class="modal ancho">
+  <div class="mhead" id="evHead"><h2 id="evTitulo">Nuevo</h2><div class="sp"></div><button class="cerrar" data-cerrar>✕</button></div>
+  <div class="mbody" id="evBody"></div>
+  <div class="mfoot">
+    <button class="btn pri" id="evGuardar">Guardar</button>
+    <button class="btn ghost" data-cerrar>Cancelar</button>
+    <div class="sp"></div>
+    <button class="btn ghost" id="evBorrar" style="color:#C0392B">Borrar evento</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="ovDetalle"><div class="modal">
+  <div class="det-hero" id="dtHero"></div>
+  <div class="mbody" id="dtBody" style="background:#fff"></div>
+  <div class="mfoot">
+    <button class="btn dark" id="dtEditar">Editar</button>
+    <button class="btn" id="dtDuplicar">Duplicar</button>
+    <button class="btn ghost" data-cerrar>Cerrar</button>
+    <div class="sp"></div>
+    <button class="btn ghost" id="dtBorrar" style="color:#C0392B">Borrar</button>
+  </div>
+</div></div>
+
+<div class="overlay" id="ovNomina"><div class="modal ancho">
+  <div class="mhead"><h2>Nómina</h2><div class="sp"></div><button class="cerrar" data-cerrar>✕</button></div>
+  <div class="mbody" id="nomBody"></div>
+  <div class="mfoot"><span id="nomFoot" class="hint" style="margin:0"></span><div class="sp"></div><button class="btn ghost" data-cerrar>Cerrar</button></div>
+</div></div>
+
+<div class="overlay" id="ovConf"><div class="modal ancho">
+  <div class="mhead"><h2>Conflictos</h2><div class="sp"></div><button class="cerrar" data-cerrar>✕</button></div>
+  <div class="mbody" id="confBody" style="background:#fff"></div>
+  <div class="mfoot"><button class="btn ghost" data-cerrar>Cerrar</button></div>
+</div></div>
+
+<div class="overlay" id="ovDatos"><div class="modal">
+  <div class="mhead"><h2>Datos y descargas</h2><div class="sp"></div><button class="cerrar" data-cerrar>✕</button></div>
+  <div class="mbody" id="datosBody"></div>
+  <div class="mfoot"><button class="btn ghost" data-cerrar>Cerrar</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =======================================================================
+   CALENDARIO TALENTOS + MARKETING · fyo
+   Registro de cambios
+   v1.0 · Migración del Excel (hoja 2026): 78 eventos + 16 feriados.
+   v2.0 · Mes grande, click en el día, botón único "Nuevo", feriados en rojo,
+          salas múltiples, nómina real con equipos, detalle con más contraste.
+   v3.0 · Pedidos de Mica:
+          - Banda superior en celeste fyo con el logo original.
+          - Formulario por bloques con títulos resaltados.
+          - Personas: buscador que entiende "equipo de <líder>", filtros
+            escribibles (líder, unidad, vertical, sociedad y PUESTO),
+            botón "Toda la compañía" y solapa desplegable "Pegar listado"
+            (nombre y apellido o mail, tilda solo lo que encuentra).
+          - Tipo "Institucional / compartido" (jornadas, etc.).
+          - Se cierra el modal clickeando al costado.
+          - Nómina: se sube el Excel actualizado y muestra los cambios
+            contra la anterior (altas, bajas y cambios de líder/unidad/puesto).
+          - Datos: descarga un Excel con formato de los eventos filtrados,
+            con filtros automáticos y una hoja de participantes.
+   v4.0 · Pedidos de Mica:
+          - Colores de área más distintos + etiqueta TAL/MKT/INST en cada
+            evento, y marca "OPC" para lo opcional.
+          - Asistencia obligatoria u opcional por evento.
+          - Sin negro en los botones seleccionados del alta.
+          - Buscar un líder trae al líder Y a su equipo.
+          - Pegar listado reescrito: lee fila por fila, entiende
+            "Apellido, Nombre" y "Nombre Apellido", ignora encabezados,
+            no repite y no inventa: si hay varias coincidencias te deja
+            elegir y lista aparte lo que no encontró.
+          - Panel "Fechas para revisar": eventos en sábado, domingo o
+            feriado, con botón para moverlos al día hábil.
+   v5.0 · Pedidos de Mica:
+          - Talentos pasa a fucsia y Marketing a verde (paleta del manual),
+            fuera las siglas TAL/MKT/INST de los eventos.
+          - Si hay conflictos, arriba aparece "Hay conflictos" en rojo.
+          - En la tabla de conflictos: "Ver el día" lleva a la vista de ese
+            día y hay un botón para editar cada uno de los dos eventos.
+          - Matías Locaso y Valeria Marinovich se suman como quienes
+            pueden cargar por Talentos.
+   ======================================================================= */
+
+const SEED = {"eventos":[{"titulo":"Webinar fyoAdvisory","area":"marketing","sala":"Sala 8 (webinar)","desde":"10:30","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-01-15","2026-03-26","2026-05-21","2026-08-20","2026-10-15","2026-12-17"]},{"titulo":"Capacitación en el hacer IA","area":"talentos","sala":"","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"(9:30 a 11 hs - 14 a 16 hs)","fechas":["2026-01-20","2026-01-27","2026-02-10","2026-02-18","2026-03-03","2026-03-17","2026-03-25"]},{"titulo":"Explorá fyo Capital","area":"talentos","sala":"Sala B","desde":"16:00","hasta":"17:30","todoElDia":false,"detalle":"","fechas":["2026-01-20"]},{"titulo":"Mercado granario 4","area":"talentos","sala":"Sala B","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-01-21"]},{"titulo":"Charla a YPF","area":"marketing","sala":"Sala B","desde":"10:00","hasta":"12:00","todoElDia":false,"detalle":"","fechas":["2026-01-23"]},{"titulo":"Mercado granario 3","area":"talentos","sala":"Sala A","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-01-28"]},{"titulo":"Nivelación de líderes 1","area":"talentos","sala":"Sala B","desde":"10:00","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-01-28"]},{"titulo":"Nivelación de líderes 2","area":"talentos","sala":"Sala B","desde":"10:00","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-01-30"]},{"titulo":"Explorá fyo Capital","area":"talentos","sala":"Sala A","desde":"16:00","hasta":"17:30","todoElDia":false,"detalle":"","fechas":["2026-02-04"]},{"titulo":"Nivelación de líderes 3","area":"talentos","sala":"Sala B","desde":"10:00","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-02-05"]},{"titulo":"Nivelación de líderes 4","area":"talentos","sala":"Sala B","desde":"10:00","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-02-06"]},{"titulo":"Mercado granario 5","area":"talentos","sala":"Sala B","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-02-11"]},{"titulo":"fyoData","area":"talentos","sala":"Sala B","desde":"09:30","hasta":"10:30","todoElDia":false,"detalle":"","fechas":["2026-02-12","2026-02-26","2026-03-05"]},{"titulo":"Webinar fyoCapital","area":"marketing","sala":"Sala 8 (webinar)","desde":"10:30","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-02-12","2026-04-16","2026-07-16","2026-09-17","2026-11-19"]},{"titulo":"Taller en Córdoba","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje) · Capacitación en el hacer IA · (9:30 a 11 hs - 14 a 16 hs)","fechas":["2026-02-24"]},{"titulo":"Coffee Nuevos Talentos 16:00 a 18:00 hs Sala capacitaciones B","area":"interno","sala":"Sala B","desde":"16:00","hasta":"18:00","todoElDia":false,"detalle":"","fechas":["2026-02-26"]},{"titulo":"Expoagro","area":"marketing","sala":"","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"San Nicolás · \"Capacitación en el hacer IA · (9:30 a 11 hs - 14 a 16 hs)","fechas":["2026-03-10"]},{"titulo":"Expoagro","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"San Nicolás","fechas":["2026-03-11","2026-03-12","2026-03-13"]},{"titulo":"Mercado granario 6","area":"talentos","sala":"Sala B","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-03-18"]},{"titulo":"Taller en Buenos Aires","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-03-19","2026-11-12"]},{"titulo":"Capacitación a Gear","area":"marketing","sala":"Sala 8 (webinar)","desde":"10:00","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-03-27","2026-04-10","2026-04-17","2026-04-24"]},{"titulo":"Taller en Río Cuarto","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-04-07"]},{"titulo":"Mercado de Capitales","area":"talentos","sala":"Sala A","desde":"09:00","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-04-07","2026-04-09","2026-04-14","2026-04-16","2026-04-21"]},{"titulo":"Reconocimiento a la trayectoria 12:00 a 15:00 hs Sala de Directorio","area":"interno","sala":"Sala de Directorio","desde":"12:00","hasta":"15:00","todoElDia":false,"detalle":"","fechas":["2026-04-21"]},{"titulo":"CDA","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"Buenos Aires","fechas":["2026-04-21"]},{"titulo":"Mercado granario 7","area":"talentos","sala":"Sala B","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-04-22"]},{"titulo":"Webinar Comité Ejecutivo 09:00 a 11:00 hs Sala capacitaciones A","area":"interno","sala":"Sala 8 (webinar)","desde":"09:00","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-04-24"]},{"titulo":"Día del Trabajador","area":"interno","sala":"Sala A + B","desde":"17:00","hasta":"20:00","todoElDia":false,"detalle":"","fechas":["2026-05-08"]},{"titulo":"A Todo Trigo","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"Mar del Plata","fechas":["2026-05-14","2026-05-15"]},{"titulo":"Capacitación tutores JP","area":"talentos","sala":"Sala B","desde":"09:00","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-05-21"]},{"titulo":"Maizar","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"Buenos Aires","fechas":["2026-05-27"]},{"titulo":"Taller en Tucumán","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-05-28"]},{"titulo":"Agroactiva","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"Armstrong","fechas":["2026-06-03","2026-06-04","2026-06-05","2026-06-06"]},{"titulo":"Congreso CREA REGION LITORAL SUR","area":"marketing","sala":"","desde":"12:00","hasta":"19:00","todoElDia":false,"detalle":"Bodega Robinson · Concordia, Provincia de Entre Rios","fechas":["2026-06-09"]},{"titulo":"Día del Padre","area":"interno","sala":"Sala A","desde":"11:00","hasta":"12:00","todoElDia":false,"detalle":"","fechas":["2026-06-19","2026-06-22"]},{"titulo":"Webinar fyoFoods","area":"marketing","sala":"Sala 8 (webinar)","desde":"10:30","hasta":"11:30","todoElDia":false,"detalle":"","fechas":["2026-06-23"]},{"titulo":"Taller en Villa Maria + Inauguración de oficina","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-06-25"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"Sala B","desde":"09:00","hasta":"12:00","todoElDia":false,"detalle":"","fechas":["2026-06-29","2026-06-30","2026-07-13","2026-08-12","2026-10-01","2026-11-09","2026-12-03","2026-12-14","2026-12-18"]},{"titulo":"Team cocaching fyoCapital","area":"talentos","sala":"","desde":"09:00","hasta":"18:00","todoElDia":false,"detalle":"Asisten Chris y sus reportes · Lugar a confirma","fechas":["2026-06-29"]},{"titulo":"Team cocaching fyoCapital","area":"talentos","sala":"","desde":"09:00","hasta":"15:00","todoElDia":false,"detalle":"Asisten Chris y sus reportes · Lugar a confirmar","fechas":["2026-06-30"]},{"titulo":"Congreso SEMINARIO ACSOJA","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Bolsa de comercio · Rosario, Provincia de Santa Fe","fechas":["2026-06-30"]},{"titulo":"Taller en Necochea","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-07-01"]},{"titulo":"Congreso CREA NORTE BS AS","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Ros Tower Hotel · Rosario, Provincia de Santa Fe","fechas":["2026-07-01"]},{"titulo":"GRANOS - FRANCISCO","area":"talentos","sala":"Sala B","desde":"09:00","hasta":"12:00","todoElDia":false,"detalle":"","fechas":["2026-07-07","2026-07-08","2026-07-20","2026-07-21","2026-08-10","2026-08-11","2026-09-10","2026-09-11"]},{"titulo":"Capacitacion Impuesto a las Ganancias- Virtual - Cresud","area":"talentos","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"","fechas":["2026-07-15"]},{"titulo":"Oratoria","area":"talentos","sala":"Sala B","desde":"09:00","hasta":"18:00","todoElDia":false,"detalle":"","fechas":["2026-07-22","2026-07-23"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"","desde":"09:00","hasta":"12:00","todoElDia":false,"detalle":"ONLINE","fechas":["2026-07-24","2026-08-25","2026-10-22"]},{"titulo":"Taller en Entre Ríos","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-07-30"]},{"titulo":"Aapresid","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"Rosario","fechas":["2026-08-04","2026-08-06"]},{"titulo":"Aapresid - Cocktail en oficina","area":"marketing","sala":"","desde":"18:00","hasta":"22:00","todoElDia":false,"detalle":"Rosario","fechas":["2026-08-05"]},{"titulo":"IA Showcase","area":"talentos","sala":"Sala A","desde":"09:30","hasta":"10:30","todoElDia":false,"detalle":"","fechas":["2026-08-07"]},{"titulo":"Feria De empleo Austral","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"","fechas":["2026-08-11"]},{"titulo":"Reconocimiento 5 años","area":"interno","sala":"Sala A","desde":"09:30","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-08-12"]},{"titulo":"Coffee Nuevos Talentos","area":"interno","sala":"Sala B","desde":"15:00","hasta":"18:00","todoElDia":false,"detalle":"","fechas":["2026-08-12"]},{"titulo":"Congreso CREA SUDOESTE","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Sociedad Rural · Coronel Suárez, Provincia de Buenos Aires","fechas":["2026-08-12","2026-08-13"]},{"titulo":"Jornada Junior","area":"marketing","sala":"Sala B","desde":"09:00","hasta":"21:30","todoElDia":false,"detalle":"De 9:00 a 21:30 hs. + Cocktail","fechas":["2026-08-13","2026-09-03","2026-10-08"]},{"titulo":"Jornada Junior","area":"marketing","sala":"Sala B","desde":"09:00","hasta":"18:00","todoElDia":false,"detalle":"","fechas":["2026-08-14","2026-09-04","2026-10-09"]},{"titulo":"Mercado granario","area":"talentos","sala":"Sala A","desde":"09:00","hasta":"11:00","todoElDia":false,"detalle":"","fechas":["2026-08-16","2026-08-24","2026-08-26","2026-08-28","2026-09-01","2026-09-02","2026-09-07"]},{"titulo":"Evento Biond","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · En Buenos Aires","fechas":["2026-08-18"]},{"titulo":"Evento Biond","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · En Rosario - cocktail en fyo","fechas":["2026-08-19"]},{"titulo":"Congreso REGIONAL CREA OESTE ARENOSO","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Tandil, Provincia de Buenos Aires","fechas":["2026-08-19","2026-08-21"]},{"titulo":"Formador de formadores","area":"talentos","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"","fechas":["2026-08-19"]},{"titulo":"Congreso REGIONAL CREA OESTE ARENOSO","area":"talentos","sala":"Sala B","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Tandil, Provincia de Buenos Aires. FORMADOR DE FORMADORES (Sala b)","fechas":["2026-08-20"]},{"titulo":"Día del Niño","area":"interno","sala":"Sala A + B","desde":"09:00","hasta":"18:00","todoElDia":false,"detalle":"","fechas":["2026-08-21"]},{"titulo":"Taller Financiero en Buenos Aires (fyoCapital)","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día (viaje)","fechas":["2026-08-27"]},{"titulo":"Feria Empleo Uca","area":"talentos","sala":"","desde":null,"hasta":null,"todoElDia":false,"detalle":"","fechas":["2026-09-08"]},{"titulo":"Almuerzo Reconocimiento a la trayectoria","area":"interno","sala":"Sala de Directorio","desde":"13:00","hasta":"15:00","todoElDia":false,"detalle":"","fechas":["2026-09-09"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"Sala B","desde":"09:00","hasta":"12:00","todoElDia":false,"detalle":"Sala capacitaciones B Mercado granario","fechas":["2026-09-09"]},{"titulo":"Congreso REGIONAL CREA CENTRO","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Potrero de los Funes, Provincia de San Luis.","fechas":["2026-09-16"]},{"titulo":"Congreso REGIONAL CREA CENTRO","area":"marketing","sala":"","desde":null,"hasta":null,"todoElDia":true,"detalle":"Todo el día · Potrero de los Funes, Provincia de San Luis","fechas":["2026-09-17"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"","desde":"09:00","hasta":"11:00","todoElDia":false,"detalle":"ONLINE","fechas":["2026-09-23"]},{"titulo":"Jornada Senior","area":"marketing","sala":"Sala B","desde":"09:00","hasta":"21:30","todoElDia":false,"detalle":"De 9:00 a 21:30 hs. + Cocktail","fechas":["2026-09-24","2026-10-29"]},{"titulo":"Jornada Senior","area":"marketing","sala":"Sala B","desde":"09:00","hasta":"13:00","todoElDia":false,"detalle":"","fechas":["2026-09-25","2026-10-30"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"","desde":"09:00","hasta":"10:00","todoElDia":false,"detalle":"ONLINE","fechas":["2026-09-28"]},{"titulo":"Cocktail Cierre de Ejercicio 09:00 a 23:00 hs Sala de capacitaciones A, B y Patio","area":"interno","sala":"Sala A + B","desde":"09:00","hasta":"23:00","todoElDia":false,"detalle":"","fechas":["2026-10-02"]},{"titulo":"Jornada Junior online","area":"marketing","sala":"Sala 8 (webinar)","desde":"09:00","hasta":"13:00","todoElDia":false,"detalle":"","fechas":["2026-11-04","2026-11-05","2026-11-06"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"","desde":"09:00","hasta":"12:00","todoElDia":false,"detalle":"Virtual","fechas":["2026-11-24"]},{"titulo":"GRANOS - SERGIO","area":"talentos","sala":"","desde":"09:00","hasta":"10:00","todoElDia":false,"detalle":"Virtual","fechas":["2026-11-30"]}],"feriados":[{"fecha":"2026-01-01","nombre":"FERIADO"},{"fecha":"2026-05-01","nombre":"FERIADO"},{"fecha":"2026-04-02","nombre":"FERIADO"},{"fecha":"2026-04-03","nombre":"FERIADO"},{"fecha":"2026-12-08","nombre":"FERIADO"},{"fecha":"2026-07-09","nombre":"FERIADO"},{"fecha":"2026-10-12","nombre":"FERIADO"},{"fecha":"2026-02-16","nombre":"FERIADO"},{"fecha":"2026-02-17","nombre":"FERIADO"},{"fecha":"2026-06-17","nombre":"FERIADO"},{"fecha":"2026-08-17","nombre":"FERIADO"},{"fecha":"2026-06-20","nombre":"FERIADO"},{"fecha":"2026-11-20","nombre":"FERIADO"},{"fecha":"2026-03-24","nombre":"FERIADO"},{"fecha":"2026-05-25","nombre":"FERIADO"},{"fecha":"2026-12-25","nombre":"FERIADO"}]};
+const NOMINA_BASE = [{"l":"91000579","n":"Acosta Alexis","s":"Agrofy SAU","j":"Fabio Andres Nagel","p":"Integration Developer","u":"Integraciones","v":"Sistemas","e":"aacosta@fyo.com"},{"l":"91000730","n":"Acosta Eugenia Lorena","s":"Futuros y Opciones.com SA","j":"Romina Maria Jesus Ferra","p":"Analista Riesgos","u":"Riesgos","v":"Administración","e":"eacosta@fyo.com"},{"l":"91000816","n":"Acosta Leonel Maria","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Granos","v":"Sistemas","e":"lacosta@fyo.com"},{"l":"91000748","n":"Acuña Pedro Manuel","s":"Futuros y Opciones.com SA","j":"Alejandro Mauricio Ibarra","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"pacuna@fyo.com"},{"l":"91000620","n":"Alarcon Carlos Luis","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Manual","u":"QA","v":"Sistemas","e":"calarcon@fyo.com"},{"l":"91000886","n":"Aliau Guadalupe Dominga","s":"Futuros y Opciones.com SA","j":"Alejandro Vaisman","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"galiau@fyo.com"},{"l":"91000849","n":"Altamirano Facundo","s":"Futuros y Opciones.com SA","j":"Javier Alejandro Treboux","p":"Analista Mercado","u":"Analisis de Mercado","v":"Comercial","e":"faltamirano@fyo.com"},{"l":"91000085","n":"Ambros Ignacio José","s":"Futuros y Opciones.com SA","j":"Lucas Zatloukal","p":"Gerente Comercial","u":"Celula 3","v":"Comercial","e":"iambros@fyo.com"},{"l":"91000877","n":"Ameriso Leandro Jose","s":"Futuros y Opciones.com SA","j":"Alejandro Vaisman","p":"Asesor Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"lameriso@fyo.com"},{"l":"91000405","n":"Andrade Martina","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"mandrade@fyo.com"},{"l":"91000361","n":"Angelini Guillermo","s":"Agrofy SAU","j":"Pablo Ignacio Cervio","p":"Product Manager","u":"Producto","v":"Sistemas","e":"gangelini@fyo.com"},{"l":"91000433","n":"Aquino Sofia Victoria","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Analista Front Office","u":"Administración Granos","v":"Administración","e":"saquino@fyo.com"},{"l":"91000811","n":"Arce Maria Laura","s":"Futuros y Opciones.com SA","j":"Jesica Aylen Villanueva","p":"Analista Tesorería","u":"Tesorería","v":"Administración","e":"marce@fyo.com"},{"l":"91000880","n":"Arias Emiliano","s":"Futuros y Opciones.com SA","j":"Lucas Zatloukal","p":"Gerente Comercial","u":"Granos","v":"Comercial","e":"earias@fyo.com"},{"l":"94000045","n":"Armellini Luisiana Maria","s":"AMAUTA AGRO SA","j":"Matias Ortega","p":"Analista Cobros","u":"Administración","v":"Administración","e":"larmellini@amauta.ag"},{"l":"91000715","n":"Arrigoni Leonardo Matias","s":"Futuros y Opciones.com SA","j":"Dario Martin Casarico","p":"Analista Seguridad de la Información","u":"Seguridad de la Información","v":"Administración","e":"larrigoni@fyo.com"},{"l":"91000165","n":"Auad Maximiliano","s":"Futuros y Opciones.com SA","j":"Lucas Zatloukal","p":"Gerente Comercial","u":"Celula 1","v":"Comercial","e":"mauad@fyo.com"},{"l":"91000896","n":"Ausilio Camila Maria","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Analista Boletos","u":"Boletos","v":"Administración","e":"causilio@fyo.com"},{"l":"91000812","n":"Avila Jano Ariel","s":"Futuros y Opciones.com SA","j":"Juan Cicoria","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"javila@fyo.com"},{"l":"91000727","n":"Balbi Sebastian Matias","s":"Futuros y Opciones.com SA","j":"Ignacio José Ambros","p":"Lider Comercial","u":"Celula 3","v":"Comercial","e":"sbalbi@fyo.com"},{"l":"95000024","n":"Baldoma Juan Manuel","s":"Futuros y Opciones.com SA","j":"Christian Garciandia","p":"Líder Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"jbaldoma@fyo.com"},{"l":"91000729","n":"Ballester Luciana","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"lballester@fyo.com"},{"l":"91000138","n":"Baños Evangelina Maria","s":"Futuros y Opciones.com SA","j":"Jesica Aylen Villanueva","p":"Analista Tesorería","u":"Tesorería","v":"Administración","e":"ebanos@fyo.com"},{"l":"91000168","n":"Barbieri Maria Jose","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"mbarbieri@fyo.com"},{"l":"91000803","n":"Barrull Macarena","s":"Futuros y Opciones.com SA","j":"Leticia Raquel Bert","p":"Talent Business Partner","u":"Talentos","v":"Administración","e":"mbarrull@fyo.com"},{"l":"95000002","n":"Basavilbaso Graciela","s":"FYO ACOPIO SA","j":"Mauricio Fabian Olivanti","p":"Maestranza","u":"Planta Acopio","v":"Comercial","e":"basavilbaso.g5@gmail.com"},{"l":"91000726","n":"Bedecarras Agustin","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Frontend Developer","u":"Plataforma Digital","v":"Sistemas","e":"abedecarras@fyo.com"},{"l":"95000003","n":"Belbey Rodrigo","s":"Futuros y Opciones.com SA","j":"Maximiliano Auad","p":"Líder Comercial","u":"Celula 1","v":"Comercial","e":"rbelbey@fyo.com"},{"l":"91000785","n":"Beli Mateo Lautaro","s":"Futuros y Opciones.com SA","j":"Maximiliano Auad","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"mbeli@fyo.com"},{"l":"95000082","n":"Bengoechea Milagros Maria","s":"FYO ACOPIO SA","j":"Florencia Sueiras Munuce","p":"Analista Contabilidad","u":"Contabilidad","v":"Administración","e":"mbengoechea@fyo.com"},{"l":"91000689","n":"Bergero Orlandini Rocio Micaela","s":"Futuros y Opciones.com SA","j":"Martina Raposo","p":"Analista Comunicación","u":"Marketing","v":"Comercial","e":"rbergero@fyo.com"},{"l":"91000260","n":"Bert Leticia Raquel","s":"Futuros y Opciones.com SA","j":"Maria Celeste Zacutti","p":"Talent Business Partner Manager","u":"Talentos","v":"Administración","e":"lbert@fyo.com"},{"l":"91000702","n":"Bertorello Pedro","s":"Futuros y Opciones.com SA","j":"Romina Maria Jesus Ferra","p":"Analista Riesgos","u":"Riesgos","v":"Administración","e":"pbertorello@fyo.com"},{"l":"91000348","n":"Bessone Gustavo","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Functional Delivery Granos","u":"Plataforma Digital","v":"Sistemas","e":"gbessone@fyo.com"},{"l":"91000071","n":"Blanchard Maria Mercedes","s":"Futuros y Opciones.com SA","j":"Ariel Hector Cabaleiro","p":"Analista Gestión del Riesgo y Control","u":"Compliance","v":"Administración","e":"mblanchard@fyo.com"},{"l":"91000543","n":"Blanco Alvaro Bautista","s":"Futuros y Opciones.com SA","j":"Jesica Aylen Villanueva","p":"Analista Tesorería","u":"Tesorería","v":"Administración","e":"ablanco@fyo.com"},{"l":"91000207","n":"Boglione Maria Florencia","s":"Futuros y Opciones.com SA","j":"Ignacio José Ambros","p":"Lider Cuentas Claves","u":"Celula 3","v":"Comercial","e":"fboglione@fyo.com"},{"l":"91000343","n":"Bolondi Angel Bautista","s":"Agrofy SAU","j":"Alexis Andres Calio Allerborn","p":"Data Engineer Specialist","u":"Data & Analytics","v":"Sistemas","e":"abolondi@fyo.com"},{"l":"91000733","n":"Bonet Julian","s":"Futuros y Opciones.com SA","j":"Antonela Roggi","p":"Analista Legales","u":"Legales","v":"Administración","e":"jbonet@fyo.com"},{"l":"91000516","n":"Borbiconi Constanza Beatriz","s":"Futuros y Opciones.com SA","j":"Paula Sbarra","p":"Especialista Gestión Estratégica","u":"Planificación y Gestión","v":"Administración","e":"cborbiconi@fyo.com"},{"l":"99000001","n":"Bordet Gina Antonella","s":"FYO Foods S.A.U.","j":"Erico Augusto Weitemeier","p":"Asesor Comercial Especialidades","u":"Especialidades","v":"Produccion","e":"gbordet@fyo.com"},{"l":"91000761","n":"Borré Andres Anselmo","s":"Futuros y Opciones.com SA","j":"Francisco Indri","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"aborre@fyo.com"},{"l":"91000597","n":"Bortolozzi Maira Lucia","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"mbortolozzi@fyo.com"},{"l":"94000055","n":"Bosetti Nadia Beatriz","s":"AMAUTA AGRO SA","j":"Federico Ruben Dublan","p":"Asesor Desarrollo de Mercado y Producto","u":"Comercial","v":"Comercial","e":"nbosetti@amauta.ag"},{"l":"91000582","n":"Bottari Alejandro José","s":"Futuros y Opciones.com SA","j":"Lucia Cantore Bassi","p":"Especialista Impuestos","u":"Impuestos","v":"Administración","e":"abottari@fyo.com"},{"l":"91000635","n":"Brescacin Bertinat Micaela","s":"Futuros y Opciones.com SA","j":"Mariel Noelia Miraglia","p":"Analista Marketing","u":"Marketing","v":"Comercial","e":"mbrescacin@fyo.com"},{"l":"91000549","n":"Bricco Maria","s":"Futuros y Opciones.com SA","j":"Agostina Maria Radovan","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"mbricco@fyo.com"},{"l":"91000413","n":"Brusa Damian Gonzalo","s":"Agrofy SAU","j":"Veronica Soledad Ordazzo Ganem","p":"Business Analyts","u":"Granos","v":"Sistemas","e":"dbrusa@fyo.com"},{"l":"91000444","n":"Busetto Cristian David","s":"Agrofy SAU","j":"Paula Jessica Perez Borrero","p":"Solution Architect","u":"Negocios fyo","v":"Sistemas","e":"cbusetto@fyo.com"},{"l":"91000817","n":"Bussi Tomas Ricardo","s":"Futuros y Opciones.com SA","j":"Federico Alberto Pienzi","p":"Analista Finanzas Corporativas","u":"Finanzas","v":"Administración","e":"tbussi@fyo.com"},{"l":"91000836","n":"Bustamante Camila","s":"Futuros y Opciones.com SA","j":"Florencia Sueiras Munuce","p":"Pasante Impuestos","u":"Contabilidad","v":"Administración","e":"cbustamante@fyo.com"},{"l":"91000753","n":"Buyatti Mateo Ignacio","s":"Futuros y Opciones.com SA","j":"Rodrigo Belbey","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"mbuyatti@fyo.com"},{"l":"50000133","n":"Cabaleiro Ariel Hector","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"Gerente de Compliance Mejora Continua","u":"Compliance","v":"Administración","e":"acabaleiro@fyo.com"},{"l":"91000885","n":"Caceres Matias","s":"Futuros y Opciones.com SA","j":"Juan Manuel Baldoma","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"mcaceres@fyo.com"},{"l":"91000501","n":"Caligaris Diego Alberto","s":"Agrofy SAU","j":"Alexis Andres Calio Allerborn","p":"Data Engineer","u":"Data & Analytics","v":"Sistemas","e":"dcaligaris@fyo.com"},{"l":"91000411","n":"Calio Allerborn Alexis Andres","s":"Agrofy SAU","j":"Guillermo Federico Raies de Inocenti","p":"Head of Data & Analytics","u":"Data & Analytics","v":"Sistemas","e":"aallerborn@fyo.com"},{"l":"91000754","n":"Callegari Victoria Micaela","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"vcallegari@fyo.com"},{"l":"91000868","n":"Callero Maia","s":"Futuros y Opciones.com SA","j":"Antonela Roggi","p":"Pasante Legales","u":"Legales","v":"Administración","e":"mcallero@fyo.com"},{"l":"91000239","n":"Calvo Rodrigo Emanuel","s":"AMAUTA AGRO SA","j":"Matias Ortega","p":"Lider Logística","u":"Logística","v":"Comercial","e":"rcalvo@amauta.ag"},{"l":"91000288","n":"Camarasa Noelia Sofia","s":"AMAUTA AGRO SA","j":"Florencia Sueiras Munuce","p":"Especialista Contabilidad","u":"Contabilidad","v":"Administración","e":"ncamarasa@amauta.ag"},{"l":"91000823","n":"Campagna Bianca Belen","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"bcampagna@fyo.com"},{"l":"91000431","n":"Cantore Bassi Lucia","s":"Futuros y Opciones.com SA","j":"Lucas Ghelfi","p":"Gerente Impuestos","u":"Impuestos","v":"Administración","e":"lcantore@fyo.com"},{"l":"94000037","n":"Cañas Juan Ignacio","s":"AMAUTA AGRO SA","j":"Federico Ruben Dublan","p":"Asesor Desarrollo de Mercado y Producto","u":"Comercial","v":"Comercial","e":"jcanas@amauta.ag"},{"l":"91000548","n":"Capella Macarena Lucia","s":"Futuros y Opciones.com SA","j":"Paula Sbarra","p":"Analista Gestión Presupuestaria","u":"Planificación y Gestión","v":"Administración","e":"mcapella@fyo.com"},{"l":"91000533","n":"Caraballo Mariano German","s":"Agrofy SAU","j":"Alexis Andres Calio Allerborn","p":"Data Visualization Specialist","u":"Data & Analytics","v":"Sistemas","e":"mcaraballo@fyo.com"},{"l":"91000254","n":"Carbone Maria Flavia","s":"Futuros y Opciones.com SA","j":"Lucas Ghelfi","p":"Controller Biond","u":"Finanzas","v":"Administración","e":"fcarbone@fyo.com"},{"l":"97000003","n":"Caric Vanina Laura","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Functional Delivery Capital","u":"Negocios fyo","v":"Sistemas","e":"vcaric@fyo.com"},{"l":"94000009","n":"Carlucci Guido","s":"AMAUTA AGRO SA","j":"Joel Andres Suvirada","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"gcarlucci@amauta.ag"},{"l":"91000843","n":"Carnino Francisco","s":"Futuros y Opciones.com SA","j":"Alejandro Mauricio Ibarra","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"fcarnino@fyo.com"},{"l":"97000000","n":"Caruso Nicolas Martin","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Frontend Developer","u":"Plataforma Digital","v":"Sistemas","e":"ncaruso@fyo.com"},{"l":"91000767","n":"Casanova Fabricio","s":"Futuros y Opciones.com SA","j":"Martin Eugenio Fresneda","p":"Operador Agro fyoCapital","u":"fyoCapital","v":"Comercial","e":"fcasanova@fyo.com"},{"l":"91000326","n":"Casarico Dario Martin","s":"Futuros y Opciones.com SA","j":"Ariel Hector Cabaleiro","p":"Líder Seguridad de la Información","u":"Seguridad de la Información","v":"Administración","e":"dcasarico@fyo.com"},{"l":"95000084","n":"Cassinerio Juan","s":"FYO ACOPIO SA","j":"Luciano Emanuel Onnis","p":"Analista Cuantitativo","u":"Analisis Cuantitativo","v":"Administración","e":"jcassinerio@fyo.com"},{"l":"91000664","n":"Castelli Sofia","s":"Futuros y Opciones.com SA","j":"Ariel Hector Cabaleiro","p":"Analista Cumplimiento Normativo","u":"Compliance","v":"Administración","e":"scastelli@fyo.com"},{"l":"94000077","n":"Catraccia Juan Bautista","s":"AMAUTA AGRO SA","j":"Hugo Jose Espinel","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"jcatracchia@amauta.ag"},{"l":"94000073","n":"Ceccarelli Lucia Clara","s":"AMAUTA AGRO SA","j":"Mariel Noelia Miraglia","p":"Analistas Marketing","u":"Marketing","v":"Comercial","e":"lceccarelli@amauta.ag"},{"l":"94000070","n":"Cerutti Alberto Alejandro","s":"AMAUTA AGRO SA","j":"Sergio Gremo","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"acerutti@amauta.ag"},{"l":"91000337","n":"Cervio Pablo Ignacio","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"CTO/CDO","u":"Tecnología","v":"Sistemas","e":"pcervio@fyo.com"},{"l":"91000377","n":"Cesar María Lourdes","s":"Futuros y Opciones.com SA","j":"Agostina Maria Radovan","p":"Especialista Mercaderías","u":"Mercaderías","v":"Administración","e":"lcesar@fyo.com"},{"l":"91000788","n":"Chingolani Agustin","s":"Futuros y Opciones.com SA","j":"Rodrigo Belbey","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"achingolani@fyo.com"},{"l":"91000645","n":"Ciccocioppo Ramiro","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Lider Mercaderias","u":"Mercaderías","v":"Administración","e":"rciccocioppo@fyo.com"},{"l":"95000028","n":"Cicoria Juan Domingo","s":"Futuros y Opciones.com SA","j":"Roberto Juan Gianneschi","p":"Lider Logística Integral","u":"Celula 2","v":"Comercial","e":"jcicoria@fyo.com"},{"l":"91000693","n":"Cipulli Constanza","s":"Futuros y Opciones.com SA","j":"Agostina Maria Radovan","p":"Analista Confirmaciones","u":"Confirmaciones","v":"Administración","e":"ccipulli@fyo.com"},{"l":"91000373","n":"Colombres Carlos Gaston","s":"Futuros y Opciones.com SA","j":"Maximiliano Auad","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"gcolombres@fyo.com"},{"l":"91000295","n":"Comba Federico","s":"Futuros y Opciones.com SA","j":"Maria Celeste Zacutti","p":"Office Manager","u":"Office Manager","v":"Administración","e":"fcomba@fyo.com"},{"l":"91000185","n":"Cono Martin Nicolas","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Project Manager","u":"Granos","v":"Sistemas","e":"mcono@fyo.com"},{"l":"91000627","n":"Coppari Lucio Jesus","s":"Futuros y Opciones.com SA","j":"Florencia Sueiras Munuce","p":"Analista Contabilidad","u":"Contabilidad","v":"Administración","e":"lcoppari@fyo.com"},{"l":"91000285","n":"Corbella Fernando","s":"Futuros y Opciones.com SA","j":"Laureano San Cristobal","p":"Especialista Front Office","u":"Administración Granos","v":"Administración","e":"fcorbella@fyo.com"},{"l":"95000058","n":"Cordoba Magali","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Administración","e":"mcordoba@fyo.com"},{"l":"97200024","n":"Cordoni Adriana","s":"Futuros y Opciones.com SA","j":"Ismary Gabriela Solorzano Sanchez","p":"Asistente Dirección","u":"Office Manager","v":"Administración","e":"acordoni@fyo.com"},{"l":"91000763","n":"Cornero Victoria","s":"Futuros y Opciones.com SA","j":"Marcia Nerina Fransolini","p":"Analista Desarrollo Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"vcornero@fyo.com"},{"l":"91000536","n":"Coronel Franco Eduardo","s":"Agrofy SAU","j":"Fabio Andres Nagel","p":"Integration Developer","u":"Integraciones","v":"Sistemas","e":"fcoronel@fyo.com"},{"l":"91000838","n":"Corvalan Lautaro Javier","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"lcorvalan@fyo.com"},{"l":"95000094","n":"Cosachkow Mauro Jesus","s":"FYO ACOPIO SA","j":"Roberto Haidar","p":"Asesor Comercial Insumos","u":"Insumos","v":"Comercial","e":"mcosachkow@fyo.com"},{"l":"91000506","n":"Cosentino Juan Marcelo","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Frontend Developer","u":"Plataforma Digital","v":"Sistemas","e":"jcosentino@fyo.com"},{"l":"91000873","n":"Cozzi Alfonso","s":"Futuros y Opciones.com SA","j":"Marcia Nerina Fransolini","p":"Pasante Desarrollo Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"acozzi@fyo.com"},{"l":"91000649","n":"D´Aloisio Tomas Pedro","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Plataforma Digital","v":"Sistemas","e":"tdaloisio@fyo.com"},{"l":"95000069","n":"D´Amico Franco Javier","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Administración","e":"fdamico@fyo.com"},{"l":"91000576","n":"D´Angelo Carolina Lucia","s":"FYO ACOPIO SA","j":"Paula Sbarra","p":"Analista Control Trading","u":"Planificación y Gestión","v":"Administración","e":"cdangelo@fyo.com"},{"l":"91000477","n":"De Felipe Gregorio","s":"FYO ACOPIO SA","j":"German Ezequiel Kerbs","p":"Operador Trading","u":"Trading","v":"Comercial","e":"gdefelipe@fyo.com"},{"l":"91000083","n":"De la Pace Lisandro","s":"Futuros y Opciones.com SA","j":"Lucas Zatloukal","p":"Gerente Comercial","u":"Granos","v":"Comercial","e":"ldelapace@fyo.com"},{"l":"91000629","n":"De Sousa Rocha Lucia","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"ldesousa@fyo.com"},{"l":"91000883","n":"del Pazo Rocio","s":"Futuros y Opciones.com SA","j":"Joaquin Prats","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"rdelpazo@fyo.com"},{"l":"91000263","n":"Delleppiagge Rocio Belen","s":"Futuros y Opciones.com SA","j":"Lucia Cantore Bassi","p":"Especialista Impuestos","u":"Impuestos","v":"Administración","e":"rdelleppiagge@fyo.com"},{"l":"95000070","n":"Depaoli Valentino","s":"FYO ACOPIO SA","j":"Roberto Haidar","p":"Asesor Comercial Insumos","u":"Insumos","v":"Comercial","e":"vdepaoli@fyo.com"},{"l":"95000081","n":"Devita Facundo Leonel","s":"FYO ACOPIO SA","j":"Jesica Aylen Villanueva","p":"Analista Tesorería","u":"Tesorería","v":"Administración","e":"fdevita@fyo.com"},{"l":"91000229","n":"Di Bacco Julia Maria","s":"Futuros y Opciones.com SA","j":"Lucas Ghelfi","p":"Gerente Riesgos","u":"Riesgos","v":"Administración","e":"jdibacco@fyo.com"},{"l":"95000001","n":"Diaz Diego","s":"FYO ACOPIO SA","j":"Mauricio Fabian Olivanti","p":"Auxiliar Especializado","u":"Planta Acopio","v":"Comercial","e":"diazdiegojavier9@gmail.com"},{"l":"95000068","n":"Diaz Leonardo Nicolas","s":"FYO ACOPIO SA","j":"Mauricio Fabian Olivanti","p":"Auxiliar","u":"Planta Acopio","v":"Comercial","e":"leodiaz2370@gmail.com"},{"l":"91000352","n":"Dichiara Guido","s":"Futuros y Opciones.com SA","j":"Christian Garciandia","p":"Lider Operadores Financieros fyoCapital","u":"fyoCapital","v":"Comercial","e":"gdichiara@fyo.com"},{"l":"91000824","n":"Dichio Carles Renzo","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Analista Consultoria","u":"Consultoria","v":"Comercial","e":"rdichio@fyo.com"},{"l":"91000724","n":"Dominguez Dolores","s":"Futuros y Opciones.com SA","j":"Paula Sbarra","p":"Analista Gestión Estratégica","u":"Planificación y Gestión","v":"Administración","e":"ddominguez@fyo.com"},{"l":"91000648","n":"Dominguez Lucas Nahuel","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Manual","u":"QA","v":"Sistemas","e":"ldominguez@fyo.com"},{"l":"94000026","n":"Dublan Federico Ruben","s":"AMAUTA AGRO SA","j":"Fernando Raul Manfredi","p":"Gerente de Desarrollo de Mercado y Produ","u":"Comercial","v":"Comercial","e":"fdublan@amauta.ag"},{"l":"91000669","n":"Elias Jesica Rebeca","s":"Futuros y Opciones.com SA","j":"Lorena Del Valle Viotti","p":"Analista Mejora Continua","u":"Mejora Continua","v":"Administración","e":"relias@fyo.com"},{"l":"91000869","n":"Engle Victor","s":"Futuros y Opciones.com SA","j":"Martin Eugenio Fresneda","p":"Operador Agro fyoCapital","u":"fyoCapital","v":"Comercial","e":"vengle@fyo.com"},{"l":"91000639","n":"Erroz Natalia Beatriz","s":"Futuros y Opciones.com SA","j":"Ismary Gabriela Solorzano Sanchez","p":"Auxiliar Oficina","u":"Office Manager","v":"Administración","e":"erroznatalia500@gmail.com"},{"l":"94000033","n":"Espinel Hugo Jose","s":"AMAUTA AGRO SA","j":"Joel Andres Suvirada","p":"Líder Comercial Regional","u":"Comercial","v":"Comercial","e":"jespinel@amauta.ag"},{"l":"95000042","n":"Espinosa Franco Ivan","s":"FYO ACOPIO SA","j":"German Lorenzo Rovetto","p":"Lider Comercial","u":"Insumos","v":"Comercial","e":"fespinosa@fyo.com"},{"l":"95000098","n":"Estrella Juan Pablo","s":"FYO ACOPIO SA","j":"Erico Augusto Weitemeier","p":"Trader FOB","u":"Trading","v":"Comercial","e":"jestrella@fyo.com"},{"l":"91000521","n":"Fagnano Juan Manuel","s":"Futuros y Opciones.com SA","j":"Alejandro Mauricio Ibarra","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"jfagnano@fyo.com"},{"l":"91000717","n":"Faienza Miguel Nicolas","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Project Manager","u":"Corporativas","v":"Sistemas","e":"mfaienza@fyo.com"},{"l":"91000692","n":"Farroni Ignacio Luis","s":"FYO ACOPIO SA","j":"Chiara Principe","p":"Analista Administración Insumos","u":"Back Office - Insumos","v":"Administración","e":"ifarroni@fyo.com"},{"l":"94000027","n":"Favalessa Nadia Yanina","s":"AMAUTA AGRO SA","j":"Joel Andres Suvirada","p":"Líder Comercial Regional","u":"Comercial","v":"Comercial","e":"nfavalessa@amauta.ag"},{"l":"95000052","n":"Favre Martina","s":"Futuros y Opciones.com SA","j":"Francisco Indri","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"mfavre@fyo.com"},{"l":"91000708","n":"Feijoo Santiago","s":"Futuros y Opciones.com SA","j":"Maria Florencia Boglione","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"sfeijoo@fyo.com"},{"l":"91000878","n":"Fernandez Alejo","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"Pasante BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"afernandez@fyo.com"},{"l":"91000474","n":"Fernandez Carmona Walter Elpidio","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Functional Delivery Acopio","u":"Acopio","v":"Sistemas","e":"wfernandez@fyo.com"},{"l":"91000612","n":"Fernandez Mariano","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Automation","u":"QA","v":"Sistemas","e":"mfernandez@fyo.com"},{"l":"91000034","n":"Fernandez Soledad","s":"Futuros y Opciones.com SA","j":"Lucas Zatloukal","p":"Gerente Comercial","u":"Granos","v":"Comercial","e":"sfernandez@fyo.com"},{"l":"91000280","n":"Ferra Romina Maria Jesus","s":"Futuros y Opciones.com SA","j":"Julia Maria Di Bacco","p":"Líder Creditos","u":"Riesgos","v":"Administración","e":"rferra@fyo.com"},{"l":"91000682","n":"Ferrara Marzi Milagros","s":"Futuros y Opciones.com SA","j":"Lorena Del Valle Viotti","p":"Analista Mejora Continua","u":"Mejora Continua","v":"Administración","e":"mferrara@fyo.com"},{"l":"91000842","n":"Ferrari Enzo Estanislao","s":"Futuros y Opciones.com SA","j":"Rodrigo Belbey","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"eferrari@fyo.com"},{"l":"94000042","n":"Ferretti Luciano","s":"AMAUTA AGRO SA","j":"Paula Sbarra","p":"Especialista Gestión Comercial","u":"Planificación y Gestión","v":"Administración","e":"lferretti@amauta.ag"},{"l":"95000072","n":"Ferreyra Emiliano Nicolas","s":"Futuros y Opciones.com SA","j":"Maria Florencia Boglione","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"nferreyra@fyo.com"},{"l":"91000636","n":"Filba Nerina Laura","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"nfilba@fyo.com"},{"l":"91000289","n":"Finamore Milena Georgina","s":"Futuros y Opciones.com SA","j":"Lucia Cantore Bassi","p":"Analista Impuestos","u":"Impuestos","v":"Administración","e":"mfinamore@fyo.com"},{"l":"97000004","n":"Finos Fabrizio","s":"Agrofy SAU","j":"Mariela Monica Tudino","p":"System Administrator","u":"Infraestructura","v":"Sistemas","e":"ffinos@fyo.com"},{"l":"91000562","n":"Firpo Juan Manuel","s":"Futuros y Opciones.com SA","j":"Diego Zatloukal","p":"Analista Comercial","u":"Celula 3","v":"Comercial","e":"jfirpo@fyo.com"},{"l":"91000362","n":"Firpo Marina Guadalupe","s":"FYO ACOPIO SA","j":"Roberto Haidar","p":"Asesor Comercial Insumos","u":"Insumos","v":"Comercial","e":"mfirpo@fyo.com"},{"l":"94000040","n":"Flamini Luciana","s":"AMAUTA AGRO SA","j":"Matias Ortega","p":"Analista Cobros","u":"Administración","v":"Administración","e":"lflamini@amauta.ag"},{"l":"94000074","n":"Fontana Pablo Jose","s":"AMAUTA AGRO SA","j":"Sergio Gremo","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"pfontana@amauta.ag"},{"l":"91000508","n":"Fontela Ramiro Gaston","s":"Futuros y Opciones.com SA","j":"Lucas Ghelfi","p":"Gerente Estr. Producto Financiero","u":"Finanzas","v":"Administración","e":"rfontela@fyo.com"},{"l":"91000492","n":"Forcadell Jorge Martin","s":"Futuros y Opciones.com SA","j":"Lisandro De la Pace","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"mforcadell@fyo.com"},{"l":"91000776","n":"Franco Gerardo","s":"Futuros y Opciones.com SA","j":"Diego Zatloukal","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"gfranco@fyo.com"},{"l":"91000266","n":"Fransolini Marcia Nerina","s":"Futuros y Opciones.com SA","j":"Maria Eugenia Leingruber","p":"Lider Gestión Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"mfransolini@fyo.com"},{"l":"91000655","n":"Fresneda Martin Eugenio","s":"Futuros y Opciones.com SA","j":"Christian Garciandia","p":"Lider Operadores Agro fyoCapital","u":"fyoCapital","v":"Comercial","e":"mfresneda@fyo.com"},{"l":"91000670","n":"Funes Ignacio Nicolas","s":"Futuros y Opciones.com SA","j":"Juan Cicoria","p":"Analista Logística","u":"Celula 2","v":"Administración","e":"ifunes@fyo.com"},{"l":"91000351","n":"Furrer Gabriel","s":"Agrofy SAU","j":"Guillermo Federico Raies de Inocenti","p":"Head of Integrations","u":"Integraciones","v":"Sistemas","e":"gfurrer@fyo.com"},{"l":"91000884","n":"Gallino Matilde Pilar","s":"Futuros y Opciones.com SA","j":"Alejandro Vaisman","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"mgallino@fyo.com"},{"l":"91000514","n":"Gallo Agostina Maria","s":"AMAUTA AGRO SA","j":"Romina Maria Jesus Ferra","p":"Analista Riesgos","u":"Riesgos","v":"Administración","e":"agallo@amauta.ag"},{"l":"94000068","n":"Gamez Gattari Nicolas Gabriel","s":"AMAUTA AGRO SA","j":"Federico Ruben Dublan","p":"Asesor Desarrollo de Mercado y Producto","u":"Comercial","v":"Comercial","e":"ngamez@amauta.ag"},{"l":"91000870","n":"Garcia Bautista","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Pasante Mercaderías","u":"Mercaderías","v":"Administración","e":"bgarcia@fyo.com"},{"l":"95000051","n":"García Florencia Tamara","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Administración","e":"fgarcia@fyo.com"},{"l":"95000023","n":"Garciandia Christian","s":"Futuros y Opciones.com SA","j":"Erico Augusto Weitemeier","p":"Gerente Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"cgarciandia@fyo.com"},{"l":"91000563","n":"Garello Giuliana","s":"AMAUTA AGRO SA","j":"Lucia Cantore Bassi","p":"Analista Impuestos","u":"Impuestos","v":"Administración","e":"ggarello@amauta.ag"},{"l":"91000622","n":"Garin Sebastian","s":"Futuros y Opciones.com SA","j":"Diego Zatloukal","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"sgarin@fyo.com"},{"l":"91000819","n":"Garrido Damiani Camilo","s":"Futuros y Opciones.com SA","j":"Francisco Indri","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"cgarrido@fyo.com"},{"l":"91000834","n":"Gennuso Natalia Marlen","s":"Futuros y Opciones.com SA","j":"Ismary Gabriela Solorzano Sanchez","p":"Recepcionista Office Manager","u":"Office Manager","v":"Administración","e":"ngennuso@fyo.com"},{"l":"91000652","n":"Geremia Maité Nerea","s":"Futuros y Opciones.com SA","j":"Agostina Maria Radovan","p":"Analista Confirmaciones","u":"Confirmaciones","v":"Administración","e":"mgeremia@fyo.com"},{"l":"91000585","n":"Gergoff Elias Emanuel","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Plataforma Digital","v":"Sistemas","e":"egergoff@fyo.com"},{"l":"91000356","n":"Ghelfi Lucas","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"CFO","u":"Finanzas","v":"Administración","e":"lghelfi@fyo.com"},{"l":"91000453","n":"Gianneschi Roberto Juan","s":"Futuros y Opciones.com SA","j":"Lucas Zatloukal","p":"Gerente Comercial","u":"Celula 2","v":"Comercial","e":"rgianneschi@fyo.com"},{"l":"91000778","n":"Gil Gonzalo Daniel","s":"Futuros y Opciones.com SA","j":"Ariel Hector Cabaleiro","p":"Analista Gestión del Riesgo y Control","u":"Compliance","v":"Administración","e":"ggil@fyo.com"},{"l":"91000547","n":"Gimenez Noelí Belen","s":"Agrofy SAU","j":"Veronica Soledad Ordazzo Ganem","p":"Business Analyts","u":"Acopio","v":"Sistemas","e":"ngimenez@fyo.com"},{"l":"91000335","n":"Giovanetti Juan Manuel","s":"Agrofy SAU","j":"Veronica Soledad Ordazzo Ganem","p":"Integration Analyst","u":"Integraciones","v":"Sistemas","e":"jgiovanetti@fyo.com"},{"l":"95000091","n":"Glave Joaquin Ignacio","s":"FYO ACOPIO SA","j":"Juan Cicoria","p":"Analista Logística","u":"Celula 2","v":"Comercial","e":"jglave@fyo.com"},{"l":"91000889","n":"Gonzalez Bruno Ezequiel","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Pasante Mercaderías","u":"Mercaderías","v":"Administración","e":"bgonzalez@fyo.com"},{"l":"91000807","n":"Gonzalez Marisol","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"mgonzalez1@fyo.com"},{"l":"91000519","n":"Gonzalez Pilar","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"pgonzalez@fyo.com"},{"l":"95000093","n":"Gorgerino Agustin","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Pasante BackOffice Acopio","u":"Administración","v":"Administración","e":"agorgerino@fyo.com"},{"l":"91000415","n":"Grassi Nicolas Cesar","s":"Agrofy SAU","j":"Veronica Soledad Ordazzo Ganem","p":"Business Specialist","u":"Granos","v":"Sistemas","e":"ngrassi@fyo.com"},{"l":"91000663","n":"Grasso Lucas","s":"Futuros y Opciones.com SA","j":"Paula Sbarra","p":"Analista Gestión Presupuestaria","u":"Planificación y Gestión","v":"Administración","e":"lgrasso@fyo.com"},{"l":"91000210","n":"Graziola Mariana Daniela","s":"AMAUTA AGRO SA","j":"Maria Celeste Zacutti","p":"Talent Business Partner Lead","u":"Talentos","v":"Administración","e":"mgraziola@amauta.ag"},{"l":"94000010","n":"Gremo Sergio","s":"AMAUTA AGRO SA","j":"Joel Andres Suvirada","p":"Líder Comercial Regional","u":"Comercial","v":"Comercial","e":"sgremo@amauta.ag"},{"l":"91000033","n":"Grosso Sebastian Federico","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Business Operations Specialist","u":"Soporte","v":"Sistemas","e":"sgrosso@fyo.com"},{"l":"91000425","n":"Guerrina Gaspar Andres","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Granos","v":"Sistemas","e":"gguerrina@fyo.com"},{"l":"91000428","n":"Gutierrez Maximiliano","s":"Agrofy SAU","j":"Paula Jessica Perez Borrero","p":"Cloud Architect","u":"Infraestructura","v":"Sistemas","e":"magutierrez@fyo.com"},{"l":"95000025","n":"Haidar Roberto","s":"FYO ACOPIO SA","j":"German Lorenzo Rovetto","p":"Lider Comercial","u":"Insumos","v":"Comercial","e":"rhaidar@fyo.com"},{"l":"91000746","n":"Hanson Martin Federico","s":"Futuros y Opciones.com SA","j":"Lisandro De la Pace","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"mhanson@fyo.com"},{"l":"91000051","n":"Hernandez Claudia Silvia","s":"Agrofy SAU","j":"Veronica Soledad Ordazzo Ganem","p":"Business Analyts","u":"Amauta","v":"Sistemas","e":"chernandez@amauta.ag"},{"l":"91000865","n":"Hernandez Labrada Yadira","s":"Futuros y Opciones.com SA","j":"Juan Manuel Baldoma","p":"Asesor Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"ylabrada@fyo.com"},{"l":"91000772","n":"Herrera Enzo Dario Martin","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"mherrera@fyo.com"},{"l":"91000623","n":"Higgins Rodriguez Dary Karla","s":"Agrofy SAU","j":"Mariela Monica Tudino","p":"Employee Technical Support","u":"Infraestructura","v":"Sistemas","e":"dhiggins@fyo.com"},{"l":"91000735","n":"Huber Maria Paula","s":"Futuros y Opciones.com SA","j":"Florencia Sueiras Munuce","p":"Analista Contabilidad","u":"Contabilidad","v":"Administración","e":"mhuber@fyo.com"},{"l":"91000758","n":"Ibarra Alejandro Mauricio","s":"Futuros y Opciones.com SA","j":"Ignacio José Ambros","p":"Lider Comercial","u":"Celula 1","v":"Comercial","e":"aibarra@fyo.com"},{"l":"91000697","n":"Imola Juan Ignacio","s":"Futuros y Opciones.com SA","j":"Javier Alejandro Treboux","p":"Analista Mercado","u":"Analisis de Mercado","v":"Comercial","e":"iimola@fyo.com"},{"l":"95000096","n":"Incicco Catalina","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Pasante BackOffice Acopio","u":"Administración","v":"Administración","e":"cincicco@fyo.com"},{"l":"91000342","n":"Indri Francisco","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Líder Mercaderías y Boletos","u":"Mercaderías","v":"Administración","e":"findri@fyo.com"},{"l":"94000053","n":"Ingaramo Facundo","s":"AMAUTA AGRO SA","j":"Ramiro Gaston Fontela","p":"Analista Finanzas Corporativas","u":"Finanzas","v":"Administración","e":"fingaramo@amauta.ag"},{"l":"94000062","n":"Iriarte Victoria","s":"AMAUTA AGRO SA","j":"Martina Raposo","p":"Analista Comunicación","u":"Marketing","v":"Comercial","e":"viriarte@amauta.ag"},{"l":"91000388","n":"Jolly Josefina","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Consultor Comercial","u":"Consultoria","v":"Comercial","e":"jjolly@fyo.com"},{"l":"91000751","n":"Juncosa Stipicevich Magali","s":"Futuros y Opciones.com SA","j":"Juan Manuel Baldoma","p":"Asesor Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"mjuncosa@fyo.com"},{"l":"91000888","n":"Kaial Edgardo Antonio","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Analista Consultoria","u":"Consultoria","v":"Comercial","e":"ekaial@fyo.com"},{"l":"91000287","n":"Kerbs German Ezequiel","s":"FYO ACOPIO SA","j":"Erico Augusto Weitemeier","p":"Trader","u":"Trading","v":"Comercial","e":"gkerbs@fyo.com"},{"l":"91000653","n":"Laborde Patricio","s":"Futuros y Opciones.com SA","j":"Nicolas Matias Rossi","p":"Operador Mercado Int y Exp","u":"Celula 2","v":"Comercial","e":"plaborde@fyo.com"},{"l":"91000794","n":"Lalli Miguel Angel","s":"Futuros y Opciones.com SA","j":"Sebastian Matias Balbi","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"mlalli@fyo.com"},{"l":"91000064","n":"Lamelas Federico Martin","s":"Futuros y Opciones.com SA","j":"Alejandro Larosa","p":"Director Servicios Corp. Global","u":"Management","v":"Administración","e":"flamelas@fyo.com"},{"l":"91000042","n":"Landrein Agustin","s":"FYO ACOPIO SA","j":"Mauricio Fabian Olivanti","p":"Analista Operaciones Acopio","u":"Planta Acopio","v":"Comercial","e":"alandrein@fyo.com"},{"l":"91000532","n":"Lattuga Stefania Antonella","s":"Futuros y Opciones.com SA","j":"Juan Manuel Baldoma","p":"Asesor Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"slattuga@fyo.com"},{"l":"91000094","n":"Lega Dario Leopoldo","s":"Agrofy SAU","j":"Paula Jessica Perez Borrero","p":"Application Architect","u":"Negocios fyo","v":"Sistemas","e":"dlega@fyo.com"},{"l":"91000178","n":"Leingruber Maria Eugenia","s":"Futuros y Opciones.com SA","j":"Adolfo Miguel Mac","p":"Gerente Desarrollo Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"mleingruber@fyo.com"},{"l":"91000372","n":"Letona Magali","s":"Futuros y Opciones.com SA","j":"Florencia Sueiras Munuce","p":"Analista Contabilidad","u":"Contabilidad","v":"Administración","e":"mletona@fyo.com"},{"l":"91000490","n":"Litterio Sebastian Andres","s":"Agrofy SAU","j":"Veronica Soledad Ordazzo Ganem","p":"Business Analyst","u":"Corporativas","v":"Sistemas","e":"slitterio@fyo.com"},{"l":"91000704","n":"Llompart Lena","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"lllompart@fyo.com"},{"l":"91000739","n":"Locaso Matias","s":"Futuros y Opciones.com SA","j":"Valeria Marinovich","p":"Analista Capac. y Gestión del Talento","u":"Talentos","v":"Administración","e":"mlocaso@fyo.com"},{"l":"91000619","n":"Lopez David Emanuel","s":"Agrofy SAU","j":"Alexis Andres Calio Allerborn","p":"Data Visualization Analyst","u":"Data & Analytics","v":"Sistemas","e":"dlopez@fyo.com"},{"l":"91000609","n":"Lopez Martin","s":"Agrofy SAU","j":"Fabio Andres Nagel","p":"Integration Developer","u":"Integraciones","v":"Sistemas","e":"mlopez1@fyo.com"},{"l":"94000031","n":"Luna Catalina Eugenia","s":"AMAUTA AGRO SA","j":"Federico Ruben Dublan","p":"Asesor Desarrollo de Mercado y Producto","u":"Comercial","v":"Comercial","e":"cluna@amauta.ag"},{"l":"91000486","n":"Luna Franco Nahuel","s":"Agrofy SAU","j":"Sebastian Federico Grosso","p":"Employee Functional Support","u":"Soporte","v":"Sistemas","e":"fluna@fyo.com"},{"l":"91000799","n":"Lusi Ana Clara","s":"Futuros y Opciones.com SA","j":"Lucia Cantore Bassi","p":"Analista Impuestos","u":"Impuestos","v":"Administración","e":"alusi@fyo.com"},{"l":"91000894","n":"Luzi Valentin Andres","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Analista Boletos","u":"Boletos","v":"Administración","e":"vluzi@fyo.com"},{"l":"91000045","n":"Mac Adolfo Miguel","s":"Futuros y Opciones.com SA","j":"Luciano Morielli","p":"Gerente Comercial","u":"Consultoria","v":"Comercial","e":"amac@fyo.com"},{"l":"91000040","n":"Manfredi Fernando Raul","s":"AMAUTA AGRO SA","j":"Alejandro Larosa","p":"Gerente General Amauta","u":"Management","v":"Comercial","e":"fmanfredi@amauta.ag"},{"l":"91000497","n":"Mansilla Juan Pablo","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Acopio","v":"Sistemas","e":"jmansilla@fyo.com"},{"l":"95000064","n":"Mansilla Mariana Alcira","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Administración","e":"mmansilla@fyo.com"},{"l":"91000557","n":"Maragliano Gonzalo","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Automation","u":"QA","v":"Sistemas","e":"gmaragliano@fyo.com"},{"l":"94000071","n":"Marchiori Adriel Emiliano","s":"AMAUTA AGRO SA","j":"Sergio Gremo","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"amarchiori@amauta.ag"},{"l":"91000257","n":"Marinovich Valeria","s":"Futuros y Opciones.com SA","j":"Maria Celeste Zacutti","p":"Líder de Capac. Gtión del Talento y RRLL","u":"Talentos","v":"Administración","e":"vmarinovich@fyo.com"},{"l":"91000414","n":"Martin Maria Elina","s":"FYO ACOPIO SA","j":"Estrella Nelly Perotti","p":"Operador Trading","u":"Trading","v":"Comercial","e":"mmartin@fyo.com"},{"l":"91000892","n":"Martinez Micaela","s":"Futuros y Opciones.com SA","j":"Valeria Marinovich","p":"Analista Capac. y Gestión del Talento","u":"Talentos","v":"Administración","e":"mimartinez@fyo.com"},{"l":"91000775","n":"Marzo Agustina Alicia","s":"Futuros y Opciones.com SA","j":"Ivan Miguel Pilone","p":"Operador Mercado Int y Exp","u":"Celula 2","v":"Comercial","e":"amarzo@fyo.com"},{"l":"91000703","n":"Mas Sofia","s":"Futuros y Opciones.com SA","j":"Agostina Maria Radovan","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"smas@fyo.com"},{"l":"91000471","n":"Massanet Jorge Eduardo","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"jmassanet@fyo.com"},{"l":"91000895","n":"Mattaloni Yanina Ruth","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"ymattaloni@fyo.com"},{"l":"94000054","n":"Medina Santiago Blas","s":"AMAUTA AGRO SA","j":"Matias Ortega","p":"Analista Administración Comex","u":"Administración","v":"Administración","e":"bmedina@amauta.ag"},{"l":"91000858","n":"Mendizabal Juana","s":"Futuros y Opciones.com SA","j":"Alejandro Vaisman","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"jmendizabal@fyo.com"},{"l":"91000345","n":"Menendez Mariana","s":"Agrofy SAU","j":"Pablo Ignacio Cervio","p":"Business Specialist","u":"Negocios fyo","v":"Sistemas","e":"mmenendez@fyo.com"},{"l":"91000840","n":"Menichelli Gaston Fabian","s":"Futuros y Opciones.com SA","j":"Lisandro De la Pace","p":"Analista Comercial","u":"Celula 3","v":"Comercial","e":"gmenichelli@fyo.com"},{"l":"91000861","n":"Mercogliano Bruno","s":"Futuros y Opciones.com SA","j":"Marcia Nerina Fransolini","p":"Pasante Desarrollo Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"bmercogliano@fyo.com"},{"l":"91000608","n":"Meroi Emilse","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"UX Designer","u":"UX","v":"Sistemas","e":"emeroi@fyo.com"},{"l":"95000089","n":"Mery Juan Ignacio","s":"FYO ACOPIO SA","j":"Franco Ivan Espinosa","p":"Analista Comercial Insumos","u":"Insumos","v":"Comercial","e":"jmery@fyo.com"},{"l":"91000434","n":"Mesa Sergio Emmanuel","s":"Futuros y Opciones.com SA","j":"Juan Cicoria","p":"Analista Logística","u":"Celula 2","v":"Comercial","e":"smesa@fyo.com"},{"l":"91000495","n":"Michelich Giuliana","s":"Agrofy SAU","j":"Mariela Monica Tudino","p":"Cloud Analyst","u":"Infraestructura","v":"Sistemas","e":"gmichelich@fyo.com"},{"l":"91000866","n":"Mina Maria Cecilia","s":"Futuros y Opciones.com SA","j":"Christian Garciandia","p":"Especialista Operaciones fyoCapital","u":"fyoCapital","v":"Comercial","e":"mmina@fyo.com"},{"l":"91000769","n":"Mir Mora","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"mmir@fyo.com"},{"l":"91000202","n":"Miraglia Mariel Noelia","s":"Futuros y Opciones.com SA","j":"Luciano Morielli","p":"Gerente Marketing y Comunicaciones","u":"Marketing","v":"Comercial","e":"mmiraglia@fyo.com"},{"l":"95000092","n":"Monchiero Giuliana","s":"FYO ACOPIO SA","j":"Chiara Principe","p":"Analista Administración Insumos","u":"Back Office - Insumos","v":"Administración","e":"gmonchiero@fyo.com"},{"l":"91000818","n":"Montechiano Joaquin","s":"Futuros y Opciones.com SA","j":"Mariel Noelia Miraglia","p":"Analista Marketing","u":"Marketing","v":"Comercial","e":"jmontechiano@fyo.com"},{"l":"91000804","n":"Montenegro Lucas Ezequiel","s":"Futuros y Opciones.com SA","j":"Martina Raposo","p":"Analista Customer Experiencie","u":"Marketing","v":"Comercial","e":"lmontenegro@fyo.com"},{"l":"91000473","n":"Monti Emanuel Rodrigo","s":"Agrofy SAU","j":"Guillermo Federico Raies de Inocenti","p":"Head of QA & Automation","u":"QA","v":"Sistemas","e":"emonti@fyo.com"},{"l":"91000463","n":"Mora María de los Milagros","s":"Agrofy SAU","j":"Pablo Ignacio Cervio","p":"Business Delivery Manager","u":"Management IT","v":"Sistemas","e":"mmora@fyo.com"},{"l":"91000752","n":"Morales Franco Ezequiel","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Manual","u":"QA","v":"Sistemas","e":"fmorales@fyo.com"},{"l":"91000879","n":"Moreira Patricio","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"pmoreira@fyo.com"},{"l":"91000822","n":"Moreno Geronimo Facundo","s":"Futuros y Opciones.com SA","j":"Lorena Del Valle Viotti","p":"Especialista Mejora Continua","u":"Mejora Continua","v":"Administración","e":"gmoreno@fyo.com"},{"l":"91000867","n":"Moreno Jose Carlos","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"jmoreno@fyo.com"},{"l":"91000354","n":"Moretti Carla","s":"FYO ACOPIO SA","j":"Chiara Principe","p":"Analista Administración Insumos","u":"Back Office - Insumos","v":"Administración","e":"cmoretti@fyo.com"},{"l":"91000023","n":"Morielli Luciano","s":"Futuros y Opciones.com SA","j":"Alejandro Larosa","p":"Gerente General fyo","u":"Management","v":"Comercial","e":"lmorielli@fyo.com"},{"l":"91000638","n":"Morosi Julian Carlos","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Consultor Comercial","u":"Consultoria","v":"Comercial","e":"jmorosi@fyo.com"},{"l":"91000371","n":"Nagel Fabio Andres","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Tech Integration Lead","u":"Integraciones","v":"Sistemas","e":"fnagel@fyo.com"},{"l":"91000581","n":"Nanio Luisina","s":"Futuros y Opciones.com SA","j":"Antonela Roggi","p":"Especialista Legales","u":"Legales","v":"Administración","e":"lnanio@fyo.com"},{"l":"91000743","n":"Nesprias Julia","s":"Futuros y Opciones.com SA","j":"Alejandro Vaisman","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"jnesprias@fyo.com"},{"l":"91000806","n":"Nuñez José Raul","s":"Futuros y Opciones.com SA","j":"Sebastian Matias Balbi","p":"Analista Comercial","u":"Celula 3","v":"Comercial","e":"jnunez@fyo.com"},{"l":"91000706","n":"Oddone Renzo","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Analista Front Office","u":"Administración Granos","v":"Administración","e":"roddone@fyo.com"},{"l":"94000072","n":"Ojeda Ezequiel Maximiliano","s":"AMAUTA AGRO SA","j":"Matias Ortega","p":"Analista Pagos y Apertura de Cuentas","u":"Administración","v":"Administración","e":"eojeda@amauta.ag"},{"l":"91000503","n":"Olego Federico Emanuel","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Automation","u":"QA","v":"Sistemas","e":"folego@fyo.com"},{"l":"95000006","n":"Olivanti Mauricio Fabian","s":"FYO ACOPIO SA","j":"German Lorenzo Rovetto","p":"Encargado Planta","u":"Planta Acopio","v":"Comercial","e":"molivanti@fyo.com"},{"l":"91000499","n":"Olmedo Lucas Matias","s":"Futuros y Opciones.com SA","j":"Dario Martin Casarico","p":"Analista Seguridad de la Información","u":"Seguridad de la Información","v":"Administración","e":"lolmedo@fyo.com"},{"l":"95000060","n":"Onnis Luciano Emanuel","s":"FYO ACOPIO SA","j":"Lucas Ghelfi","p":"Lider Cuantitativo","u":"Analisis Cuantitativo","v":"Administración","e":"lonnis@fyo.com"},{"l":"91000734","n":"Ordazzo Ganem Veronica Soledad","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Product Manager","u":"Corporativas","v":"Sistemas","e":"vordazzo@fyo.com"},{"l":"91000780","n":"Orrego Lucila Mailin","s":"FYO ACOPIO SA","j":"Jesica Aylen Villanueva","p":"Analista Tesorería","u":"Tesorería","v":"Administración","e":"lorrego@fyo.com"},{"l":"91000139","n":"Ortega Matias","s":"AMAUTA AGRO SA","j":"Fernando Raul Manfredi","p":"Gerente Adm. y logística","u":"Administración","v":"Administración","e":"mortega@amauta.ag"},{"l":"91000853","n":"Ortiz Manias Magali Belen","s":"Futuros y Opciones.com SA","j":"Julian Risso","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"mortiz@fyo.com"},{"l":"91000863","n":"Ostoich Mila Belkis","s":"Futuros y Opciones.com SA","j":"Lucia Cantore Bassi","p":"Analista Impuestos","u":"Impuestos","v":"Administración","e":"mostoich@fyo.com"},{"l":"91000790","n":"Oteo Ignacio Sebastian","s":"Futuros y Opciones.com SA","j":"Romina Maria Jesus Ferra","p":"Analista Riesgos","u":"Riesgos","v":"Administración","e":"ioteo@fyo.com"},{"l":"94000076","n":"Otero Gonzalo Eduardo","s":"AMAUTA AGRO SA","j":"Rodrigo Emanuel Calvo","p":"Analista Logística","u":"Logística","v":"Comercial","e":"gotero@amauta.ag"},{"l":"91000381","n":"Palacios Guido Federico","s":"Agrofy SAU","j":"Fabio Andres Nagel","p":"Integration Developer","u":"Integraciones","v":"Sistemas","e":"gpalacios@fyo.com"},{"l":"91000657","n":"Paladini Carolina","s":"AMAUTA AGRO SA","j":"Antonela Roggi","p":"Analista Legales","u":"Legales","v":"Administración","e":"cpaladini@amauta.ag"},{"l":"91000852","n":"Palma Bartolomé Mateo","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Apertura de Cuentas","u":"Cuentas","v":"Administración","e":"bpalma@fyo.com"},{"l":"91000564","n":"Pandol Lucas Ezequiel","s":"Futuros y Opciones.com SA","j":"Francisco Indri","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"lpandol@fyo.com"},{"l":"91000696","n":"Parra Agustin","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"aparra@fyo.com"},{"l":"95000038","n":"Pavan Maia","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Administración","e":"mpavan@fyo.com"},{"l":"91000831","n":"Peñaloza Candela","s":"AMAUTA AGRO SA","j":"Jesica Aylen Villanueva","p":"Analista Tesoreria","u":"Tesorería","v":"Administración","e":"cpenaloza@fyo.com"},{"l":"91000874","n":"Pereyra Victoria","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Pasante Mercaderías","u":"Mercaderías","v":"Administración","e":"vpereyra@fyo.com"},{"l":"91000447","n":"Perez Borrero Paula Jessica","s":"Agrofy SAU","j":"Guillermo Federico Raies de Inocenti","p":"Application Architect","u":"Negocios fyo","v":"Sistemas","e":"pborrero@fyo.com"},{"l":"91000701","n":"Perez Brugiafreddo Alexis","s":"FYO ACOPIO SA","j":"German Ezequiel Kerbs","p":"Trader","u":"Trading","v":"Comercial","e":"abrugiafreddo@fyo.com"},{"l":"91000426","n":"Perotti Estrella Nelly","s":"FYO ACOPIO SA","j":"Erico Augusto Weitemeier","p":"Especialista Negocios Trading","u":"Trading","v":"Comercial","e":"eperotti@fyo.com"},{"l":"91000646","n":"Perovich Danisa Virginia","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"dperovich@fyo.com"},{"l":"91000781","n":"Persico Mauricio Genaro","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Frontend Developer","u":"Plataforma Digital","v":"Sistemas","e":"mpersico@fyo.com"},{"l":"91000862","n":"Petruccione Constanza","s":"Futuros y Opciones.com SA","j":"Juan Manuel Baldoma","p":"Analista Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"cpetruccione@fyo.com"},{"l":"91000872","n":"Piatti Victoria","s":"Futuros y Opciones.com SA","j":"Federico Alberto Pienzi","p":"Analista Finanzas Corporativas","u":"Finanzas","v":"Administración","e":"vpiatti@fyo.com"},{"l":"91000300","n":"Pienzi Federico Alberto","s":"FYO ACOPIO SA","j":"Lucas Ghelfi","p":"Gerente de Finanzas Corporativas","u":"Finanzas","v":"Administración","e":"fpienzi@fyo.com"},{"l":"91000630","n":"Pilone Ivan Miguel","s":"Futuros y Opciones.com SA","j":"Roberto Juan Gianneschi","p":"Líder Mercado Interno","u":"Celula 2","v":"Comercial","e":"ipilone@fyo.com"},{"l":"91000712","n":"Piñon Andrea Belen","s":"Futuros y Opciones.com SA","j":"Maria Florencia Boglione","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"bpinon@fyo.com"},{"l":"91000864","n":"Piva Maria Eugenia","s":"Futuros y Opciones.com SA","j":"Paula Sbarra","p":"Analista Gestión Estratégica","u":"Planificación y Gestión","v":"Administración","e":"epiva@fyo.com"},{"l":"94000047","n":"Pranzetti Rodrigo José Maria","s":"AMAUTA AGRO SA","j":"Nadia Yanina Favalessa","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"rpranzetti@amauta.ag"},{"l":"94000011","n":"Prats Fabio","s":"AMAUTA AGRO SA","j":"Fernando Raul Manfredi","p":"Líder Mkt y Desarrollo","u":"Comercial","v":"Comercial","e":"fprats@amauta.ag"},{"l":"91000624","n":"Prats Joaquin","s":"Futuros y Opciones.com SA","j":"Christian Garciandia","p":"Gerente Comercial fyocredits","u":"fyoCapital","v":"Comercial","e":"jprats@fyo.com"},{"l":"94000046","n":"Prieto Ezequiel","s":"AMAUTA AGRO SA","j":"Nadia Yanina Favalessa","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"eprieto@amauta.ag"},{"l":"95000057","n":"Principe Chiara","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Líder Administración Insumos","u":"Back Office - Insumos","v":"Administración","e":"cprincipe@fyo.com"},{"l":"91000782","n":"Procaccini Lucia","s":"Futuros y Opciones.com SA","j":"Marcia Nerina Fransolini","p":"Analista Inteligencia Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"lprocaccini@fyo.com"},{"l":"97000006","n":"Quaglia Thiago","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Granos","v":"Sistemas","e":"tquaglia@fyo.com"},{"l":"91000317","n":"Quirici Giuliana","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Consultor Comercial","u":"Consultoria","v":"Comercial","e":"gquirici@fyo.com"},{"l":"91000800","n":"Quiroga Cesar Joaquin","s":"Futuros y Opciones.com SA","j":"Agostina Maria Radovan","p":"Analista Confirmaciones","u":"Confirmaciones","v":"Administración","e":"jquiroga@fyo.com"},{"l":"91000654","n":"Radovan Agostina Maria","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Líder Mercaderías y Confirmaciones","u":"Mercaderías","v":"Administración","e":"aradovan@fyo.com"},{"l":"91000893","n":"Ragno Lucas","s":"Futuros y Opciones.com SA","j":"Rodrigo Belbey","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"lragno@fyo.com"},{"l":"91000513","n":"Raimondo Alejandro Manuel","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Comercial","e":"araimondo@fyo.com"},{"l":"91000625","n":"Rainaudo José","s":"Futuros y Opciones.com SA","j":"Alejandro Mauricio Ibarra","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"jrainaudo@fyo.com"},{"l":"91000296","n":"Raposo Martina","s":"Futuros y Opciones.com SA","j":"Mariel Noelia Miraglia","p":"Lider Marketing y Comunicaciones","u":"Marketing","v":"Comercial","e":"mraposo@fyo.com"},{"l":"91000801","n":"Raschella Lucia Agustina","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Analista Cuentas","u":"Cuentas","v":"Administración","e":"lraschella@fyo.com"},{"l":"91000465","n":"Ratner Ivan","s":"Futuros y Opciones.com SA","j":"Ignacio José Ambros","p":"Líder Cuentas Claves","u":"Celula 3","v":"Comercial","e":"iratner@fyo.com"},{"l":"91000530","n":"Redondo Matias Ezequiel","s":"Futuros y Opciones.com SA","j":"Martina Raposo","p":"Analista Contenidos Digitales","u":"Marketing","v":"Comercial","e":"mredondo@fyo.com"},{"l":"91000768","n":"Refosco Juan Ignacio","s":"Futuros y Opciones.com SA","j":"Juan Cicoria","p":"Analista Logística","u":"Celula 2","v":"Comercial","e":"jrefosco@fyo.com"},{"l":"91000732","n":"Remon Ignacio","s":"Futuros y Opciones.com SA","j":"Federico Comba","p":"Analista Compras","u":"Office Manager","v":"Administración","e":"iremon@fyo.com"},{"l":"91000820","n":"Retzlaff Lucas Martin","s":"Futuros y Opciones.com SA","j":"Martin Eugenio Fresneda","p":"Operador Agro fyoCapital","u":"fyoCapital","v":"Comercial","e":"lretzlaff@fyo.com"},{"l":"91000841","n":"Ribeca Lucio Victor","s":"Futuros y Opciones.com SA","j":"Alejandro Mauricio Ibarra","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"lribeca@fyo.com"},{"l":"94000060","n":"Rico Gustavo","s":"AMAUTA AGRO SA","j":"Hugo Jose Espinel","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"grico@amauta.ag"},{"l":"91000661","n":"Ridiero Inés","s":"Futuros y Opciones.com SA","j":"Ramiro Gaston Fontela","p":"Analista Finanzas Corporativas","u":"Finanzas","v":"Administración","e":"iridiero@fyo.com"},{"l":"91000632","n":"Rienzi Valentino","s":"Futuros y Opciones.com SA","j":"Nicolas Matias Rossi","p":"Operador Mercado Int y Exp","u":"Celula 2","v":"Comercial","e":"vrienzi@fyo.com"},{"l":"91000859","n":"Rimoldi Matias","s":"Futuros y Opciones.com SA","j":"Javier Alejandro Treboux","p":"Analista Mercado","u":"Analisis de Mercado","v":"Comercial","e":"mrimoldi@fyo.com"},{"l":"91000821","n":"Rissi Martin Santiago","s":"Futuros y Opciones.com SA","j":"Juan Manuel Baldoma","p":"Asesor Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"mrissi@fyo.com"},{"l":"91000813","n":"Risso Julian","s":"Futuros y Opciones.com SA","j":"Maximiliano Auad","p":"Gerente Comercial","u":"Celula 1","v":"Comercial","e":"jrisso@fyo.com"},{"l":"91000438","n":"Roggi Antonela","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"Gerente Legales","u":"Legales","v":"Administración","e":"aroggi@fyo.com"},{"l":"91000127","n":"Romagnoni Julian","s":"Futuros y Opciones.com SA","j":"Ivan Miguel Pilone","p":"Operador Mercado Int y Exp","u":"Celula 2","v":"Comercial","e":"jromagnoni@fyo.com"},{"l":"91000676","n":"Romano Maria Victoria","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"UX Designer","u":"UX","v":"Sistemas","e":"mromano@fyo.com"},{"l":"91000871","n":"Romero Guido","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Pasante Back Office","u":"Cuentas","v":"Administración","e":"gromero@fyo.com"},{"l":"91000887","n":"Romero Joaquin","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Analista Consultoria","u":"Consultoria","v":"Comercial","e":"jromero@fyo.com"},{"l":"91000228","n":"Rossi Nicolas Matias","s":"Futuros y Opciones.com SA","j":"Roberto Juan Gianneschi","p":"Líder Exportación","u":"Celula 2","v":"Comercial","e":"nrossi@fyo.com"},{"l":"91000385","n":"Rotolo Rodrigo Martin","s":"Agrofy SAU","j":"Emanuel Rodrigo Monti","p":"QA Automation","u":"QA","v":"Sistemas","e":"rrotolo@fyo.com"},{"l":"91000007","n":"Rovetto German Lorenzo","s":"FYO ACOPIO SA","j":"Luciano Morielli","p":"Director Comercial Insumos","u":"Insumos","v":"Comercial","e":"grovetto@fyo.com"},{"l":"91000595","n":"Rovolon Julia","s":"Futuros y Opciones.com SA","j":"Juan Cicoria","p":"Analista Logística","u":"Celula 2","v":"Comercial","e":"jrovolon@fyo.com"},{"l":"91000686","n":"Sabatini Julieta Maria","s":"Futuros y Opciones.com SA","j":"Maria Eugenia Leingruber","p":"Analista Inteligencia Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"jsabatini@fyo.com"},{"l":"91000764","n":"Salgado Emir Jalil","s":"Futuros y Opciones.com SA","j":"Francisco Indri","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"esalgado@fyo.com"},{"l":"91000832","n":"Salut Mercedes Lidia","s":"Futuros y Opciones.com SA","j":"Ariel Hector Cabaleiro","p":"Analista Cumplimiento Normativo","u":"Compliance","v":"Administración","e":"msalut@fyo.com"},{"l":"95000071","n":"San Cristobal Laureano","s":"FYO ACOPIO SA","j":"Federico Martin Lamelas","p":"Gerente Back Office Acopio - Insumos","u":"Administración","v":"Administración","e":"lsancristobal@fyo.com"},{"l":"91000485","n":"Sanchez Gines Ignacio","s":"Agrofy SAU","j":"Sebastian Federico Grosso","p":"Employee Functional Support","u":"Soporte","v":"Sistemas","e":"gsanchez@fyo.com"},{"l":"91000891","n":"Sanchez Valentin Tomas","s":"Futuros y Opciones.com SA","j":"Guido Dichiara","p":"Operador Financiero fyoCapital","u":"fyoCapital","v":"Comercial","e":"vsanchez@fyo.com"},{"l":"91000736","n":"Santana Simon Francisco","s":"Futuros y Opciones.com SA","j":"Javier Alejandro Treboux","p":"Analista Mercado","u":"Analisis de Mercado","v":"Comercial","e":"ssantana@fyo.com"},{"l":"91000710","n":"Santandrea Bruno","s":"Futuros y Opciones.com SA","j":"Martina Raposo","p":"Analista Comunicación","u":"Marketing","v":"Comercial","e":"bsantandrea@fyo.com"},{"l":"91000542","n":"Sarich Isele Bernardo","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Granos","v":"Sistemas","e":"bsarich@fyo.com"},{"l":"91000100","n":"Sbarra Paula","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"Gerente Planif y Gestión de Estrategia","u":"Planificación y Gestión","v":"Administración","e":"psbarra@fyo.com"},{"l":"91000875","n":"Scapini Gonzalo","s":"Futuros y Opciones.com SA","j":"Maria Florencia Vazquez","p":"Pasante Back Office","u":"Cuentas","v":"Administración","e":"gscapini@fyo.com"},{"l":"95000078","n":"Schesi Mauro Andres","s":"FYO ACOPIO SA","j":"Juan Cicoria","p":"Analista Logística","u":"Celula 2","v":"Comercial","e":"mschesi@fyo.com"},{"l":"91000809","n":"Scheytt Maria Guillermina","s":"Futuros y Opciones.com SA","j":"Guido Dichiara","p":"Operador Financiero fyoCapital","u":"fyoCapital","v":"Comercial","e":"gscheytt@fyo.com"},{"l":"91000850","n":"Schiavone Juan Ignacio","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"Especialista BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"jschiavone@fyo.com"},{"l":"94000023","n":"Schieda Franco","s":"AMAUTA AGRO SA","j":"Nadia Yanina Favalessa","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"fschieda@amauta.ag"},{"l":"91000835","n":"Sciascia Lara","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Pasante Mercaderías","u":"Mercaderías","v":"Administración","e":"lsciascia@fyo.com"},{"l":"91000610","n":"Scocco Ignacio Federico","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Backend Developer","u":"Plataforma Digital","v":"Sistemas","e":"iscocco@fyo.com"},{"l":"91000412","n":"Sebe Alcover Federico Javier","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"Gerente Back Office fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"falcover@fyo.com"},{"l":"91000340","n":"Segalovich Melina Natalia","s":"Futuros y Opciones.com SA","j":"Paula Sbarra","p":"Especialista Gestión Comercial","u":"Planificación y Gestión","v":"Administración","e":"msegalovich@fyo.com"},{"l":"91000365","n":"Sempio Matias Gabriel","s":"Futuros y Opciones.com SA","j":"Ivan Miguel Pilone","p":"Operador Mercado Int y Exp","u":"Celula 2","v":"Comercial","e":"msempio@fyo.com"},{"l":"91000448","n":"Seratto Maria Lujan","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Frontend Developer","u":"Plataforma Digital","v":"Sistemas","e":"lseratto@fyo.com"},{"l":"91000837","n":"Serra Martin","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Analista Consultoria","u":"Consultoria","v":"Comercial","e":"maserra@fyo.com"},{"l":"91000454","n":"Sesnich Nicolas Javier","s":"Futuros y Opciones.com SA","j":"Adolfo Miguel Mac","p":"Líder Consultoria","u":"Consultoria","v":"Comercial","e":"nsesnich@fyo.com"},{"l":"91000792","n":"Severin Juan Pablo","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"jseverin@fyo.com"},{"l":"91000815","n":"Sicardi Gino","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"gsicardi@fyo.com"},{"l":"91000707","n":"Silva Leonel","s":"FYO ACOPIO SA","j":"Laureano San Cristobal","p":"Analista Administrativo Acopio","u":"Administración","v":"Administración","e":"lsilva@fyo.com"},{"l":"91000814","n":"Simondi Alejandra Florencia","s":"Futuros y Opciones.com SA","j":"Julian Risso","p":"Asesor Comercial","u":"Celula 1","v":"Comercial","e":"fsimondi@fyo.com"},{"l":"91000851","n":"Sinatra Rocio Maria","s":"Futuros y Opciones.com SA","j":"Marcia Nerina Fransolini","p":"Analista Desarrollo Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"rsinatra@fyo.com"},{"l":"91000614","n":"Solorzano Sanchez Ismary Gabriela","s":"Futuros y Opciones.com SA","j":"Federico Comba","p":"Lider Office Manager","u":"Office Manager","v":"Administración","e":"isolorzano@fyo.com"},{"l":"91000675","n":"Sonego Silvina Lidia","s":"Futuros y Opciones.com SA","j":"Laureano San Cristobal","p":"Lider Adm. Canjes","u":"Mercaderías","v":"Administración","e":"ssonego@fyo.com"},{"l":"91000086","n":"Sorbellini Gisel","s":"Futuros y Opciones.com SA","j":"Diego Zatloukal","p":"Asesor Comercial","u":"Celula 3","v":"Comercial","e":"gsorbellini@fyo.com"},{"l":"91000881","n":"Sorrentino Lucca Fernando","s":"Futuros y Opciones.com SA","j":"Alejandro Mauricio Ibarra","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"lsorrentino@fyo.com"},{"l":"91000615","n":"Sosa Veronica Soledad","s":"Futuros y Opciones.com SA","j":"Javier Alejandro Treboux","p":"Analista Mercado","u":"Analisis de Mercado","v":"Comercial","e":"vsosa@fyo.com"},{"l":"94000063","n":"Spagnuolo Gianni","s":"AMAUTA AGRO SA","j":"Federico Ruben Dublan","p":"Asesor Desarrollo de Mercado y Producto","u":"Comercial","v":"Comercial","e":"gspagnuolo@amauta.ag"},{"l":"91000890","n":"Spataro Mauro Gabriel","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"mspataro@fyo.com"},{"l":"94000048","n":"Strenitz Alejandro","s":"AMAUTA AGRO SA","j":"Joel Andres Suvirada","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"astrenitz@amauta.ag"},{"l":"91000368","n":"Sueiras Munuce Florencia","s":"Futuros y Opciones.com SA","j":"Lucas Ghelfi","p":"Gerente Contabilidad","u":"Contabilidad","v":"Administración","e":"fsueiras@fyo.com"},{"l":"94000024","n":"Suvirada Joel Andres","s":"AMAUTA AGRO SA","j":"Fernando Raul Manfredi","p":"Director Comercial","u":"Comercial","v":"Comercial","e":"jsuvirada@amauta.ag"},{"l":"91000844","n":"Tarsitano Pilar","s":"Futuros y Opciones.com SA","j":"Silvina Lidia Sonego","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"ptarsitano@fyo.com"},{"l":"91000137","n":"Testoni Pavese Lucas Hector","s":"Futuros y Opciones.com SA","j":"Federico Martin Lamelas","p":"Gerente Back Office Granos","u":"Administración Granos","v":"Administración","e":"ltestoni@fyo.com"},{"l":"91000330","n":"Theiler Augusto","s":"Futuros y Opciones.com SA","j":"Maximiliano Auad","p":"Lider Cuentas Claves","u":"Celula 1","v":"Comercial","e":"atheiler@fyo.com"},{"l":"91000598","n":"Tirelli Ángela","s":"Futuros y Opciones.com SA","j":"Guido Dichiara","p":"Operador Financiero fyoCapital","u":"fyoCapital","v":"Comercial","e":"atirelli@fyo.com"},{"l":"94000056","n":"Tonon Arturo Ignacio","s":"AMAUTA AGRO SA","j":"Hugo Jose Espinel","p":"Asesor Comercial","u":"Comercial","v":"Comercial","e":"itonon@amauta.ag"},{"l":"94000050","n":"Torales Rodrigo Nicolas","s":"AMAUTA AGRO SA","j":"Rodrigo Emanuel Calvo","p":"Analista Producción e Inventario","u":"Logística","v":"Comercial","e":"rtorales@amauta.ag"},{"l":"95000061","n":"Torrigiani Emiliano","s":"FYO Foods S.A.U.","j":"Erico Augusto Weitemeier","p":"Analista Comercial Especialidades","u":"Especialidades","v":"Produccion","e":"etorrigiani@fyo.com"},{"l":"91000846","n":"Torrisi Lucas","s":"Futuros y Opciones.com SA","j":"Marcia Nerina Fransolini","p":"Analista Inteligencia Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"ltorrisi@fyo.com"},{"l":"91000711","n":"Treboux Javier Alejandro","s":"Futuros y Opciones.com SA","j":"Adolfo Miguel Mac","p":"Líder Análisis Mercado","u":"Analisis de Mercado","v":"Comercial","e":"jtreboux@fyo.com"},{"l":"91000439","n":"Trepeu Despaigne Lisandro","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"UX Designer","u":"UX","v":"Sistemas","e":"ltrepeu@fyo.com"},{"l":"91000590","n":"Trimarco Federico","s":"Futuros y Opciones.com SA","j":"Federico Javier Sebe Alcover","p":"BO fyoCapital","u":"Administracion fyoCapital","v":"Administración","e":"ftrimarco@fyo.com"},{"l":"91000475","n":"Tudino Mariela Monica","s":"Agrofy SAU","j":"Guillermo Federico Raies de Inocenti","p":"Business Operations Specialist","u":"Infraestructura","v":"Sistemas","e":"mtudino@fyo.com"},{"l":"91000848","n":"Uranga Jacinta","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Analista Mercaderías","u":"Mercaderías","v":"Administración","e":"juranga@fyo.com"},{"l":"91000633","n":"Vaisman Alejandro","s":"Futuros y Opciones.com SA","j":"Christian Garciandia","p":"Lider Comercial fyoCapital","u":"fyoCapital","v":"Comercial","e":"avaisman@fyo.com"},{"l":"91000882","n":"Valdettaro Nicolas","s":"Futuros y Opciones.com SA","j":"Lisandro De la Pace","p":"Analista Comercial","u":"Celula 1","v":"Comercial","e":"nvaldettaro@fyo.com"},{"l":"91000671","n":"Valentini Regina Eugenia","s":"Futuros y Opciones.com SA","j":"Leticia Raquel Bert","p":"Talent Business Partner","u":"Talentos","v":"Administración","e":"rvalentini@fyo.com"},{"l":"91000857","n":"Vaudagna Santiago","s":"Futuros y Opciones.com SA","j":"Joaquin Prats","p":"Analista Comercial fyocredits","u":"fyoCapital","v":"Comercial","e":"svaudagna@fyo.com"},{"l":"91000641","n":"Vazquez Maria Florencia","s":"Futuros y Opciones.com SA","j":"Lucas Hector Testoni Pavese","p":"Lider Cuentas","u":"Cuentas","v":"Administración","e":"mvazquez@fyo.com"},{"l":"91000797","n":"Venezia German Cesar","s":"Futuros y Opciones.com SA","j":"Maria Eugenia Leingruber","p":"Analista Desarrollo Comercial","u":"Desarrollo Comercial","v":"Comercial","e":"gvenezia@fyo.com"},{"l":"91000644","n":"Ventimiglia Javier Horacio","s":"Agrofy SAU","j":"Mariela Monica Tudino","p":"Employee Technical Support","u":"Infraestructura","v":"Sistemas","e":"jventimiglia@fyo.com"},{"l":"91000534","n":"Vergel Danny Gerardo","s":"Agrofy SAU","j":"Mariela Monica Tudino","p":"System Administrator","u":"Infraestructura","v":"Sistemas","e":"dvergel@fyo.com"},{"l":"91000421","n":"Villanueva Jesica Aylen","s":"Futuros y Opciones.com SA","j":"Federico Alberto Pienzi","p":"Líder Tesorería","u":"Tesorería","v":"Administración","e":"jvillanueva@fyo.com"},{"l":"91000418","n":"Viotti Lorena Del Valle","s":"FYO ACOPIO SA","j":"Ariel Hector Cabaleiro","p":"Líder Mejora Continua","u":"Mejora Continua","v":"Administración","e":"lviotti@fyo.com"},{"l":"91000756","n":"Volonté Carolina Belen","s":"Futuros y Opciones.com SA","j":"Nicolas Javier Sesnich","p":"Consultor Comercial","u":"Consultoria","v":"Comercial","e":"cvolonte@fyo.com"},{"l":"91000575","n":"Vulich Ramiro Nicolas","s":"Agrofy SAU","j":"Alexis Andres Calio Allerborn","p":"Data Visualization Analyst","u":"Data & Analytics","v":"Sistemas","e":"rvulich@fyo.com"},{"l":"91000113","n":"Weitemeier Erico Augusto","s":"FYO ACOPIO SA","j":"Luciano Morielli","p":"Director Comercial Trading","u":"Trading","v":"Comercial","e":"eweitemeier@fyo.com"},{"l":"95000097","n":"Wolkowicz Juana","s":"FYO ACOPIO SA","j":"Estrella Nelly Perotti","p":"Analista OTC","u":"Trading","v":"Comercial","e":"jwolkowicz@fyo.com"},{"l":"91000540","n":"Yabrán Lara Soledad","s":"Futuros y Opciones.com SA","j":"Valeria Marinovich","p":"Analista Gestión del Talento y RRLL","u":"Talentos","v":"Administración","e":"lyabran@fyo.com"},{"l":"91000856","n":"Yacobuzio Santiago","s":"Futuros y Opciones.com SA","j":"Ramiro Ciccocioppo","p":"Pasante Mercaderías","u":"Mercaderías","v":"Administración","e":"syacobuzio@fyo.com"},{"l":"91000393","n":"Ysasa Facundo","s":"Futuros y Opciones.com SA","j":"Alejandro Larosa","p":"Head Transformación e IA","u":"Transformación e IA","v":"Administración","e":"fysasa@fyo.com"},{"l":"91000018","n":"Zacutti Maria Celeste","s":"Futuros y Opciones.com SA","j":"Alejandro Larosa","p":"Directora Talentos Global","u":"Talentos","v":"Administración","e":"czacutti@fyo.com"},{"l":"91000755","n":"Zamboni Pamela Nancy","s":"Agrofy SAU","j":"María de los Milagros Mora","p":"Scrum Master","u":"Plataforma Digital","v":"Sistemas","e":"pzamboni@fyo.com"},{"l":"91000833","n":"Zanczuk Francisco Roman","s":"FYO ACOPIO SA","j":"Federico Alberto Pienzi","p":"Analista Finanzas Corporativas","u":"Finanzas","v":"Administración","e":"fzanczuk@fyo.com"},{"l":"95000087","n":"Zanga Leandro Martin","s":"FYO ACOPIO SA","j":"Erico Augusto Weitemeier","p":"Operador Trading","u":"Trading","v":"Comercial","e":"lzanga@fyo.com"},{"l":"91000876","n":"Zanon Federico Ariel","s":"Futuros y Opciones.com SA","j":"Julian Risso","p":"Asesor Comercial","u":"Celula 1","v":"Administración","e":"fzanon@fyo.com"},{"l":"91000102","n":"Zatloukal Diego","s":"Futuros y Opciones.com SA","j":"Soledad Fernandez","p":"Líder Comercial","u":"Celula 3","v":"Comercial","e":"dzatloukal@fyo.com"},{"l":"91000108","n":"Zatloukal Lucas","s":"Futuros y Opciones.com SA","j":"Luciano Morielli","p":"Director Comercial Granos","u":"Granos","v":"Comercial","e":"lzatloukal@fyo.com"},{"l":"94000075","n":"Zeino Vanina Ornela","s":"AMAUTA AGRO SA","j":"Matias Ortega","p":"Analista Cobros","u":"Administración","v":"Administración","e":"vzeino@amauta.ag"},{"l":"91000742","n":"Zoff Danilo Adrian","s":"Agrofy SAU","j":"Gabriel Furrer","p":"Frontend Developer","u":"Plataforma Digital","v":"Sistemas","e":"dzoff@fyo.com"},{"l":"91000783","n":"Zupel Karen Belen","s":"Futuros y Opciones.com SA","j":"Diego Zatloukal","p":"Analista Comercial","u":"Celula 3","v":"Comercial","e":"kzupel@fyo.com"}];  // {l:legajo,n:nombre,s:sociedad,j:líder,p:puesto,u:unidad,v:vertical,e:mail}
+
+const KEY='calFyo.v3', KEY_V2='calFyo.v2', KEY_V1='calFyoTalMkt.v1';
+const SALAS=['Sala A','Sala B','Patio','Sala de Directorio','Comedor','Sala 8 (webinar)'];
+const SALAS_FISICAS=['Sala A','Sala B','Patio','Sala de Directorio','Comedor'];
+const RESPONSABLES=[{n:'Micaela Martínez',area:'talentos'},{n:'Matías Locaso',area:'talentos'},{n:'Valeria Marinovich',area:'talentos'},
+  {n:'Rocío Bergero',area:'marketing'},{n:'Micaela Brescacín',area:'marketing'}];
+const TIPOS=[{k:'capacitacion',t:'Capacitación / Taller interna'},{k:'externo',t:'Evento externo'},{k:'institucional',t:'Institucional / compartido'},{k:'otro',t:'Otro'}];
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const DOW=['lun','mar','mié','jue','vie','sáb','dom'];
+const AREA_NOMBRE={talentos:'Talentos',marketing:'Marketing',interno:'Institucional'};
+const AREA_CLASE={talentos:'tal',marketing:'mkt',interno:'int'};
+const AREA_HEX={talentos:'FCE4EF',marketing:'E7F6DD',interno:'FFEADC'};
+
+let DB=cargar();
+let vista='mes', cursor=new Date();
+let filtros={q:'',areas:new Set(['talentos','marketing','interno','feriado']),sala:'',resp:'',persona:''};
+let borrador=null, detalleId=null, verSel=false, pegarAbierto=false, nominaNueva=null, pegAmb=[];
+let JER={porLegajo:{},directos:{},equipo:{},lideres:[]};
+
+/* ---------------- carga / migración ---------------- */
+function cargar(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){ const d=JSON.parse(raw); d.eventos ||= []; d.feriados ||= []; d.nomina ||= NOMINA_BASE.slice(); return d; }
+    const v2=localStorage.getItem(KEY_V2);
+    if(v2){ const d=JSON.parse(v2); d.nomina=NOMINA_BASE.slice(); d.v=3; return d; }
+    const v1=localStorage.getItem(KEY_V1);
+    if(v1) return migrarV1(JSON.parse(v1));
+  }catch(e){ console.warn('No se pudo leer lo guardado',e); }
+  return semilla();
+}
+function migrarV1(v){
+  const d=semilla();
+  if(Array.isArray(v.eventos)&&v.eventos.length){
+    d.eventos=v.eventos.map(e=>({id:e.id,titulo:e.titulo,area:e.area,
+      tipo:e.area==='talentos'?'capacitacion':(e.area==='marketing'?'externo':'institucional'),
+      responsable:e.responsable==='Ro'?'Rocío Bergero':(e.responsable||'Micaela Martínez'),
+      modalidad:e.modalidad,salas:salasDe(e.sala),salaOtra:'',lugar:e.lugar||'',detalle:e.detalle||'',
+      notas:e.notas||'',participantes:e.participantes||[],fechas:e.fechas||[]}));
+    if(v.feriados) d.feriados=v.feriados;
+  }
+  return d;
+}
+function limpiarLugar(t){
+  return (t||'').replace(/todo el d[ií]a\s*(\(viaje\))?/ig,m=>m.toLowerCase().includes('viaje')?'(viaje)':'')
+    .replace(/\s*·\s*/g,' · ').replace(/^[\s·]+|[\s·]+$/g,'').trim();
+}
+function salasDe(s){ if(!s) return []; if(s==='Sala A + B') return ['Sala A','Sala B']; if(s==='Sala 8 (webinar)') return []; return [s]; }
+function semilla(){
+  const eventos=SEED.eventos.map((e,i)=>{
+    const lug=e.sala==='Sala 8 (webinar)'?'Sala 8 (webinar)':(e.sala?'':(limpiarLugar(e.detalle)==='(viaje)'?'Fuera de la oficina (viaje)':limpiarLugar(e.detalle)));
+    return {id:'x'+i+'_'+Math.random().toString(36).slice(2,6), titulo:e.titulo, area:e.area,
+      tipo: e.area==='talentos'?'capacitacion':(e.area==='marketing'?'externo':'institucional'),
+      responsable: e.area==='talentos'?'Micaela Martínez':(e.area==='interno'?'Micaela Brescacín':'Rocío Bergero'),
+      modalidad: e.sala&&e.sala!=='Sala 8 (webinar)'?'oficina':((e.virtual||e.sala==='Sala 8 (webinar)')?'virtual':'fuera'),
+      salas:salasDe(e.sala), salaOtra:'', lugar:lug, detalle:e.sala?(e.detalle||''):'', notas:'', obligatorio:true,
+      participantes:[], fechas:e.fechas.map(f=>({f,d:e.desde||'',h:e.hasta||'',todo:!!e.todoElDia||!e.desde}))};
+  });
+  return {eventos, feriados:SEED.feriados.slice(), nomina:NOMINA_BASE.slice(), nominaFecha:'', v:3};
+}
+function guardar(){ try{ localStorage.setItem(KEY,JSON.stringify(DB)); }catch(e){ toast('No se pudo guardar en este navegador'); } refrescarFiltros(); }
+
+/* ---------------- utilidades ---------------- */
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function norm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function deIso(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function fechaLarga(s){ const d=deIso(s); return DOW[(d.getDay()+6)%7]+' '+d.getDate()+' '+MESES[d.getMonth()].slice(0,3); }
+function fechaCompleta(s){ const d=deIso(s); return DOW[(d.getDay()+6)%7]+' '+d.getDate()+' de '+MESES[d.getMonth()]; }
+function mins(h){ if(!h) return null; const [a,b]=h.split(':').map(Number); return a*60+(b||0); }
+function uid(){ return 'e'+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+function esc(s){ return (s||'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('on'); setTimeout(()=>t.classList.remove('on'),2800); }
+function feriadoDe(f){ return DB.feriados.find(x=>x.fecha===f); }
+function persona(id){ return DB.nomina.find(p=>p.l===id); }
+function nombreDe(id){ const p=persona(id); return p?p.n:id; }
+function lugarDe(ev){
+  const s=(ev.salas||[]).concat(ev.salaOtra?[ev.salaOtra]:[]);
+  if(s.length) return s.join(' + ');
+  if(ev.modalidad==='virtual') return ev.lugar||'Virtual';
+  return ev.lugar||'';
+}
+function tipoTexto(k){ return (TIPOS.find(t=>t.k===k)||{t:'Otro'}).t; }
+function areaDeResponsable(n){ const r=RESPONSABLES.find(x=>x.n===n); return r?r.area:'talentos'; }
+
+/* ---------------- jerarquía ---------------- */
+function armarJerarquia(){
+  JER={porLegajo:{},directos:{},equipo:{},lideres:[]};
+  DB.nomina.forEach(p=>JER.porLegajo[p.l]=p);
+  const porSet={};
+  DB.nomina.forEach(p=>{ const k=[...new Set(norm(p.n).split(/\s+/))].sort().join(' '); (porSet[k] ||= []).push(p); });
+  const legajoDeNombre=nombre=>{
+    const t=[...new Set(norm(nombre).split(/\s+/))].sort().join(' ');
+    if(porSet[t]&&porSet[t].length===1) return porSet[t][0].l;
+    const ts=new Set(norm(nombre).split(/\s+/));
+    const c=DB.nomina.filter(p=>{ const ps=new Set(norm(p.n).split(/\s+/)); return [...ts].every(x=>ps.has(x))||[...ps].every(x=>ts.has(x)); });
+    return c.length===1?c[0].l:null;
+  };
+  [...new Set(DB.nomina.map(p=>p.j).filter(Boolean))].forEach(nm=>{
+    const dir=DB.nomina.filter(p=>p.j===nm).map(p=>p.l);
+    JER.directos[nm]=dir;
+    JER.lideres.push({nombre:nm,legajo:legajoDeNombre(nm),directos:dir.length});
+  });
+  const equipoDe=(nm,visto)=>{
+    visto ||= new Set();
+    if(visto.has(nm)) return [];
+    visto.add(nm);
+    let out=(JER.directos[nm]||[]).slice();
+    (JER.directos[nm]||[]).forEach(lg=>{
+      const p=JER.porLegajo[lg];
+      if(p&&JER.directos[p.n]) out=out.concat(equipoDe(p.n,visto));
+      const alias=JER.lideres.find(l=>l.legajo===lg);
+      if(alias&&p&&alias.nombre!==p.n) out=out.concat(equipoDe(alias.nombre,visto));
+    });
+    return [...new Set(out)];
+  };
+  JER.lideres.forEach(l=>{ JER.equipo[l.nombre]=equipoDe(l.nombre); l.total=JER.equipo[l.nombre].length; });
+  JER.lideres.sort((a,b)=>a.nombre.localeCompare(b.nombre));
+}
+
+/* ---------------- ocurrencias / filtros / conflictos ---------------- */
+function ocurrencias(evs){
+  const out=[];
+  (evs||DB.eventos).forEach(ev=>(ev.fechas||[]).forEach((f,i)=>out.push({ev,fecha:f.f,d:f.d,h:f.h,todo:f.todo,idx:i})));
+  return out;
+}
+function pasaFiltros(ev){
+  if(!filtros.areas.has(ev.area)) return false;
+  if(filtros.sala&&!(ev.salas||[]).includes(filtros.sala)) return false;
+  if(filtros.resp&&ev.responsable!==filtros.resp) return false;
+  if(filtros.persona&&!(ev.participantes||[]).includes(filtros.persona)) return false;
+  if(filtros.q){
+    const q=norm(filtros.q);
+    const heno=norm([ev.titulo,ev.detalle,lugarDe(ev),ev.responsable,ev.notas,tipoTexto(ev.tipo)].join(' '));
+    if(!heno.includes(q)&&!(ev.participantes||[]).some(id=>norm(nombreDe(id)).includes(q))) return false;
+  }
+  return true;
+}
+const ordenar=(a,b)=>a.fecha.localeCompare(b.fecha)||((mins(a.d)??-1)-(mins(b.d)??-1))||a.ev.titulo.localeCompare(b.ev.titulo);
+function visibles(){ return ocurrencias().filter(o=>pasaFiltros(o.ev)).sort(ordenar); }
+function seSolapan(a,b){
+  if(a.fecha!==b.fecha) return false;
+  if(a.todo||b.todo||!a.d||!b.d||!a.h||!b.h) return true;
+  return mins(a.d)<mins(b.h)&&mins(b.d)<mins(a.h);
+}
+function conflictosDe(oc,uni){
+  const otros=(uni||ocurrencias()).filter(o=>o.ev.id!==oc.ev.id), sala=[], gente=[];
+  const mias=(oc.ev.salas||[]).filter(s=>SALAS_FISICAS.includes(s));
+  otros.forEach(o=>{
+    if(!seSolapan(oc,o)) return;
+    const cs=mias.filter(s=>(o.ev.salas||[]).includes(s));
+    if(cs.length) sala.push({oc:o,salas:cs});
+    const cg=(oc.ev.participantes||[]).filter(p=>(o.ev.participantes||[]).includes(p));
+    if(cg.length) gente.push({oc:o,personas:cg});
+  });
+  return {sala,gente};
+}
+function tieneConflicto(oc,uni){ const c=conflictosDe(oc,uni); return c.sala.length||c.gente.length; }
+function todosLosConflictos(){
+  const uni=ocurrencias(), vistos=new Set(), out=[];
+  uni.forEach(oc=>{
+    const c=conflictosDe(oc,uni);
+    c.sala.forEach(s=>{ const k=[oc.ev.id,s.oc.ev.id].sort().join('|')+oc.fecha+'s'; if(!vistos.has(k)){vistos.add(k); out.push({tipo:'sala',a:oc,b:s.oc,salas:s.salas});} });
+    c.gente.forEach(g=>{ const k=[oc.ev.id,g.oc.ev.id].sort().join('|')+oc.fecha+'g'; if(!vistos.has(k)){vistos.add(k); out.push({tipo:'gente',a:oc,b:g.oc,personas:g.personas});} });
+  });
+  return out.sort((x,y)=>x.a.fecha.localeCompare(y.a.fecha));
+}
+
+/* =======================================================================
+   VISTAS
+   ======================================================================= */
+function render(){
+  document.getElementById('subt').textContent=cursor.getFullYear()+(DB.nominaFecha?' · nómina '+DB.nominaFecha:'');
+  document.getElementById('vista').innerHTML = vista==='mes'?htmlMes():vista==='semana'?htmlSemana():vista==='dia'?htmlDia():htmlLista();
+  const n=todosLosConflictos().length, r=revisiones().length, b=document.getElementById('btnConf');
+  b.textContent=(n?'⚠ Hay conflictos ('+n+')':'✓ Sin conflictos')+(r?' · '+r+' a revisar':'');
+  b.classList.toggle('ok',n===0&&r===0);
+  b.classList.toggle('rojo',n>0);
+  document.getElementById('periodo').innerHTML=etiqueta();
+}
+function etiqueta(){
+  if(vista==='mes'||vista==='lista') return cap(MESES[cursor.getMonth()])+' <span>'+cursor.getFullYear()+'</span>';
+  if(vista==='dia') return cap(fechaCompleta(iso(cursor)))+' <span>'+cursor.getFullYear()+'</span>';
+  const l=lunesDe(cursor), d=new Date(l); d.setDate(d.getDate()+6);
+  return l.getDate()+' '+MESES[l.getMonth()].slice(0,3)+' – '+d.getDate()+' '+MESES[d.getMonth()].slice(0,3)+' <span>'+cursor.getFullYear()+'</span>';
+}
+function lunesDe(d){ const x=new Date(d); x.setDate(x.getDate()-((x.getDay()+6)%7)); x.setHours(0,0,0,0); return x; }
+const SIGLA={talentos:'TAL',marketing:'MKT',interno:'INST'};
+function chipEv(o,uni){
+  const conf=tieneConflicto(o,uni), lug=lugarDe(o.ev), cl=AREA_CLASE[o.ev.area];
+  const opc=o.ev.obligatorio===false;
+  return '<button class="ev '+cl+(conf?' conf':'')+(opc?' opc':'')+'" data-ev="'+o.ev.id+'">'+
+    '<b>'+(conf?'⚠ ':'')+esc(o.ev.titulo)+'</b><span class="hr">'+
+    (opc?'<i class="tg opc">opcional</i>':'')+
+    (o.todo||!o.d?'Todo el día':esc(o.d)+(o.h?'–'+esc(o.h):''))+(lug?' · '+esc(lug):'')+'</span></button>';
+}
+function htmlMes(){
+  const y=cursor.getFullYear(), m=cursor.getMonth(), ini=lunesDe(new Date(y,m,1));
+  const ocs=visibles(), uni=ocurrencias(), porFecha={};
+  ocs.forEach(o=>(porFecha[o.fecha] ||= []).push(o));
+  let h='<div class="grid-mes">'+DOW.map(d=>'<div class="dow">'+d+'</div>').join('');
+  const hoyIso=iso(new Date());
+  for(let i=0;i<42;i++){
+    const d=new Date(ini); d.setDate(d.getDate()+i);
+    if(i%7===0&&i>0&&d.getMonth()!==m&&d>new Date(y,m,1)) break;
+    const f=iso(d), fer=feriadoDe(f), lista=porFecha[f]||[];
+    const cls=['dia']; if(d.getMonth()!==m)cls.push('otro'); if([0,6].includes(d.getDay()))cls.push('finde');
+    if(fer&&filtros.areas.has('feriado'))cls.push('feriado'); if(f===hoyIso)cls.push('hoy');
+    h+='<div class="'+cls.join(' ')+'" data-nuevofecha="'+f+'"><div class="dnum"><span class="num">'+d.getDate()+'</span>'+
+      (fer&&filtros.areas.has('feriado')?'<span class="fer-tag">feriado</span>':'')+
+      '<button class="plus" data-nuevofecha="'+f+'" title="Cargar acá">＋</button></div>';
+    lista.slice(0,3).forEach(o=>h+=chipEv(o,uni));
+    if(lista.length>3) h+='<button class="mas" data-dia="'+f+'">+'+(lista.length-3)+' más</button>';
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+function htmlSemana(){
+  const l=lunesDe(cursor), ocs=visibles(), uni=ocurrencias();
+  let h='<div class="grid-sem">';
+  for(let i=0;i<7;i++){
+    const d=new Date(l); d.setDate(d.getDate()+i);
+    const f=iso(d), fer=feriadoDe(f), lista=ocs.filter(o=>o.fecha===f);
+    h+='<div class="col-dia'+(fer&&filtros.areas.has('feriado')?' feriado':'')+'"><h4><span>'+DOW[i]+' '+d.getDate()+'</span>'+
+      (fer?'<span class="fer-tag">feriado</span>':'<button class="plus" style="opacity:1" data-nuevofecha="'+f+'">＋</button>')+'</h4>';
+    if(!lista.length) h+='<div style="color:var(--gris);font-size:12px;padding:4px 2px">—</div>';
+    lista.forEach(o=>h+=chipEv(o,uni));
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+function htmlDia(){
+  const f=iso(cursor), uni=ocurrencias(), lista=visibles().filter(o=>o.fecha===f), fer=feriadoDe(f);
+  let izq='<div class="card"><h3>Agenda del día</h3>';
+  if(fer) izq+='<div class="aviso rojo"><b>Feriado</b> — no conviene agendar actividades.</div>';
+  if(!lista.length) izq+='<div style="color:var(--gris);padding:16px 0">No hay nada cargado. <button class="btn mini" data-nuevofecha="'+f+'">Cargar algo</button></div>';
+  lista.forEach(o=>{
+    const c=conflictosDe(o,uni);
+    izq+='<div class="agenda-it" data-ev="'+o.ev.id+'"><div class="meta" style="font-weight:600">'+(o.todo?'Todo el día':esc(o.d||'—')+(o.h?'<br>a '+esc(o.h):''))+'</div><div>'+
+      '<div class="tit">'+esc(o.ev.titulo)+' <span class="pill '+AREA_CLASE[o.ev.area]+'">'+AREA_NOMBRE[o.ev.area]+'</span></div>'+
+      '<div class="meta">'+[lugarDe(o.ev),o.ev.responsable,(o.ev.participantes||[]).length?o.ev.participantes.length+' personas':''].filter(Boolean).map(esc).join(' · ')+'</div>'+
+      (c.sala.length?'<div class="aviso rojo" style="margin:8px 0 0">'+esc(c.sala[0].salas.join(', '))+' también la usa “'+esc(c.sala[0].oc.ev.titulo)+'”</div>':'')+
+      (c.gente.length?'<div class="aviso rojo" style="margin:8px 0 0">'+c.gente[0].personas.length+' persona(s) también en “'+esc(c.gente[0].oc.ev.titulo)+'”</div>':'')+'</div></div>';
+  });
+  izq+='</div>';
+  let der='<div class="card"><h3>Ocupación de salas</h3>';
+  SALAS_FISICAS.forEach(s=>{
+    const en=ocurrencias().filter(o=>o.fecha===f&&(o.ev.salas||[]).includes(s));
+    der+='<div class="sala-row"><span>'+esc(s)+'</span><div class="sala-bar">';
+    en.forEach(o=>{
+      const i0=o.todo?480:(mins(o.d)??480), i1=o.todo?1140:(mins(o.h)??(i0+90));
+      const L=Math.max(0,(i0-420)/720*100), W=Math.min(100-L,(i1-i0)/720*100);
+      der+='<div class="sala-bloque '+AREA_CLASE[o.ev.area]+'" style="left:'+L+'%;width:'+W+'%" title="'+esc(o.ev.titulo)+'">'+esc(o.ev.titulo)+'</div>';
+    });
+    der+='</div></div>';
+  });
+  der+='<div class="hint">Franja de 7 a 19 hs.</div></div>';
+  return '<div class="dia-wrap">'+izq+der+'</div>';
+}
+function htmlLista(){
+  const ocs=visibles();
+  if(!ocs.length) return '<div class="vacio">Sin resultados. Probá con otro texto o sacá algún filtro.</div>';
+  const porMes={}; ocs.forEach(o=>(porMes[o.fecha.slice(0,7)] ||= []).push(o));
+  let h='<div class="card" style="margin-bottom:16px;display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:13px 18px">'+
+    '<b>'+ocs.length+'</b> fecha'+(ocs.length>1?'s':'')+' · <b>'+new Set(ocs.map(o=>o.ev.id)).size+'</b> evento'+
+    (filtros.q?' · filtrando por “'+esc(filtros.q)+'”':'')+'<div class="sp"></div><button class="btn mini pri" id="expXls">Descargar Excel de lo filtrado</button></div>';
+  Object.keys(porMes).sort().forEach(k=>{
+    const [y,m]=k.split('-');
+    h+='<div class="lista-mes"><h3>'+MESES[+m-1]+' '+y+'</h3>';
+    porMes[k].forEach(o=>{
+      h+='<div class="lista-it '+AREA_CLASE[o.ev.area]+'" data-ev="'+o.ev.id+'"><div class="fecha">'+fechaLarga(o.fecha)+
+        '<div class="meta">'+(o.todo?'Todo el día':esc(o.d||'')+(o.h?'–'+esc(o.h):''))+'</div></div><div style="flex:1">'+
+        '<div class="tit">'+esc(o.ev.titulo)+' <span class="pill '+AREA_CLASE[o.ev.area]+'">'+AREA_NOMBRE[o.ev.area]+'</span></div>'+
+        '<div class="meta">'+[tipoTexto(o.ev.tipo),lugarDe(o.ev),o.ev.responsable,(o.ev.participantes||[]).length?o.ev.participantes.length+' personas':''].filter(Boolean).map(esc).join(' · ')+'</div></div></div>';
+    });
+    h+='</div>';
+  });
+  return h;
+}
+
+/* =======================================================================
+   ALTA / EDICIÓN
+   ======================================================================= */
+function nuevoEvento(fecha){
+  borrador={id:null,titulo:'',tipo:'capacitacion',area:'talentos',responsable:'Micaela Martínez',
+    modalidad:'oficina',salas:['Sala B'],salaOtra:'',lugar:'',detalle:'',notas:'',obligatorio:true,
+    participantes:[],fechas:[{f:fecha||iso(cursor),d:'09:00',h:'11:00',todo:false}]};
+  verSel=false; pegarAbierto=false; pegAmb=[]; abrirForm('Nuevo');
+}
+function editarEvento(id){
+  const ev=DB.eventos.find(e=>e.id===id); if(!ev) return;
+  borrador=JSON.parse(JSON.stringify(ev)); borrador.salas ||= [];
+  if(borrador.obligatorio===undefined) borrador.obligatorio=true;
+  verSel=false; pegarAbierto=false; pegAmb=[];
+  abrirForm('Editar');
+}
+function abrirForm(t){
+  document.getElementById('evTitulo').textContent=t;
+  document.getElementById('evBorrar').style.display=borrador.id?'':'none';
+  pintarForm();
+  document.getElementById('ovEvento').classList.add('on');
+}
+function pintarForm(){
+  const b=borrador;
+  document.getElementById('evHead').className='mhead '+AREA_CLASE[b.area];
+  let h='';
+  h+='<div class="bloque"><div class="in"><div class="campo"><label>¿Qué es? Nombre del curso, taller, charla o evento</label>'+
+     '<input type="text" id="fTitulo" class="grande" value="'+esc(b.titulo)+'" placeholder="Ej: Oratoria y storytelling – grupo 2"></div></div></div>';
+
+  h+='<div class="bloque"><h4>Tipo y responsable</h4><div class="in"><div class="f2">'+
+     '<div class="campo"><label>Tipo</label><div class="seg" id="segTipo">'+
+     TIPOS.map(t=>'<button data-t="'+t.k+'" class="'+(b.tipo===t.k?'on':'')+'">'+t.t+'</button>').join('')+'</div></div>'+
+     '<div class="campo"><label>Cargado por</label><div class="seg" id="segResp">'+
+     RESPONSABLES.map(r=>'<button data-r="'+r.n+'" data-ar="'+r.area+'" class="'+(b.responsable===r.n?'on':'')+'">'+r.n+'</button>').join('')+'</div>'+
+     '<div class="tagarea">Se agenda como <span class="pill '+AREA_CLASE[b.area]+'">'+AREA_NOMBRE[b.area]+'</span>'+
+     '<button class="btn mini ghost" id="cambiarArea">cambiar</button></div>'+
+     '<div class="campo" style="margin-top:14px"><label>Asistencia</label><div class="seg" id="segOblig">'+
+     '<button data-ob="1" class="'+(b.obligatorio!==false?'on':'')+'">Obligatoria</button>'+
+     '<button data-ob="0" class="'+(b.obligatorio===false?'on':'')+'">Opcional</button></div></div>'+
+     '</div></div></div>';
+
+  h+='<div class="bloque"><h4>Dónde</h4><div class="in"><div class="seg" id="segModal">'+
+     [['oficina','En la oficina'],['virtual','Virtual / webinar'],['fuera','Fuera de la oficina']]
+      .map(([k,t])=>'<button data-m="'+k+'" class="'+(b.modalidad===k?'on':'')+'">'+t+'</button>').join('')+'</div>';
+  if(b.modalidad==='oficina'){
+    h+='<div style="margin-top:12px"><div class="chks" id="chkSalas">'+
+      SALAS.map(s=>'<label class="chk'+((b.salas||[]).includes(s)?' on':'')+'"><input type="checkbox" class="cSala" value="'+esc(s)+'" '+((b.salas||[]).includes(s)?'checked':'')+'>'+esc(s)+'</label>').join('')+
+      '</div><input type="text" id="fSalaOtra" style="margin-top:10px" placeholder="Otra sala o lugar de la oficina (escribilo)" value="'+esc(b.salaOtra||'')+'">'+
+      '<div class="hint">Podés marcar más de una. Las marcadas se chequean para que no se pisen.</div></div>';
+  } else {
+    h+='<input type="text" id="fLugar" style="margin-top:12px" placeholder="'+(b.modalidad==='virtual'?'Ej: Teams · Sala 8 (webinar)':'Ej: Predio Ferial de Armstrong · viaje')+'" value="'+esc(b.lugar||'')+'">';
+  }
+  h+='</div></div>';
+
+  h+='<div class="bloque"><h4>Fechas y horarios <em>· una o varias</em></h4><div class="in"><div id="filas">'+
+     b.fechas.map((f,i)=>filaFecha(f,i)).join('')+'</div>'+
+     '<div class="acciones"><button class="btn mini" id="addFecha">＋ Otra fecha</button>'+
+     '<button class="btn mini" id="repSem">Repetir semanal…</button></div></div></div>';
+
+  h+=bloquePersonas();
+  h+='<div class="bloque"><h4>Notas internas <em>· opcional</em></h4><div class="in">'+
+     '<textarea id="fNotas" placeholder="Facilitador, proveedor, pendientes…">'+esc(b.notas||'')+'</textarea></div></div>';
+  h+='<div id="avisoConf"></div>';
+  document.getElementById('evBody').innerHTML=h;
+  pintarPersonas(); pintarConflictosForm();
+}
+function filaFecha(f,i){
+  return '<div class="fila-fecha" data-i="'+i+'">'+
+    '<input type="date" class="fFecha" value="'+f.f+'">'+
+    '<input type="time" class="fD" value="'+(f.d||'')+'" '+(f.todo?'disabled':'')+'>'+
+    '<input type="time" class="fH" value="'+(f.h||'')+'" '+(f.todo?'disabled':'')+'>'+
+    '<label style="font-size:12.5px;color:var(--tinta2);display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" class="fTodo" style="width:15px;accent-color:var(--celeste)" '+(f.todo?'checked':'')+'> todo el día</label>'+
+    '<button class="quitar" data-quitar="'+i+'" title="Quitar">✕</button></div>';
+}
+
+/* ---------------- personas ---------------- */
+function opciones(campo){ return [...new Set(DB.nomina.map(p=>p[campo]).filter(Boolean))].sort(); }
+function bloquePersonas(){
+  const dl=(id,vals)=>'<datalist id="'+id+'">'+vals.map(v=>'<option value="'+esc(v)+'">').join('')+'</datalist>';
+  return '<div class="bloque"><h4>Personas involucradas <em>· buscá una persona o el equipo de alguien</em></h4><div class="in">'+
+    '<input type="text" id="pBuscar" placeholder="Escribí un nombre, un mail, un puesto… o “equipo de Christian”">'+
+    '<div class="pers-tools" style="margin-top:10px">'+
+      '<input type="text" id="pLider" list="dlLider" placeholder="Líder">'+
+      '<input type="text" id="pUni" list="dlUni" placeholder="Unidad / equipo">'+
+      '<input type="text" id="pPuesto" list="dlPuesto" placeholder="Puesto">'+
+      '<input type="text" id="pVert" list="dlVert" placeholder="Vertical">'+
+      '<input type="text" id="pSoc" list="dlSoc" placeholder="Sociedad">'+
+      '<button class="btn mini" id="pLimpiarF">Limpiar filtros</button>'+
+    '</div>'+
+    dl('dlLider',JER.lideres.map(l=>l.nombre))+dl('dlUni',opciones('u'))+dl('dlPuesto',opciones('p'))+dl('dlVert',opciones('v'))+dl('dlSoc',opciones('s'))+
+    '<div id="pEquipo"></div>'+
+    '<div class="acciones"><button class="btn mini" id="pTodos">Agregar todo lo filtrado</button>'+
+      '<button class="btn mini" id="pCompania">Toda la compañía ('+DB.nomina.length+')</button>'+
+      '<span class="hint" id="pAyuda" style="margin:0"></span></div>'+
+    '<details class="desp" id="dPegar"'+(pegarAbierto?' open':'')+'><summary>Pegar listado (nombre y apellido o mail)</summary><div class="in">'+
+      '<textarea id="pTexto" placeholder="Pegá acá la columna del Excel:\nBergero Rocío\nmimartinez@fyo.com\n..."></textarea>'+
+      '<div class="acciones"><button class="btn mini pri" id="pBuscarLista">Buscar y tildar</button>'+
+      '<span class="hint" style="margin:0">Detecta “Apellido Nombre”, “Nombre Apellido”, mail o legajo.</span></div>'+
+      '<div id="pResultado"></div></div></details>'+
+    '<div class="pers-list" id="pLista"></div>'+
+    '<div class="sel-head"><b id="pCount">0 personas</b>'+
+      '<button class="btn mini" id="pVer">Ver seleccionadas</button>'+
+      '<button class="btn mini ghost" id="pLimpiar">Limpiar</button>'+
+      '<div class="sp"></div><span class="hint" id="pResumen" style="margin:0"></span></div>'+
+    '<div class="sel-body'+(verSel?' on':'')+'" id="pSel"></div>'+
+    '</div></div>';
+}
+function valF(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function filtrarNomina(){
+  const q=norm(valF('pBuscar')).replace(/^(el\s+)?equipo\s+de\s+/,'').trim();
+  const lid=valF('pLider'), uni=valF('pUni'), pue=valF('pPuesto'), ver=valF('pVert'), soc=valF('pSoc');
+  let base=DB.nomina;
+  if(lid) base=base.filter(p=>(JER.equipo[lid]||[]).includes(p.l)||norm(p.j)===norm(lid));
+  if(uni) base=base.filter(p=>norm(p.u).includes(norm(uni)));
+  if(pue) base=base.filter(p=>norm(p.p).includes(norm(pue)));
+  if(ver) base=base.filter(p=>norm(p.v).includes(norm(ver)));
+  if(soc) base=base.filter(p=>norm(p.s).includes(norm(soc)));
+  const equipos=q.length>=3?JER.lideres.filter(l=>norm(l.nombre).includes(q)&&l.total>0):[];
+  const idsEq=new Set(equipos.flatMap(l=>(JER.equipo[l.nombre]||[]).concat(l.legajo?[l.legajo]:[])));
+  const propios=new Set(equipos.map(l=>l.legajo).filter(Boolean));
+  let lista=q?base.filter(p=>norm(p.n+' '+p.l+' '+p.p+' '+p.e+' '+p.u).includes(q)||idsEq.has(p.l)):base;
+  if(propios.size) lista=[...lista].sort((a,b)=>(propios.has(b.l)?1:0)-(propios.has(a.l)?1:0));
+  return {lista,equipos,q,propios};
+}
+function pintarPersonas(){
+  if(!document.getElementById('pLista')) return;
+  const {lista,equipos,q,propios}=filtrarNomina();
+  document.getElementById('pEquipo').innerHTML = equipos.slice(0,3).map(l=>
+    '<div class="equipo-hit"><b>'+esc(l.nombre)+'</b> · '+l.directos+' directos'+(l.total>l.directos?' · '+l.total+' con los equipos de sus reportes':'')+
+    '<div class="sp"></div>'+(l.legajo?'<button class="btn mini" data-solo="'+esc(l.legajo)+'">Sumar solo a '+esc(l.nombre.split(' ')[0])+'</button>':'')+
+    '<button class="btn mini" data-eqdir="'+esc(l.nombre)+'">Sumar directos ('+l.directos+')</button>'+
+    (l.total>l.directos?'<button class="btn mini pri" data-eqtot="'+esc(l.nombre)+'">Sumar equipo completo ('+l.total+')</button>':'<button class="btn mini pri" data-eqtot="'+esc(l.nombre)+'">Sumar equipo ('+l.total+')</button>')+
+    '</div>').join('');
+  document.getElementById('pLista').innerHTML = lista.slice(0,400).map(p=>
+    '<label class="pers-it"><input type="checkbox" class="pChk" value="'+esc(p.l)+'" '+(borrador.participantes.includes(p.l)?'checked':'')+'>'+
+    '<span class="n">'+esc(p.n)+(propios&&propios.has(p.l)?' <span class="pill gris">líder</span>':'')+'</span>'+
+    '<span class="g">'+esc([p.p,p.u].filter(Boolean).join(' · '))+'</span></label>').join('')
+    || '<div class="hint" style="padding:12px">Nadie coincide. Probá con el apellido, el mail o el nombre del líder.</div>';
+  document.getElementById('pAyuda').textContent = lista.length+' de '+DB.nomina.length+' personas en la lista';
+  document.getElementById('pCount').textContent = borrador.participantes.length+' persona'+(borrador.participantes.length===1?'':'s');
+  const g={};
+  borrador.participantes.forEach(id=>{ const p=persona(id); const k=p?(p.u||p.v||'—'):'fuera de la nómina'; g[k]=(g[k]||0)+1; });
+  document.getElementById('pResumen').textContent = Object.entries(g).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([k,v])=>k+' ('+v+')').join(' · ');
+  const sel=document.getElementById('pSel');
+  sel.classList.toggle('on',verSel);
+  if(verSel){
+    const porG={};
+    borrador.participantes.forEach(id=>{ const p=persona(id); const k=p?(p.u||'Sin unidad'):'Fuera de la nómina'; (porG[k] ||= []).push(id); });
+    sel.innerHTML=Object.keys(porG).sort().map(k=>'<div class="grupo-sel"><b>'+esc(k)+'</b> ('+porG[k].length+')<br>'+
+      porG[k].map(id=>'<span class="tag">'+esc(nombreDe(id))+'<button data-quitarp="'+esc(id)+'">✕</button></span>').join('')+'</div>').join('')
+      || '<div class="hint">Todavía no seleccionaste a nadie.</div>';
+  }
+}
+function sumar(ids){
+  let n=0;
+  ids.forEach(id=>{ if(!borrador.participantes.includes(id)){ borrador.participantes.push(id); n++; } });
+  pintarPersonas(); pintarConflictosForm();
+  toast(n+' persona'+(n===1?'':'s')+' agregada'+(n===1?'':'s'));
+}
+const ENCABEZADOS=['apellido y nombre','nombre y apellido','apellido','nombre','comentario','comentarios','mail','e-mail','email','correo','legajo','sociedad','area','área','puesto','posicion','lider','líder','unidad','observaciones','total','participantes','asistentes'];
+function normN(s){ return norm(s).replace(/[,.;:]/g,' ').replace(/\s+/g,' ').trim(); }
+function tokensDe(p){ return norm(p.n).split(/\s+/).filter(Boolean); }
+function candidatosPegados(txt){
+  const out=[];
+  txt.split(/\r?\n/).forEach(l=>{
+    const cel=l.split(/\t|\||;/).map(x=>x.trim().replace(/^"|"$/g,'')).filter(Boolean);
+    if(!cel.length) return;
+    let c=cel[0];
+    if(/^\d+$/.test(c)&&cel[1]) c=cel[1];
+    if(ENCABEZADOS.includes(normN(c))) return;
+    out.push(c);
+  });
+  return out;
+}
+function buscarUna(txt){
+  const n=normN(txt);
+  if(!n) return {estado:'no'};
+  if(n.includes('@')){ const p=DB.nomina.find(x=>norm(x.e)===n.replace(/\s/g,'')); return p?{estado:'ok',p}:{estado:'no'}; }
+  if(/^\d{3,}$/.test(n)){ const p=DB.nomina.find(x=>norm(x.l)===n); return p?{estado:'ok',p}:{estado:'no'}; }
+  const t=n.split(' ').filter(w=>w.length>1);
+  if(!t.length) return {estado:'no'};
+  let c=DB.nomina.filter(p=>{ const s=tokensDe(p); return s.length===t.length&&t.every(w=>s.includes(w)); });
+  if(c.length===1) return {estado:'ok',p:c[0]};
+  c=DB.nomina.filter(p=>{ const s=tokensDe(p); return t.every(w=>s.includes(w)); });
+  if(c.length===1) return {estado:'ok',p:c[0]};
+  if(c.length>1) return {estado:'varios',opciones:c.slice(0,8)};
+  c=DB.nomina.filter(p=>{ const s=tokensDe(p); return t.every(w=>s.some(x=>x.startsWith(w)||w.startsWith(x))); });
+  if(c.length===1) return {estado:'ok',p:c[0]};
+  if(c.length>1&&c.length<=8) return {estado:'varios',opciones:c};
+  return {estado:'no'};
+}
+function buscarPegado(){
+  const cands=[...new Set(candidatosPegados(document.getElementById('pTexto').value))];
+  const enc=[], sin=[]; pegAmb=[];
+  cands.forEach(c=>{
+    const r=buscarUna(c);
+    if(r.estado==='ok'){ if(!borrador.participantes.includes(r.p.l)){ borrador.participantes.push(r.p.l); } enc.push(r.p); }
+    else if(r.estado==='varios') pegAmb.push({txt:c,opciones:r.opciones});
+    else sin.push(c);
+  });
+  verSel=true; pegarAbierto=true;
+  pintarPersonas(); pintarConflictosForm(); pintarResultadoPegado(enc,sin);
+}
+function pintarResultadoPegado(enc,sin){
+  const cont=document.getElementById('pResultado'); if(!cont) return;
+  cont.dataset.enc=JSON.stringify((enc||[]).map(p=>p.l));
+  cont.dataset.sin=JSON.stringify(sin||[]);
+  const nomEnc=(enc||[]).map(p=>p.n);
+  let h='';
+  if(nomEnc.length) h+='<div class="aviso ok" style="margin:10px 0 0"><b>'+nomEnc.length+' tildada'+(nomEnc.length===1?'':'s')+':</b> '+
+    nomEnc.slice(0,12).map(esc).join(', ')+(nomEnc.length>12?' y '+(nomEnc.length-12)+' más':'')+'</div>';
+  if(pegAmb.length) h+='<div class="aviso info" style="margin:10px 0 0"><b>'+pegAmb.length+' con más de una coincidencia</b> — elegí cuál:'+
+    pegAmb.map((a,i)=>'<div style="margin-top:7px"><b>'+esc(a.txt)+'</b><br>'+
+      a.opciones.map(p=>'<button class="btn mini" data-pick="'+esc(p.l)+'" data-amb="'+i+'" style="margin:4px 5px 0 0">'+esc(p.n)+'</button>').join('')+
+      '<button class="btn mini ghost" data-amb-no="'+i+'">ninguna</button></div>').join('')+'</div>';
+  if((sin||[]).length) h+='<div class="aviso rojo" style="margin:10px 0 0"><b>'+sin.length+' sin encontrar en la nómina:</b> '+
+    sin.map(esc).join(' · ')+'<div class="hint" style="color:inherit;margin-top:5px">Si alguna de estas personas trabaja en fyo, avisame y la sumamos a la nómina.</div></div>';
+  cont.innerHTML=h;
+}
+function pintarConflictosForm(){
+  const cont=document.getElementById('avisoConf'); if(!cont) return;
+  const uni=ocurrencias().filter(o=>o.ev.id!==borrador.id);
+  const propias=borrador.fechas.map((f,i)=>({ev:borrador,fecha:f.f,d:f.d,h:f.h,todo:f.todo,idx:i}));
+  const sala=[], gente=[];
+  propias.forEach(oc=>{
+    const c=conflictosDe(oc,uni);
+    c.sala.forEach(s=>sala.push({fecha:oc.fecha,...s}));
+    c.gente.forEach(g=>gente.push({fecha:oc.fecha,...g}));
+  });
+  let h='';
+  if(sala.length) h+='<div class="aviso rojo"><b>⚠ Sala ocupada</b><ul>'+sala.map(s=>
+    '<li>'+fechaLarga(s.fecha)+': <b>'+esc(s.salas.join(', '))+'</b> la usa “'+esc(s.oc.ev.titulo)+'” ('+AREA_NOMBRE[s.oc.ev.area]+' · '+esc(s.oc.ev.responsable)+')</li>').join('')+'</ul></div>';
+  if(gente.length) h+='<div class="aviso rojo"><b>⚠ Personas ya comprometidas</b><ul>'+gente.map(g=>
+    '<li>'+fechaLarga(g.fecha)+': '+g.personas.slice(0,8).map(p=>esc(nombreDe(p))).join(', ')+(g.personas.length>8?' y '+(g.personas.length-8)+' más':'')+' — en “'+esc(g.oc.ev.titulo)+'”</li>').join('')+'</ul></div>';
+  const fer=borrador.fechas.map(f=>feriadoDe(f.f)).filter(Boolean);
+  if(fer.length) h+='<div class="aviso rojo"><b>Ojo:</b> '+fer.map(f=>fechaLarga(f.fecha)).join(', ')+' es feriado.</div>';
+  if(!h&&borrador.titulo) h='<div class="aviso ok">Todo libre: la sala está disponible y nadie de la lista tiene otro compromiso en ese horario.</div>';
+  cont.innerHTML=h;
+}
+function leerForm(){
+  const b=borrador;
+  b.titulo=document.getElementById('fTitulo').value.trim();
+  b.notas=document.getElementById('fNotas').value.trim();
+  if(b.modalidad==='oficina'){
+    b.salas=[...document.querySelectorAll('.cSala:checked')].map(c=>c.value);
+    b.salaOtra=document.getElementById('fSalaOtra').value.trim(); b.lugar='';
+  } else { b.salas=[]; b.salaOtra=''; b.lugar=document.getElementById('fLugar').value.trim(); }
+  b.fechas=[...document.querySelectorAll('.fila-fecha')].map(f=>({
+    f:f.querySelector('.fFecha').value, d:f.querySelector('.fD').value,
+    h:f.querySelector('.fH').value, todo:f.querySelector('.fTodo').checked })).filter(x=>x.f);
+  pegarAbierto=document.getElementById('dPegar')?.open||false;
+}
+function guardarEvento(){
+  leerForm();
+  if(!borrador.titulo){ toast('Falta el nombre'); document.getElementById('fTitulo').focus(); return; }
+  if(!borrador.fechas.length){ toast('Agregá al menos una fecha'); return; }
+  if(borrador.id) DB.eventos[DB.eventos.findIndex(e=>e.id===borrador.id)]=JSON.parse(JSON.stringify(borrador));
+  else { borrador.id=uid(); DB.eventos.push(JSON.parse(JSON.stringify(borrador))); }
+  guardar(); cerrarTodo(); render(); toast('Guardado');
+}
+
+/* =======================================================================
+   DETALLE
+   ======================================================================= */
+function verDetalle(id){
+  const ev=DB.eventos.find(e=>e.id===id); if(!ev) return;
+  detalleId=id;
+  const cl=AREA_CLASE[ev.area], hero=document.getElementById('dtHero');
+  hero.style.background={tal:'var(--tal-bg)',mkt:'var(--mkt-bg)',int:'var(--int-bg)'}[cl];
+  hero.innerHTML='<span class="pill '+cl+'">'+AREA_NOMBRE[ev.area]+'</span> <span class="pill gris">'+esc(tipoTexto(ev.tipo))+'</span> '+
+    (ev.obligatorio===false?'<span class="pill gris">Opcional</span>':'<span class="pill" style="background:#EAF7EF;color:#3E7A22">Obligatoria</span>')+
+    '<h2>'+esc(ev.titulo)+'</h2><div class="meta">Cargado por '+esc(ev.responsable)+'</div>';
+  const uni=ocurrencias();
+  const confs=(ev.fechas||[]).map((f,i)=>({fecha:f.f,c:conflictosDe({ev,fecha:f.f,d:f.d,h:f.h,todo:f.todo,idx:i},uni)})).filter(x=>x.c.sala.length||x.c.gente.length);
+  let h='';
+  if(confs.length) h+='<div class="aviso rojo"><b>⚠ Conflicto</b><ul>'+confs.map(x=>
+    x.c.sala.map(s=>'<li>'+fechaLarga(x.fecha)+': '+esc(s.salas.join(', '))+' compartida con “'+esc(s.oc.ev.titulo)+'”</li>').join('')+
+    x.c.gente.map(g=>'<li>'+fechaLarga(x.fecha)+': '+g.personas.length+' persona(s) también en “'+esc(g.oc.ev.titulo)+'”</li>').join('')).join('')+'</ul></div>';
+  h+='<dl class="det-grid">';
+  const fila=(k,v)=>{ if(v) h+='<dt>'+k+'</dt><dd>'+v+'</dd>'; };
+  fila('Fechas',(ev.fechas||[]).map(f=>'<div class="fecha-it"><b>'+cap(fechaCompleta(f.f))+'</b><span>'+(f.todo?'todo el día':esc((f.d||'')+(f.h?' a '+f.h:'')))+'</span></div>').join(''));
+  fila('Dónde',esc(lugarDe(ev))||'<span style="color:var(--gris)">sin definir</span>');
+  fila('Detalle',esc(ev.detalle));
+  fila('Notas',esc(ev.notas));
+  const parts=ev.participantes||[];
+  if(parts.length){
+    const porG={};
+    parts.forEach(id=>{ const p=persona(id); const k=p?(p.u||'Sin unidad'):'Fuera de la nómina'; (porG[k] ||= []).push(id); });
+    fila('Personas ('+parts.length+')',Object.keys(porG).sort().map(k=>
+      '<div style="margin-bottom:8px"><div class="hint" style="margin:0 0 4px"><b>'+esc(k)+'</b> · '+porG[k].length+'</div>'+
+      porG[k].map(id=>'<span class="tag" style="padding:5px 11px">'+esc(nombreDe(id))+'</span>').join('')+'</div>').join(''));
+  }
+  h+='</dl>';
+  document.getElementById('dtBody').innerHTML=h;
+  document.getElementById('ovDetalle').classList.add('on');
+}
+
+/* =======================================================================
+   LECTOR DE XLSX (sin librerías: zip + DecompressionStream)
+   ======================================================================= */
+async function inflar(bytes,metodo){
+  if(metodo===0) return bytes;
+  if(typeof DecompressionStream==='undefined') throw new Error('Este navegador no puede abrir .xlsx; usá Chrome o pegá los datos.');
+  const s=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  return new Uint8Array(await new Response(s).arrayBuffer());
+}
+async function leerZip(buf){
+  const dv=new DataView(buf.buffer,buf.byteOffset,buf.byteLength);
+  let eocd=-1;
+  for(let i=buf.length-22;i>=0&&i>buf.length-66000;i--) if(dv.getUint32(i,true)===0x06054b50){ eocd=i; break; }
+  if(eocd<0) throw new Error('El archivo no parece un .xlsx válido');
+  const total=dv.getUint16(eocd+10,true); let off=dv.getUint32(eocd+16,true);
+  const salida={};
+  for(let i=0;i<total;i++){
+    if(dv.getUint32(off,true)!==0x02014b50) break;
+    const metodo=dv.getUint16(off+10,true), comp=dv.getUint32(off+20,true);
+    const nl=dv.getUint16(off+28,true), el=dv.getUint16(off+30,true), cl=dv.getUint16(off+32,true);
+    const lho=dv.getUint32(off+42,true);
+    const nombre=new TextDecoder().decode(buf.subarray(off+46,off+46+nl));
+    const lnl=dv.getUint16(lho+26,true), lel=dv.getUint16(lho+28,true);
+    const ini=lho+30+lnl+lel;
+    salida[nombre]={metodo,datos:buf.subarray(ini,ini+comp)};
+    off+=46+nl+el+cl;
+  }
+  return salida;
+}
+async function leerXlsx(file){
+  const buf=new Uint8Array(await file.arrayBuffer());
+  const z=await leerZip(buf);
+  const dec=new TextDecoder();
+  const txt=async n=>z[n]?dec.decode(await inflar(z[n].datos,z[n].metodo)):'';
+  const shared=[];
+  const ss=await txt('xl/sharedStrings.xml');
+  if(ss){
+    const doc=new DOMParser().parseFromString(ss,'application/xml');
+    doc.querySelectorAll('si').forEach(si=>shared.push([...si.querySelectorAll('t')].map(t=>t.textContent).join('')));
+  }
+  const hoja=Object.keys(z).filter(n=>/^xl\/worksheets\/sheet\d+\.xml$/.test(n)).sort()[0];
+  if(!hoja) throw new Error('No encontré la hoja de datos');
+  const doc=new DOMParser().parseFromString(await txt(hoja),'application/xml');
+  const filas=[];
+  doc.querySelectorAll('sheetData > row').forEach(row=>{
+    const f=[]; let sig=0;
+    row.querySelectorAll('c').forEach(c=>{
+      const ref=(c.getAttribute('r')||'').replace(/\d+/g,'').toUpperCase();
+      let col;
+      if(ref){ col=0; for(const ch of ref) col=col*26+(ch.charCodeAt(0)-64); col=Math.max(0,col-1); }
+      else col=sig;
+      sig=col+1;
+      const t=c.getAttribute('t'); let v='';
+      if(t==='s') v=shared[+(c.querySelector('v')?.textContent||0)]||'';
+      else if(t==='inlineStr') v=[...c.querySelectorAll('t')].map(x=>x.textContent).join('');
+      else v=c.querySelector('v')?.textContent||'';
+      f[col]=v;
+    });
+    filas.push(Array.from(f,x=>x===undefined?'':String(x).trim()));
+  });
+  return filas;
+}
+function filasANomina(filas){
+  if(!filas||filas.length<2) return [];
+  const cab=filas[0].map(norm);
+  const idx=(...alts)=>cab.findIndex(c=>alts.some(a=>c.includes(a)));
+  const iN=idx('apellido y nombre','nombre completo','apellido'), iL=idx('legajo'), iS=idx('sociedad','empresa'),
+        iJ=idx('lider','jefe'), iP=idx('posicion','puesto','cargo'), iU=idx('unidad','equipo','sector'),
+        iV=idx('vetical','vertical'), iE=idx('mail','correo');
+  const out=[];
+  filas.slice(1).forEach(c=>{
+    const n=iN>=0?(c[iN]||''):'';
+    if(!n) return;
+    out.push({l:(iL>=0?c[iL]:'')||norm(n), n, s:iS>=0?c[iS]||'':'', j:iJ>=0?c[iJ]||'':'', p:iP>=0?c[iP]||'':'',
+              u:iU>=0?c[iU]||'':'', v:iV>=0?c[iV]||'':'', e:iE>=0?c[iE]||'':''});
+  });
+  return out;
+}
+
+/* =======================================================================
+   NÓMINA + COMPARACIÓN
+   ======================================================================= */
+function abrirNomina(){
+  nominaNueva=null;
+  document.getElementById('nomBody').innerHTML=
+    '<div class="aviso ok">Hoy hay <b>'+DB.nomina.length+' personas</b>'+(DB.nominaFecha?' (actualizada el '+esc(DB.nominaFecha)+')':' (del archivo original)')+'.</div>'+
+    '<div class="bloque"><h4>Subir la nómina del mes</h4><div class="in">'+
+      '<input type="file" id="nomFile" accept=".xlsx,.csv,.txt" style="padding:9px">'+
+      '<div class="hint">Subí el mismo export que usás (.xlsx o .csv). Antes de reemplazar nada te muestro qué cambió contra la nómina actual.</div>'+
+      '<details class="desp" style="margin-top:12px"><summary>O pegar los datos</summary><div class="in">'+
+      '<textarea id="nomTexto" placeholder="Legajo	Apellido y Nombre	Sociedad	e-mail	Líder	Posición	Unidad Organizativa	Vetical"></textarea>'+
+      '<div class="acciones"><button class="btn mini" id="nomPegar">Comparar lo pegado</button></div></div></details>'+
+    '</div></div><div id="nomDiff"></div>';
+  document.getElementById('nomFoot').textContent='Solo se guardan legajo, nombre, sociedad, mail, líder, puesto, unidad y vertical.';
+  document.getElementById('ovNomina').classList.add('on');
+}
+function compararNomina(nueva){
+  if(!nueva.length){ toast('No pude leer filas del archivo'); return; }
+  nominaNueva=nueva;
+  const vieja=DB.nomina;
+  const kv=p=>p.l||norm(p.n);
+  const mapV={}, mapN={};
+  vieja.forEach(p=>mapV[kv(p)]=p); nueva.forEach(p=>mapN[kv(p)]=p);
+  const altas=nueva.filter(p=>!mapV[kv(p)]);
+  const bajas=vieja.filter(p=>!mapN[kv(p)]);
+  const cambios=[];
+  nueva.forEach(p=>{
+    const a=mapV[kv(p)]; if(!a) return;
+    const dif=[];
+    if(norm(a.j)!==norm(p.j)) dif.push('líder: '+(a.j||'—')+' → '+(p.j||'—'));
+    if(norm(a.u)!==norm(p.u)) dif.push('unidad: '+(a.u||'—')+' → '+(p.u||'—'));
+    if(norm(a.p)!==norm(p.p)) dif.push('puesto: '+(a.p||'—')+' → '+(p.p||'—'));
+    if(norm(a.s)!==norm(p.s)) dif.push('sociedad: '+(a.s||'—')+' → '+(p.s||'—'));
+    if(dif.length) cambios.push({p,dif});
+  });
+  const usados=new Set(DB.eventos.flatMap(e=>e.participantes||[]));
+  const bajasEnEventos=bajas.filter(p=>usados.has(p.l));
+  const lst=(arr,f)=>'<div style="max-height:180px;overflow:auto">'+(arr.length?arr.map(f).join(''):'<div class="hint">Sin novedades.</div>')+'</div>';
+  document.getElementById('nomDiff').innerHTML=
+    '<div class="bloque"><h4>Cambios contra la nómina actual</h4><div class="in">'+
+    '<div class="diff"><div class="kpi alta"><b>'+altas.length+'</b>altas</div>'+
+      '<div class="kpi baja"><b>'+bajas.length+'</b>bajas</div>'+
+      '<div class="kpi cambio"><b>'+cambios.length+'</b>cambios</div></div>'+
+    (bajasEnEventos.length?'<div class="aviso rojo"><b>Ojo:</b> '+bajasEnEventos.map(p=>esc(p.n)).join(', ')+' ya no está'+(bajasEnEventos.length>1?'n':'')+' en la nómina pero figura'+(bajasEnEventos.length>1?'n':'')+' en eventos cargados. Si actualizás, los eventos los siguen mostrando por su nombre.</div>':'')+
+    '<div class="f2"><div><div class="hint" style="font-weight:600;color:var(--verde)">Altas</div>'+
+      lst(altas,p=>'<div class="meta">+ '+esc(p.n)+' <span class="hint">'+esc([p.p,p.u].filter(Boolean).join(' · '))+'</span></div>')+'</div>'+
+    '<div><div class="hint" style="font-weight:600;color:var(--rojo)">Bajas</div>'+
+      lst(bajas,p=>'<div class="meta">– '+esc(p.n)+' <span class="hint">'+esc([p.p,p.u].filter(Boolean).join(' · '))+'</span></div>')+'</div></div>'+
+    '<div style="margin-top:12px"><div class="hint" style="font-weight:600;color:var(--naranja)">Cambios</div>'+
+      lst(cambios,c=>'<div class="meta">'+esc(c.p.n)+' — <span class="hint">'+esc(c.dif.join(' · '))+'</span></div>')+'</div>'+
+    '<div class="acciones" style="margin-top:14px"><button class="btn pri" id="nomConfirmar">Actualizar la nómina ('+nueva.length+' personas)</button>'+
+      '<button class="btn ghost" id="nomCancelar">Cancelar</button></div></div></div>';
+}
+
+/* =======================================================================
+   EXCEL DE SALIDA (xlsx armado a mano, con formato)
+   ======================================================================= */
+const CRC=(()=>{ const t=new Uint32Array(256);
+  for(let i=0;i<256;i++){ let c=i; for(let k=0;k<8;k++) c=c&1?0xEDB88320^(c>>>1):c>>>1; t[i]=c>>>0; } return t; })();
+function crc32(b){ let c=0xFFFFFFFF; for(let i=0;i<b.length;i++) c=CRC[(c^b[i])&0xFF]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+function zip(files){
+  const enc=new TextEncoder(), locales=[], central=[]; let off=0;
+  files.forEach(f=>{
+    const nombre=enc.encode(f.name), datos=typeof f.data==='string'?enc.encode(f.data):f.data;
+    const crc=crc32(datos), lh=new Uint8Array(30+nombre.length), dv=new DataView(lh.buffer);
+    dv.setUint32(0,0x04034b50,true); dv.setUint16(4,20,true); dv.setUint16(6,0,true); dv.setUint16(8,0,true);
+    dv.setUint16(10,0,true); dv.setUint16(12,0x2821,true); dv.setUint32(14,crc,true);
+    dv.setUint32(18,datos.length,true); dv.setUint32(22,datos.length,true);
+    dv.setUint16(26,nombre.length,true); dv.setUint16(28,0,true);
+    lh.set(nombre,30);
+    locales.push(lh,datos);
+    const ch=new Uint8Array(46+nombre.length), dc=new DataView(ch.buffer);
+    dc.setUint32(0,0x02014b50,true); dc.setUint16(4,20,true); dc.setUint16(6,20,true);
+    dc.setUint16(10,0,true); dc.setUint16(12,0x2821,true); dc.setUint32(16,crc,true);
+    dc.setUint32(20,datos.length,true); dc.setUint32(24,datos.length,true);
+    dc.setUint16(28,nombre.length,true); dc.setUint32(42,off,true);
+    ch.set(nombre,46);
+    central.push(ch);
+    off+=lh.length+datos.length;
+  });
+  const cdSize=central.reduce((a,c)=>a+c.length,0);
+  const eocd=new Uint8Array(22), de=new DataView(eocd.buffer);
+  de.setUint32(0,0x06054b50,true); de.setUint16(8,files.length,true); de.setUint16(10,files.length,true);
+  de.setUint32(12,cdSize,true); de.setUint32(16,off,true);
+  const total=[...locales,...central,eocd];
+  const out=new Uint8Array(total.reduce((a,x)=>a+x.length,0));
+  let p=0; total.forEach(x=>{ out.set(x,p); p+=x.length; });
+  return out;
+}
+const xe=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])).replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g,'');
+function colLetra(n){ let s=''; n++; while(n>0){ const m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=(n-m-1)/26; } return s; }
+function hojaXml(datos,anchos){
+  const filas=datos.map((fila,r)=>'<row r="'+(r+1)+'">'+fila.map((cel,c)=>{
+    const ref=colLetra(c)+(r+1);
+    const st=r===0?1:(cel&&cel.s?cel.s:2);
+    const val=cel&&typeof cel==='object'?cel.v:cel;
+    if(typeof val==='number') return '<c r="'+ref+'" s="'+st+'"><v>'+val+'</v></c>';
+    return '<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+xe(val)+'</t></is></c>';
+  }).join('')+'</row>').join('');
+  const ref='A1:'+colLetra(datos[0].length-1)+datos.length;
+  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+  '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0" tabSelected="1">'+
+  '<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'+
+  '<sheetFormatPr defaultRowHeight="15"/><cols>'+anchos.map((w,i)=>'<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>').join('')+'</cols>'+
+  '<sheetData>'+filas+'</sheetData><autoFilter ref="'+ref+'"/></worksheet>';
+}
+function xlsx(hojas){
+  const styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
+  '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'+
+  '<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><color rgb="FFFFFFFF"/><sz val="11"/><name val="Calibri"/></font></fonts>'+
+  '<fills count="6"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>'+
+  '<fill><patternFill patternType="solid"><fgColor rgb="FF008EAA"/><bgColor indexed="64"/></patternFill></fill>'+
+  '<fill><patternFill patternType="solid"><fgColor rgb="FF'+AREA_HEX.talentos+'"/><bgColor indexed="64"/></patternFill></fill>'+
+  '<fill><patternFill patternType="solid"><fgColor rgb="FF'+AREA_HEX.marketing+'"/><bgColor indexed="64"/></patternFill></fill>'+
+  '<fill><patternFill patternType="solid"><fgColor rgb="FF'+AREA_HEX.interno+'"/><bgColor indexed="64"/></patternFill></fill></fills>'+
+  '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>'+
+  '<border><left/><right/><top/><bottom style="thin"><color rgb="FFE1E6ED"/></bottom><diagonal/></border></borders>'+
+  '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+  '<cellXfs count="6"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'+
+  '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf>'+
+  '<xf numFmtId="0" fontId="0" fillId="0" borderId="1" xfId="0" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'+
+  '<xf numFmtId="0" fontId="0" fillId="3" borderId="1" xfId="0" applyFill="1" applyBorder="1"/>'+
+  '<xf numFmtId="0" fontId="0" fillId="4" borderId="1" xfId="0" applyFill="1" applyBorder="1"/>'+
+  '<xf numFmtId="0" fontId="0" fillId="5" borderId="1" xfId="0" applyFill="1" applyBorder="1"/></cellXfs>'+
+  '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>';
+  const files=[
+    {name:'[Content_Types].xml',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'+
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'+
+      hojas.map((_,i)=>'<Override PartName="/xl/worksheets/sheet'+(i+1)+'.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>').join('')+
+      '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+    {name:'_rels/.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+    {name:'xl/workbook.xml',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>'+
+      hojas.map((h,i)=>'<sheet name="'+xe(h.nombre)+'" sheetId="'+(i+1)+'" r:id="rId'+(i+1)+'"/>').join('')+'</sheets></workbook>'},
+    {name:'xl/_rels/workbook.xml.rels',data:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+      hojas.map((_,i)=>'<Relationship Id="rId'+(i+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet'+(i+1)+'.xml"/>').join('')+
+      '<Relationship Id="rId'+(hojas.length+1)+'" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name:'xl/styles.xml',data:styles},
+    ...hojas.map((h,i)=>({name:'xl/worksheets/sheet'+(i+1)+'.xml',data:hojaXml(h.datos,h.anchos)}))
+  ];
+  return zip(files);
+}
+function estiloArea(a){ return a==='talentos'?3:a==='marketing'?4:5; }
+function descargarExcel(){
+  const ocs=visibles();
+  if(!ocs.length){ toast('No hay eventos con los filtros actuales'); return; }
+  const cabE=['Mes','Fecha','Día','Desde','Hasta','Evento','Área','Tipo','Asistencia','Sala / lugar','Cargado por','Personas','Detalle','Notas'];
+  const filasE=[cabE];
+  ocs.forEach(o=>{
+    const d=deIso(o.fecha), sa=estiloArea(o.ev.area);
+    filasE.push([cap(MESES[d.getMonth()])+' '+d.getFullYear(), o.fecha, DOW[(d.getDay()+6)%7],
+      o.todo?'Todo el día':(o.d||''), o.todo?'':(o.h||''), o.ev.titulo,
+      {v:AREA_NOMBRE[o.ev.area],s:sa}, tipoTexto(o.ev.tipo), o.ev.obligatorio===false?'Opcional':'Obligatoria', lugarDe(o.ev), o.ev.responsable,
+      {v:(o.ev.participantes||[]).length}, o.ev.detalle||'', o.ev.notas||'']);
+  });
+  const cabP=['Mes','Fecha','Evento','Área','Cargado por','Persona','Puesto','Unidad','Vertical','Sociedad','Líder'];
+  const filasP=[cabP];
+  ocs.forEach(o=>(o.ev.participantes||[]).forEach(id=>{
+    const p=persona(id)||{n:id,p:'',u:'',v:'',s:'',j:''}, d=deIso(o.fecha);
+    filasP.push([cap(MESES[d.getMonth()])+' '+d.getFullYear(), o.fecha, o.ev.titulo,
+      {v:AREA_NOMBRE[o.ev.area],s:estiloArea(o.ev.area)}, o.ev.responsable, p.n, p.p, p.u, p.v, p.s, p.j]);
+  }));
+  const hojas=[{nombre:'Eventos',datos:filasE,anchos:[14,11,6,8,8,42,14,24,13,26,18,10,40,30]}];
+  if(filasP.length>1) hojas.push({nombre:'Participantes',datos:filasP,anchos:[14,11,38,14,18,28,26,22,16,24,24]});
+  const bytes=xlsx(hojas);
+  const nombre='calendario-fyo'+(filtros.q?'-'+norm(filtros.q).replace(/\s+/g,'-'):'')+'.xlsx';
+  bajar(nombre,bytes,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  toast('Excel descargado · '+ocs.length+' fechas');
+}
+function bajar(n,c,t){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([c],{type:t})); a.download=n; a.click(); URL.revokeObjectURL(a.href); }
+
+/* ---------------- conflictos / datos ---------------- */
+function revisiones(){
+  const out=[];
+  ocurrencias().forEach(o=>{
+    const d=deIso(o.fecha), dow=d.getDay(), fer=feriadoDe(o.fecha);
+    if(dow===0||dow===6) out.push({o,motivo:dow===0?'cae domingo':'cae sábado'});
+    else if(fer) out.push({o,motivo:'cae feriado'});
+  });
+  return out.sort((a,b)=>a.o.fecha.localeCompare(b.o.fecha));
+}
+function moverFecha(evId,fecha,dir){
+  const ev=DB.eventos.find(e=>e.id===evId); if(!ev) return;
+  const f=ev.fechas.find(x=>x.f===fecha); if(!f) return;
+  const d=deIso(fecha);
+  do{ d.setDate(d.getDate()+dir); }while(d.getDay()===0||d.getDay()===6||feriadoDe(iso(d)));
+  f.f=iso(d); guardar(); render(); abrirConflictos(); toast('Movido al '+fechaLarga(f.f));
+}
+function abrirConflictos(){
+  const cs=todosLosConflictos(), rev=revisiones();
+  const hRev = rev.length ? '<div class="revisar"><b>Fechas para revisar ('+rev.length+')</b> — cargadas en sábado, domingo o feriado.</div>'+
+    '<table class="tab" style="margin-bottom:20px"><tr><th>Fecha</th><th>Motivo</th><th>Evento</th><th>Mover</th></tr>'+
+    rev.map(r=>'<tr><td>'+fechaLarga(r.o.fecha)+'</td><td>'+r.motivo+'</td>'+
+      '<td><b>'+esc(r.o.ev.titulo)+'</b> <span class="pill '+AREA_CLASE[r.o.ev.area]+'">'+AREA_NOMBRE[r.o.ev.area]+'</span></td>'+
+      '<td style="white-space:nowrap"><button class="btn mini" data-mov="-1" data-mid="'+r.o.ev.id+'" data-mf="'+r.o.fecha+'">◀ hábil anterior</button> '+
+      '<button class="btn mini" data-mov="1" data-mid="'+r.o.ev.id+'" data-mf="'+r.o.fecha+'">hábil siguiente ▶</button> '+
+      '<button class="btn mini ghost" data-edit="'+r.o.ev.id+'">modificar</button> '+
+      '<button class="btn mini ghost" data-verdia="'+r.o.fecha+'">ver el día</button></td></tr>').join('')+'</table>' : '';
+  document.getElementById('confBody').innerHTML=hRev+(cs.length?
+    '<table class="tab"><tr><th>Fecha</th><th>Motivo</th><th>Se cruzan</th><th></th></tr>'+cs.map(c=>
+      '<tr><td>'+fechaLarga(c.a.fecha)+'</td><td>'+(c.tipo==='sala'?esc(c.salas.join(', ')):'Personas ('+c.personas.length+')')+'</td>'+
+      '<td><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px"><b>'+esc(c.a.ev.titulo)+'</b> '+
+      '<span class="pill '+AREA_CLASE[c.a.ev.area]+'">'+AREA_NOMBRE[c.a.ev.area]+'</span>'+
+      '<button class="btn mini" data-edit="'+c.a.ev.id+'">Modificar</button></div>'+
+      '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>'+esc(c.b.ev.titulo)+'</b> '+
+      '<span class="pill '+AREA_CLASE[c.b.ev.area]+'">'+AREA_NOMBRE[c.b.ev.area]+'</span>'+
+      '<button class="btn mini" data-edit="'+c.b.ev.id+'">Modificar</button></div>'+
+      (c.personas?'<div class="meta">'+c.personas.slice(0,6).map(p=>esc(nombreDe(p))).join(', ')+(c.personas.length>6?'…':'')+'</div>':'')+'</td>'+
+      '<td><button class="btn mini" data-verdia="'+c.a.fecha+'">Ver el día</button></td></tr>').join('')+'</table>'
+    :'<div class="aviso ok">No hay salas pisadas ni personas cruzadas en todo el calendario.</div>');
+  document.getElementById('ovConf').classList.add('on');
+}
+function abrirDatos(){
+  const n=visibles().length;
+  document.getElementById('datosBody').innerHTML=
+    '<div class="bloque"><h4>Descargar Excel</h4><div class="in">'+
+    '<div class="hint" style="margin:0 0 10px">Sale con los filtros que tengas puestos ahora: <b>'+n+' fechas</b>'+
+    (filtros.q?' · texto “'+esc(filtros.q)+'”':'')+(filtros.sala?' · '+esc(filtros.sala):'')+(filtros.resp?' · '+esc(filtros.resp):'')+
+    ' · áreas: '+[...filtros.areas].filter(a=>a!=='feriado').map(a=>AREA_NOMBRE[a]).join(', ')+'.</div>'+
+    '<button class="btn pri" id="dXls">Descargar Excel de lo filtrado</button>'+
+    '<div class="hint">Dos hojas con encabezado celeste, filtros automáticos y fila fija: <b>Eventos</b> (con columna Mes y Área pintada) y <b>Participantes</b> (una fila por persona, con puesto, unidad y líder).</div></div></div>'+
+    '<div class="bloque"><h4>Respaldo</h4><div class="in"><div class="acciones" style="margin:0">'+
+    '<button class="btn" id="dExp">Exportar todo (.json)</button><button class="btn" id="dImp">Importar (.json)</button>'+
+    '<button class="btn ghost" id="dReset" style="color:#C0392B">Volver a los datos del Excel</button></div>'+
+    '<div class="hint">Eventos: '+DB.eventos.length+' · fechas: '+ocurrencias().length+' · feriados: '+DB.feriados.length+' · nómina: '+DB.nomina.length+'</div>'+
+    '<input type="file" id="dFile" accept="application/json" style="display:none"></div></div>';
+  document.getElementById('ovDatos').classList.add('on');
+}
+
+/* =======================================================================
+   DOM
+   ======================================================================= */
+function cerrarTodo(){ document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('on')); }
+document.querySelectorAll('.overlay').forEach(ov=>ov.addEventListener('mousedown',e=>{ if(e.target===ov) cerrarTodo(); }));
+document.addEventListener('click', e=>{
+  const t=e.target.closest('button,[data-nuevofecha],.lista-it,.agenda-it,[data-cerrar]');
+  if(!t) return;
+  if(t.hasAttribute('data-cerrar')||t.classList.contains('cerrar')){ cerrarTodo(); return; }
+  if(t.dataset.ev){ verDetalle(t.dataset.ev); return; }
+  if(t.dataset.dia){ cursor=deIso(t.dataset.dia); vista='dia'; sincro(); render(); return; }
+  if(t.dataset.nuevofecha){ if(document.getElementById('ovEvento').classList.contains('on')) return; nuevoEvento(t.dataset.nuevofecha); return; }
+  if(t.dataset.vista){ vista=t.dataset.vista; sincro(); render(); return; }
+  if(t.classList.contains('chip-f')){ const a=t.dataset.area; filtros.areas.has(a)?filtros.areas.delete(a):filtros.areas.add(a); t.classList.toggle('on'); render(); return; }
+  if(t.dataset.edit){ cerrarTodo(); editarEvento(t.dataset.edit); return; }
+  if(t.dataset.verdia){ cursor=deIso(t.dataset.verdia); vista='dia'; sincro(); cerrarTodo(); render(); return; }
+  if(t.dataset.solo){ sumar([t.dataset.solo]); return; }
+  if(t.dataset.pick!==undefined){
+    const i=+t.dataset.amb; sumar([t.dataset.pick]);
+    pegAmb.splice(i,1); const c=document.getElementById('pResultado');
+    pintarResultadoPegado(JSON.parse(c.dataset.enc||'[]').map(l=>persona(l)).filter(Boolean), JSON.parse(c.dataset.sin||'[]'));
+    return;
+  }
+  if(t.dataset.ambNo!==undefined){
+    pegAmb.splice(+t.dataset.ambNo,1); const c=document.getElementById('pResultado');
+    pintarResultadoPegado(JSON.parse(c.dataset.enc||'[]').map(l=>persona(l)).filter(Boolean), JSON.parse(c.dataset.sin||'[]'));
+    return;
+  }
+  if(t.dataset.mov){ moverFecha(t.dataset.mid,t.dataset.mf,+t.dataset.mov); return; }
+  if(t.dataset.ob!==undefined){ leerForm(); borrador.obligatorio=t.dataset.ob==='1'; pintarForm(); return; }
+  if(t.dataset.eqdir){ sumar(JER.directos[t.dataset.eqdir]||[]); return; }
+  if(t.dataset.eqtot){ sumar(JER.equipo[t.dataset.eqtot]||[]); return; }
+  if(t.dataset.quitar!==undefined){ leerForm(); borrador.fechas.splice(+t.dataset.quitar,1); pintarForm(); return; }
+  if(t.dataset.quitarp!==undefined){ borrador.participantes=borrador.participantes.filter(p=>p!==t.dataset.quitarp); pintarPersonas(); pintarConflictosForm(); return; }
+  if(t.dataset.t){ leerForm(); borrador.tipo=t.dataset.t; if(t.dataset.t==='institucional') borrador.area='interno'; else borrador.area=areaDeResponsable(borrador.responsable); pintarForm(); return; }
+  if(t.dataset.r){ leerForm(); borrador.responsable=t.dataset.r; borrador.area=borrador.tipo==='institucional'?'interno':areaDeResponsable(t.dataset.r); pintarForm(); return; }
+  if(t.dataset.m){ leerForm(); borrador.modalidad=t.dataset.m; if(t.dataset.m==='oficina'&&!borrador.salas.length) borrador.salas=['Sala B']; pintarForm(); return; }
+
+  switch(t.id){
+    case 'btnNuevo': nuevoEvento(); return;
+    case 'prev': mover(-1); return;
+    case 'next': mover(1); return;
+    case 'hoy': cursor=new Date(); render(); return;
+    case 'btnConf': abrirConflictos(); return;
+    case 'btnNomina': abrirNomina(); return;
+    case 'btnDatos': abrirDatos(); return;
+    case 'evGuardar': guardarEvento(); return;
+    case 'evBorrar': if(confirm('¿Borrar “'+borrador.titulo+'” y todas sus fechas?')){ DB.eventos=DB.eventos.filter(x=>x.id!==borrador.id); guardar(); cerrarTodo(); render(); toast('Borrado'); } return;
+    case 'dtEditar': cerrarTodo(); editarEvento(detalleId); return;
+    case 'dtBorrar': if(confirm('¿Borrar este evento?')){ DB.eventos=DB.eventos.filter(x=>x.id!==detalleId); guardar(); cerrarTodo(); render(); toast('Borrado'); } return;
+    case 'dtDuplicar': { const ev=DB.eventos.find(x=>x.id===detalleId); borrador=JSON.parse(JSON.stringify(ev)); borrador.id=null; borrador.titulo=ev.titulo+' (copia)'; cerrarTodo(); abrirForm('Duplicar'); return; }
+    case 'cambiarArea': { const o=['talentos','marketing','interno']; leerForm(); borrador.area=o[(o.indexOf(borrador.area)+1)%3]; pintarForm(); return; }
+    case 'addFecha': { leerForm(); const u=borrador.fechas.at(-1)||{f:iso(cursor),d:'09:00',h:'11:00',todo:false}; const d=deIso(u.f); d.setDate(d.getDate()+7); borrador.fechas.push({f:iso(d),d:u.d,h:u.h,todo:u.todo}); pintarForm(); return; }
+    case 'repSem': { leerForm(); const n=parseInt(prompt('¿Cuántos encuentros semanales en total? (contando el primero)','4'),10); if(!n||n<2) return; const b=borrador.fechas[0]; borrador.fechas=[b]; for(let i=1;i<n;i++){ const d=deIso(b.f); d.setDate(d.getDate()+7*i); borrador.fechas.push({f:iso(d),d:b.d,h:b.h,todo:b.todo}); } pintarForm(); return; }
+    case 'pTodos': sumar([...document.querySelectorAll('.pChk')].map(c=>c.value)); return;
+    case 'pCompania': if(confirm('¿Agregar a las '+DB.nomina.length+' personas de la compañía?')) sumar(DB.nomina.map(p=>p.l)); return;
+    case 'pBuscarLista': buscarPegado(); return;
+    case 'pLimpiar': borrador.participantes=[]; pintarPersonas(); pintarConflictosForm(); return;
+    case 'pLimpiarF': ['pBuscar','pLider','pUni','pPuesto','pVert','pSoc'].forEach(id=>document.getElementById(id).value=''); pintarPersonas(); return;
+    case 'pVer': verSel=!verSel; pintarPersonas(); return;
+    case 'nomPegar': { const filas=document.getElementById('nomTexto').value.split(/\r?\n/).filter(l=>l.trim()).map(l=>{ const sep=l.includes('\t')?'\t':(l.split(';').length>l.split(',').length?';':','); return l.split(sep).map(x=>x.trim()); }); compararNomina(filasANomina(filas)); return; }
+    case 'nomConfirmar': { DB.nomina=nominaNueva; DB.nominaFecha=new Date().toLocaleDateString('es-AR'); armarJerarquia(); guardar(); cerrarTodo(); render(); toast(DB.nomina.length+' personas actualizadas'); return; }
+    case 'nomCancelar': document.getElementById('nomDiff').innerHTML=''; nominaNueva=null; return;
+    case 'expXls': case 'dXls': descargarExcel(); return;
+    case 'dExp': bajar('calendario-talentos-marketing.json', JSON.stringify(DB,null,1),'application/json'); return;
+    case 'dImp': document.getElementById('dFile').click(); return;
+    case 'dReset': if(confirm('Vuelve a los eventos originales del Excel y borra lo cargado después. ¿Seguir?')){ DB=semilla(); armarJerarquia(); guardar(); cerrarTodo(); render(); toast('Restaurado'); } return;
+  }
+});
+document.addEventListener('change', async e=>{
+  const el=e.target;
+  if(el.id==='fSala'){ filtros.sala=el.value; render(); return; }
+  if(el.id==='fResp'){ filtros.resp=el.value; render(); return; }
+  if(el.id==='fPersona'){ filtros.persona=el.value; render(); return; }
+  if(el.classList.contains('fTodo')){ leerForm(); pintarForm(); return; }
+  if(el.classList.contains('fFecha')||el.classList.contains('fD')||el.classList.contains('fH')||el.classList.contains('cSala')){
+    leerForm(); if(el.classList.contains('cSala')) el.closest('.chk').classList.toggle('on',el.checked);
+    pintarConflictosForm(); return;
+  }
+  if(el.classList.contains('pChk')){
+    if(el.checked){ if(!borrador.participantes.includes(el.value)) borrador.participantes.push(el.value); }
+    else borrador.participantes=borrador.participantes.filter(p=>p!==el.value);
+    pintarPersonas(); pintarConflictosForm(); return;
+  }
+  if(['pLider','pUni','pPuesto','pVert','pSoc'].includes(el.id)){ pintarPersonas(); return; }
+  if(el.id==='nomFile'){
+    const f=el.files[0]; if(!f) return;
+    try{
+      let filas;
+      if(/\.xlsx$/i.test(f.name)) filas=await leerXlsx(f);
+      else { const txt=await f.text(); filas=txt.split(/\r?\n/).filter(l=>l.trim()).map(l=>{ const sep=l.includes('\t')?'\t':(l.split(';').length>l.split(',').length?';':','); return l.split(sep).map(x=>x.trim().replace(/^"|"$/g,'')); }); }
+      compararNomina(filasANomina(filas));
+    }catch(err){ console.error(err); toast('No pude leer el archivo: '+err.message); }
+    return;
+  }
+  if(el.id==='dFile'){
+    const f=el.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.eventos) throw 0; DB=d; DB.nomina ||= NOMINA_BASE.slice(); armarJerarquia(); guardar(); cerrarTodo(); render(); toast('Importado'); }catch(err){ toast('El archivo no tiene el formato esperado'); } };
+    r.readAsText(f); return;
+  }
+});
+document.addEventListener('input', e=>{
+  if(e.target.id==='q'){ filtros.q=e.target.value; render(); }
+  if(e.target.id==='pBuscar'){ pintarPersonas(); }
+  if(['pLider','pUni','pPuesto','pVert','pSoc'].includes(e.target.id)){ pintarPersonas(); }
+  if(e.target.id==='fTitulo'){ borrador.titulo=e.target.value; }
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') cerrarTodo(); });
+function mover(d){
+  if(vista==='mes'||vista==='lista') cursor.setMonth(cursor.getMonth()+d);
+  else if(vista==='semana') cursor.setDate(cursor.getDate()+7*d);
+  else cursor.setDate(cursor.getDate()+d);
+  cursor=new Date(cursor); render();
+}
+function sincro(){ document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.vista===vista)); }
+function refrescarFiltros(){
+  const p=document.getElementById('fPersona');
+  const usados=[...new Set(DB.eventos.flatMap(e=>e.participantes||[]))];
+  p.innerHTML='<option value="">Todas las personas</option>'+usados.map(id=>'<option value="'+esc(id)+'">'+esc(nombreDe(id))+'</option>').join('');
+  p.value=filtros.persona;
+}
+function iniciar(){
+  armarJerarquia();
+  document.getElementById('fSala').innerHTML='<option value="">Todas las salas</option>'+SALAS.map(s=>'<option>'+s+'</option>').join('');
+  document.getElementById('fResp').innerHTML='<option value="">Quién cargó</option>'+RESPONSABLES.map(r=>'<option>'+r.n+'</option>').join('');
+  refrescarFiltros();
+  const fechas=DB.eventos.flatMap(e=>e.fechas.map(f=>f.f)).sort(), hoy=iso(new Date());
+  if(fechas.length&&!fechas.some(f=>f.slice(0,7)===hoy.slice(0,7))){
+    const prox=fechas.find(f=>f>=hoy)||fechas.at(-1);
+    if(prox) cursor=deIso(prox);
+  }
+  render();
+}
+iniciar();
+</script>
+</body>
+</html>
